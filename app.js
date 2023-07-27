@@ -10,7 +10,7 @@ const createDBConn = require("./models/dbConnector")
 const loginRouter = require('./routes/auth')
 const regiterRouter = require('./routes/register')
 const homeRoute = require('./routes/home')
-const menuRoute = require('./routes/menu')
+const menuRoute = require('./routes/services')
 
 const app = express();
 
@@ -43,11 +43,10 @@ createDBConn()
 
 app.get("/", (req, res) => {
   res.render("index", {
-    body: "partials/bodies/landing",
-    header: {partial: "partials/headers/header", attr: {auth: false}}
+    body: {main: "partials/bodies/landing"},
+    header: {main: "partials/headers/header", auth: "authDiv/beforeAuth"}
   })
 })
-
 
 app.listen(process.env.PORT || 3000, () => {
   console.log(`App listen on http://localhost:${process.env.PORT}`);

@@ -35,8 +35,8 @@ passport.deserializeUser(function (id, done) {
 
 router.get("/login", (req, res) => {
   res.render("index", {
-    body: "partials/bodies/login",
-    header: { partial: "partials/headers/header", attr: { auth: false } }
+    body: {main: "partials/bodies/login"},
+    header: {main: "partials/headers/header", auth: "authDiv/beforeAuth"}
   })
 })
 
@@ -65,7 +65,9 @@ router.post("/login", function (req, res) {
           return res.redirect("/login");
         }
         res.cookie('name', user.fName + " " + user.lName);
-        return res.redirect("/home");
+        const returnTo = req.cookies.returnTo || "/home"
+        res.clearCookie('returnTo');
+        return res.redirect(returnTo);
       });
     })(req, res);
   });

@@ -10,8 +10,8 @@ router.get("/home", (req, res) => {
     if (req.isAuthenticated()) {
         res.render("index",
             {
-                body: "partials/bodies/home",
-                header: {partial: "partials/headers/header", attr: {auth: true}}
+                body: {main: "partials/bodies/home"},
+                header: {main: "partials/headers/header", auth: "authDiv/afterAuth"}
             })
     } else {
         res.redirect("/login");
