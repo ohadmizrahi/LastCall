@@ -11,9 +11,11 @@ router.get("/dest", (req, res) => {
         res.render("index",
             {
                 body: "partials/bodies/dest",
-                header: {partial: "partials/headers/header", attr: {auth: true}}
+                header: {main: "partials/headers/header", auth: "authDiv/afterAuth"}
             })
     } else {
+        res.cookie("returnTo", "/dest")
+        console.log(req.session.returnTo);
         res.redirect("/login");
     }
 
@@ -23,10 +25,11 @@ router.get("/flights", (req, res) => {
     if (req.isAuthenticated()) {
         res.render("index",
             {
-                body: "partials/bodies/flights",
-                header: {partial: "partials/headers/header", attr: {auth: true}}
+                body: {main:"partials/bodies/flights"},
+                header: {main: "partials/headers/header", auth: "authDiv/afterAuth"}
             })
     } else {
+        res.cookie("returnTo", "/flights")
         res.redirect("/login");
     }
 
@@ -36,10 +39,11 @@ router.get("/reviews", (req, res) => {
     if (req.isAuthenticated()) {
         res.render("index",
             {
-                body: "partials/bodies/reviews",
-                header: {partial: "partials/headers/header", attr: {auth: true}}
+                body: {main: "partials/bodies/reviews"},
+                header: {main: "partials/headers/header", auth: "authDiv/afterAuth"}
             })
     } else {
+        res.cookie("returnTo", "/reviews")
         res.redirect("/login");
     }
 

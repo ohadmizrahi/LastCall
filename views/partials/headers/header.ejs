@@ -6,6 +6,7 @@
                     <li class="dropdown"><a class="dropdown-toggle nav-link dropdown-toggle" data-toggle="dropdown"
                             aria-expanded="false" href="#">Menu </a>
                         <div class="dropdown-menu" role="menu">
+                            <a class="dropdown-item" role="presentation" href="/home">Home</a>
                             <a class="dropdown-item" role="presentation" href="/dest">Destinations</a>
                             <a class="dropdown-item" role="presentation" href="/flights">Flights</a>
                             <a class="dropdown-item" role="presentation" href="/reviews">Reviews</a>
@@ -17,12 +18,7 @@
                 <h1>Last Call</h1>
             </div>
             <div id="user-state">
-                <% if (header.attr.auth) { %>
-                    <%- include("authDiv/afterAuth") %>
-                <% } else { %>
-                    <%- include("authDiv/beforeAuth") %>
-                    <% } %>
-
+                <%- include(header.auth) %>
             </div>
         </div>
     </nav>
