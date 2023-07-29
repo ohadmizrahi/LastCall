@@ -12,10 +12,13 @@
 
 <body>
   <div id="header">
-    <%- include(header.partial) %>
+    <%- include(header.main) %>
+  </div>
+  <div id="search-bar">
+    <%- include("partials/searchBar") %>
   </div>
   <div id="body">
-    <%- include(body) %>
+    <%- include(body.main) %>
   </div>
   <div id="footer">
     <%- include("partials/footer") %>
@@ -25,6 +28,8 @@
   <script src="https://cdn.jsdelivr.net/npm/js-cookie@3.0.1/dist/js.cookie.min.js"></script>
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script src="js/afterAuth.js"></script>
+  <script src="js/redirectToApi.js"></script>
+  <script src="js/showSearchBar.js"></script>
 </body>
 
 </html>

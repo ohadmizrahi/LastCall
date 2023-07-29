@@ -10,8 +10,8 @@ const createDBConn = require("./models/dbConnector")
 const loginRouter = require('./routes/auth')
 const regiterRouter = require('./routes/register')
 const homeRoute = require('./routes/home')
-const menuRoute = require('./routes/menu')
-const checkIt = require('./models/chat')
+const menuRoute = require('./routes/services')
+
 const app = express();
 
 app.set("view engine", "ejs");
@@ -43,14 +43,9 @@ createDBConn()
 
 app.get("/", (req, res) => {
   res.render("index", {
-    body: "partials/bodies/landing",
-    header: {partial: "partials/headers/header", attr: {auth: false}}
+    body: {main: "partials/bodies/landing"},
+    header: {main: "partials/headers/header", auth: "authDiv/beforeAuth"}
   })
-})
-
-app.get('/ask',async (req, res) => {
-  answer=await checkIt(req.query.question)   
-  res.json(answer)
 })
 
 app.listen(process.env.PORT || 3000, () => {
