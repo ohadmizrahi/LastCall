@@ -15,7 +15,7 @@ const checkIt = async (question) => {
       ];
   try {
     const completion = await openai.createChatCompletion({
-      model: 'gpt-4',
+      model: 'gpt-3.5-turbo',
       messages
     });
     //console.log(completion.data);
@@ -30,4 +30,5 @@ const checkIt = async (question) => {
   }
 }
  
-module.exports = checkIt
+module.exports=checkIt
+
