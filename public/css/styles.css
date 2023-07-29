@@ -251,3 +251,34 @@ input[type="date"] {
   background-color: #45a049;
 }
   
+#salehead {
+  text-align: center;
+}
+
+#sales {
+  display: flex;
+  justify-content: center;  /* This will center the items horizontally */
+}
+
+#sales .sale-item {
+  position: relative;
+  border: 1px solid #000; 
+  padding: 50px; 
+  margin: 25px; 
+  width: 15%; 
+  text-align: center;
+  box-shadow: 0px 0px 10px rgba(0,0,0,1); 
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+#sales .sale-item h4 {
+  position: absolute;
+  top: 5px;
+  left: 10px;
+  font-weight: bold; /* Make the text bold */
+}
+
+#sales .sale-item:hover {
+  cursor: pointer;
+}
