@@ -1,0 +1,10 @@
+<h3>This is sales</h3>
+<div id="sales">
+  <% for(let sale of sales.data) { %>
+    <div>
+      <h4>Destination: <%= sale.destination %></h4>
+      <p>Deal Dates: <%= sale.deal_dates %></p>
+      <p>Min Price: <%= sale.min_price %></p>
+    </div>
+  <% } %>
+</div>
