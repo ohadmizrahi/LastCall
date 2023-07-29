@@ -1,2 +1,68 @@
-<h3>This is reviews</h3>
+<div class="head">
+<h3 class="heading">Destinations Reviews</h3>
+</div>
+<div class="new-review">
+    <button id="add-review-btn" onclick="openModal()">Add New Review</button>
+    <div class="modal" id="add-review-modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal()" id="close-modal-btn">&times;</span>
+            <h2>Add New Review</h2>
+            <form id="review-form">
+                <label for="destination">Destination:</label>
+                <input type="text" id="destination" list="destination-options" placeholder="Filter destinations">
+                <datalist id="destination-options">
+                    <option value="Dubai">
+                    <option value="NYC">
+                    <option value="Thailand">
+                </datalist>
+
+                <label for="rank">Rank:</label>
+                <input type="number" id="rank" name="rank" step="0.1" required>
+
+                <label for="happyContent">Good:</label>
+                <textarea id="happyContent" name="happyContent" required></textarea>
+
+                <label for="badContent">Bad:</label>
+                <textarea id="badContent" name="badContent" required></textarea>
+
+                <button type="submit">Submit</button>
+            </form>
+        </div>
+    </div>
+
+</div>
+<div class="review-filter-bar">
+    <h3>Filters</h3>
+    <label for="dest-filter"> Destination</label>
+    <input type="text" id="destination-input-filter" list="destination-options-filter" placeholder="Filter destinations" value="All" oninput="applyFilters()" onclick="resetInput(this)">
+    <datalist id="destination-options-filter">
+        <option value="Dubai">
+        <option value="NYC">
+        <option value="Thailand">
+    </datalist>
+    <label for="rank-filter"> Rank</label>
+    <select name="rank" id="rank-filter" onchange="applyFilters()">
+        <option value="all">All</option>
+        <option value="9">Over 9</option>
+        <option value="7">7-9</option>
+        <option value="5">5-7</option>
+        <option value="4">Under 5</option>
+    </select>
+</div>
+<div class="review-sorting-bar">
+    <label for="date-sort">Sort By:</label>
+    <select name="date" id="date-sort" onchange="sortReviews()">
+        <option value="latest">Latest</option>
+        <option value="oldest">Oldest</option>
+        <option value="highest">Highest Rank</option>
+        <option value="lowest">Lowest Rank</option>
+    </select>
+</div>
+<div id="reviews-wrapper">
+<div id="reviews-container">
+    <% body.reviews.forEach((review) => { %>
+        <%- include("../review", { review: review }) %>
+    <% }); %>
+</div>
+</div>
 <%- include(sales.main) %>
