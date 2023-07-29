@@ -1,11 +1,8 @@
 const { Router } = require('express');
 const bodyParser = require("body-parser");
 const session = require('express-session');
-<<<<<<< HEAD
 const { getReviews, addReview } = require('../models/reviews')
-=======
 const { getSales } = require('../models/sale')
->>>>>>> master
 
 const router = Router();
 
@@ -50,14 +47,9 @@ router.get("/reviews", (req, res) => {
         const data = getSales()
         res.render("index",
             {
-<<<<<<< HEAD
                 body: {main: "partials/bodies/reviews", reviews: reviews},
-                header: {main: "partials/headers/header", auth: "authDiv/afterAuth"}
-=======
-                body: {main: "partials/bodies/reviews"},
                 header: {main: "partials/headers/header", auth: "authDiv/afterAuth"},
                 sales: {main:"../salesBar",data:  data}
->>>>>>> master
             })
     } else {
         res.cookie("returnTo", "/reviews")
