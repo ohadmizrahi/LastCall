@@ -8,6 +8,7 @@ const loginRouter = require('./routes/auth')
 const regiterRouter = require('./routes/register')
 const homeRoute = require('./routes/home')
 const menuRoute = require('./routes/services')
+const { getSales } = require('./models/sale')
 
 const app = express();
 
@@ -17,6 +18,7 @@ app.use(cookieParser());
 
 // To handle get and post request for login
 app.use(loginRouter)
+
 
 // To handle get and post request for register
 app.use(regiterRouter)
@@ -39,12 +41,16 @@ app.use(passport.session());
 createDBConn()
 
 app.get("/", (req, res) => {
+  const data = getSales()
   res.render("index", {
     body: {main: "partials/bodies/landing"},
-    header: {main: "partials/headers/header", auth: "authDiv/beforeAuth"}
+    header: {main: "partials/headers/header", auth: "authDiv/beforeAuth"},
+    sales: {main:"../salesBar",data:  data}
+
   })
 })
 
 app.listen(process.env.PORT || 3000, () => {
   console.log(`App listen on http://localhost:${process.env.PORT}`);
 })
+

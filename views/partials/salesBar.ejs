@@ -1,0 +1,14 @@
+<div id="sales-container">
+  <h1 id="salehead">Sales !!!</h1>
+    <div id="sales">
+      <% sales.data.forEach((sale, index) => { %>
+        <div class="sale-item" style="background-image: url('<%= sale.picture %>');">
+          <a href="/dest"></a>
+          <h4><%= sale.destination %></h4>
+          <p>Deal Dates: <%= sale.deal_dates %></p>
+          <p>Starting Price: <%= sale.min_price %></p>
+        </div>
+      <% }); %>
+    </div>
+</div>
+
