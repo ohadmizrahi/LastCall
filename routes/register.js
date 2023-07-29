@@ -29,17 +29,23 @@ router.get("/register", function (req, res) {
 });
 
 router.post("/register", function (req, res) {
+  const password = req.body.password;
+  const passwordAuthentication = req.body.passwordAuthentication;
+  const passwordRegex = new RegExp(/^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/);
 
-  User.register({ username: req.body.email, fName: req.body.fname, lName: req.body.lname }, req.body.password, function (err, user) {
-    console.log(req.body);
+  if (password !== passwordAuthentication || !passwordRegex.test(password)) {
+    console.log("The password does not meet the complexity requirements.");
+    return res.redirect("/register");
+  }
+
+  User.register({ username: req.body.email, fName: req.body.fname, lName: req.body.lname }, password, function (err, user) {
     if (err) {
       console.log(err);
-      res.redirect("/register");
+      return res.redirect("/register");
     } else {
-      res.redirect("/login")
+      return res.redirect("/login")
     }
   });
-
 });
 
 module.exports = router;
