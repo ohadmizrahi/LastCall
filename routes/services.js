@@ -10,7 +10,7 @@ router.get("/dest", (req, res) => {
     if (req.isAuthenticated()) {
         res.render("index",
             {
-                body: "partials/bodies/dest",
+                body: {main: "partials/bodies/dest"},
                 header: {main: "partials/headers/header", auth: "authDiv/afterAuth"}
             })
     } else {
