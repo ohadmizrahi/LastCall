@@ -1,0 +1,33 @@
+/* search bar css */
+
+.search-bar {
+    background-color: #f1f1f1;
+    padding: 20px;
+  }
+  
+  #flightSearchForm {
+    display: flex;
+    align-items: center;
+  }
+  
+  .form-field {
+    margin-right: 10px;
+  }
+  
+  input[type="text"],
+  input[type="date"] {
+    padding: 5px;
+    margin-right: 10px;
+  }
+  
+  .search-flight-submit {
+    padding: 10px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .search-flight-submit:hover {
+    background-color: #45a049;
+  }
