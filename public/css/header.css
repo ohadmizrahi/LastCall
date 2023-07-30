@@ -1,5 +1,5 @@
 .header-dark {
-    background:url(../../assets/img/mountain_bg.jpg) #444;
+    background: #363333e9;
     background-size:cover;
     padding-bottom:80px;
   }
@@ -175,3 +175,10 @@
   .header-dark .hero .embed-responsive iframe {
     background-color:#666;
   }
+
+  .logo {
+    position: absolute;
+    top: 40px;
+    left: 10px;
+    height: 100px;
+}
