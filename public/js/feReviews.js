@@ -75,13 +75,11 @@ function sortReviews() {
 }
 
 function openModal() {
-    const modal = document.getElementById("add-review-modal");
-    modal.style.display = "block";
+    $("#add-review-modal").show();
 }
 
 function closeModal() {
-    const modal = document.getElementById("add-review-modal");
-    modal.style.display = "none";
+    $("#add-review-modal").hide();
 }
   
 function addReview() {

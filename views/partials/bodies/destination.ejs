@@ -1,0 +1,8 @@
+
+<div class="destinations-container">
+    <% body.destinations.forEach((destination, index) => { %>
+        <%- include("../destinationCard", { destination: destination }) %>
+    <% }); %>
+
+</div>
+<%- include(sales.main) %>
