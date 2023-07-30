@@ -44,10 +44,6 @@
     padding: 0;
 }
 
-.container {
-    max-width: 800px;
-}
-
 .card {
     border-radius: 20px;
     overflow: hidden;
@@ -82,5 +78,24 @@
 #tourismChart {
   display: none;
 }
+
+input,
+select {
+  padding: 5px;
+  margin-bottom: 10px;
+}
+
+button {
+  padding: 10px;
+  background-color: #007BFF;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+}
+
+#recommendedDestination {
+  font-size: 18px;
+}
+
 
   
