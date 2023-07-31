@@ -5,9 +5,11 @@
   }
   
   .info-cube h1 {
+
     color: #333;
     font-size: 2em;
     margin-bottom: 20px;
+    font-weight: bold;
   }
   
   .cube-container {
@@ -16,6 +18,7 @@
     flex-wrap: wrap;
   }
   
+
   .cube {
     width: 300px;
     margin: 20px;

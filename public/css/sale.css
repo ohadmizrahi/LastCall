@@ -1,11 +1,13 @@
 #salehead {
   text-align: center;
+  font-weight: bold
 }
 
 #sales {
   display: flex;
   justify-content: center;  
   flex-wrap: wrap; /* This will ensure items are arranged in a row and wrapped */
+
 }
 
 .sale-item {

@@ -2,10 +2,12 @@
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between; /* Spread cards evenly in a row */
+  justify-content: center;
 }
 
 .destination-card {
   width: calc(33.33% - 20px); /* Adjust the width to fit three cards per row with some spacing */
+  margin: 10px;
   margin-bottom: 20px;
   box-sizing: border-box;
   border: 1px solid #ccc;
