@@ -47,6 +47,7 @@
 .card {
     border-radius: 20px;
     overflow: hidden;
+    margin-top: 25px;
 }
 
 .card-img-top {
