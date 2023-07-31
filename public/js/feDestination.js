@@ -60,7 +60,22 @@ async function createTourismChart() {
                 options: {
                     scales: {
                         y: {
-                            beginAtZero: true
+                            beginAtZero: true,
+                            ticks: {
+                                color: '#ffffff' // this here
+                            }
+                        },
+                        x: {
+                            ticks: {
+                                color: '#ffffff' // and this here
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            labels: {
+                                color: '#ffffff', // and this here
+                            }
                         }
                     }
                 }
@@ -72,6 +87,7 @@ async function createTourismChart() {
         });
 
 }
+
 
 function toggleChart() {
     const chart = $('#tourismChart');
