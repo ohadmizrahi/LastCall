@@ -1,5 +1,6 @@
   .card{
-    background-color: #363333e9; 
+    background-color: #363333e9;
+
     
   }
   .register-card {
@@ -17,6 +18,7 @@
     font-weight: bold;
   }
   
+
 
   .my-custom-card {
     max-height: 80px;
