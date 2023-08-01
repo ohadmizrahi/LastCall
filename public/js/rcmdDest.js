@@ -1,12 +1,12 @@
 function chatOnLoad() {
-    const userName = Cookies.get('name') 
+    const userName = Cookies.get('name')
     const onLoadMessage = [
         `Welcome ${userName}!`,
         'Let me find the perfect vacation for you based on your preferences.',
         'Please Enter your dream vacation details in the box to the left']
-        $(document).ready(() => {
-            writingMessage(onLoadMessage);
-        });
+    $(document).ready(() => {
+        writingMessage(onLoadMessage);
+    });
 }
 chatOnLoad()
 
@@ -17,18 +17,26 @@ async function chatOnSubmit() {
         const recommendedDestination = $('#recommendedDestination');
         event.preventDefault();
 
-        const budget = $('#budget').val();
+        const travelStyle = $('#travel-style').val();
+        const seasonPreference = $('#season-preference').val();
         const adults = $('#adults').val();
         const kids = $('#kids').val();
         const atmosphere = $('#atmosphere').val();
+        const duration = $('#duration-value').val() + " " + $('#duration-size').val();
+        const historical = $('#historical-preference').val();
+        var selectedInterests = $('.interest-checkbox input[type="checkbox"]:checked').map(function () { return $(this).val(); }).get();
 
-        vacationForm[0].reset();
+        console.log(selectedInterests);
+        // const atmosphere = $('#atmosphere').val();
+        // const atmosphere = $('#atmosphere').val();
+
+        resetForm(this)
 
         recommendedDestination.text("")
-        
+
         const afterSubmitFormMessage = [
             'Dream Vacation Details are:',
-            `Budget: $${budget}, Adults: ${adults}, Kids: ${kids}, Atmosphere: ${atmosphere}.`,
+            `Travel Style: ${travelStyle}, Adults: ${adults}, Kids: ${kids}, Atmosphere: ${atmosphere} ${duration}.`,
             `Searching for the best destination...`, ""
         ];
 
@@ -40,6 +48,19 @@ async function chatOnSubmit() {
 }
 
 chatOnSubmit()
+
+function minMaxBudgetValidation() {
+    $('#min-budget').on('input', function () {
+        var minBudgetValue = parseFloat($(this).val()) + 1;
+        $('#max-budget').attr('min', minBudgetValue);
+    });
+}
+minMaxBudgetValidation()
+
+function resetForm(form) {
+    $(form).trigger('reset');
+    $('.interest-checkbox input[type="checkbox"]').prop('disabled', false);
+}
 
 function findRecomandedDestination() {
     const recomandetion = [{
@@ -80,7 +101,7 @@ function Writer(message) {
 
     let index = 0;
     const typingInterval = setInterval(() => {
-        if (index < message.length) {            
+        if (index < message.length) {
             messageElement.text(messageElement.text() + message.charAt(index));
             index++;
         } else {
@@ -88,4 +109,39 @@ function Writer(message) {
         }
     }, typeDelay);
     recommendedDestination.scrollTop(recommendedDestination[0].scrollHeight);
+}
+
+function restrictTopInerest() {
+    var maxCheckboxLimit = 3;
+
+    $('.interest-checkbox input[type="checkbox"]').on('change', function () {
+        var checkedCount = $('.interest-checkbox input[type="checkbox"]:checked').length;
+
+        if (checkedCount === maxCheckboxLimit) {
+            $('.interest-checkbox input[type="checkbox"]:not(:checked)').prop('disabled', true);
+        } else {
+            $('.interest-checkbox input[type="checkbox"]:not(:checked)').prop('disabled', false);
+        }
+    });
+}
+restrictTopInerest()
+
+function toggleGuestsSelection() {
+    $("#guestsSelection").toggle();
+    var placeholderText = $("#guestsSelection").is(":visible") ? "Close Guests Selection" : "Open Guests Selection";
+    $("#guests").attr("placeholder", placeholderText);
+}
+
+
+function adjustValue(inputId, increment) {
+    var inputField = $("#" + inputId);
+    var currentValue = parseInt(inputField.val());
+    var newValue = currentValue + increment;
+    if (inputId === "adults" && newValue < 1) {
+        newValue = 1;
+    }
+    if (inputId === "kids" && newValue < 0) {
+        newValue = 0; 
+    }
+    inputField.val(newValue);
 }

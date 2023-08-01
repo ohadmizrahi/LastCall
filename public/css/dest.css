@@ -35,8 +35,6 @@
   font-size: 18px;
 }
 
-<<<<<<< .merge_file_GlWhEa
-=======
 body {
   font-family: Arial, sans-serif;
   background-color: #f7f7f7;
@@ -44,7 +42,6 @@ body {
   padding: 0;
 }
 
->>>>>>> .merge_file_Dqkcq0
 .card {
   border-radius: 20px;
   overflow: hidden;
@@ -87,5 +84,78 @@ body {
 }
 
 #tourismChart {
+  display: none;
+}
+
+.guests-group {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.guests-group .form-group {
+  flex: 1;
+}
+
+.guests-group .form-group:not(:last-child) {
+  margin-right: 10px;
+}
+
+.guests-group .input-group {
+  flex: 1;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+.form-group label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+
+.form-select {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background-color: #fff;
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.form-select:hover, .form-select:focus {
+  border-color: #80bdff;
+  outline: none;
+  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+.duration-select {
+  display: flex;
+}
+
+.interest-checkbox {
+  display: block;
+  margin-bottom: 5px;
+}
+
+.interest-checkbox input[type="checkbox"] {
+  margin-right: 5px;
+}
+
+.budget-range {
+  display: flex;
+  align-items: center;
+}
+
+.range-divider {
+  font-weight: bold;
+  margin: 5px;
+}
+
+#guestsSelection{
   display: none;
 }

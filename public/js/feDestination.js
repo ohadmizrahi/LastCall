@@ -88,10 +88,10 @@ async function createTourismChart() {
 
 }
 
-
 function toggleChart() {
     const chart = $('#tourismChart');
     chart.toggle()
     createTourismChart();
 }
+
 
