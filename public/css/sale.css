@@ -1,32 +1,64 @@
 #salehead {
-    text-align: center;
-  }
-  
-  #sales {
-    display: flex;
-    justify-content: center;  /* This will center the items horizontally */
-  }
-  
-  #sales .sale-item {
-    position: relative;
-    border: 1px solid #000; 
-    padding: 50px; 
-    margin: 25px; 
-    width: 15%; 
-    text-align: center;
-    box-shadow: 0px 0px 10px rgba(0,0,0,1); 
-    background-size: cover;
-    background-repeat: no-repeat;
-  }
-  
-  #sales .sale-item h4 {
-    position: absolute;
-    top: 5px;
-    left: 10px;
-    font-weight: bold; /* Make the text bold */
-  }
-  
-  #sales .sale-item:hover {
-    cursor: pointer;
-  }
-  
+  text-align: center;
+  font-weight: bold
+}
+
+#sales {
+  display: flex;
+  justify-content: center;  
+  flex-wrap: wrap; /* This will ensure items are arranged in a row and wrapped */
+
+}
+
+.sale-item {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #000; 
+  margin: 20px;
+  border-radius: 10px;
+  width: calc(20% - 40px);
+  box-shadow: 0px 0px 10px rgba(0,0,0,1);
+  overflow: hidden;
+  text-align: center;
+  background-color: white;
+}
+
+.sale-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.sale-destination {
+  padding: 10px;
+  height: 10%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #363333e9;
+  color: white;
+  font-weight: bold;
+}
+
+.sale-content {
+  padding: 10px;
+  height: 25%;
+  background-color: #363333e9;
+  color: white;
+}
+
+.sale-item:hover {
+  cursor: pointer;
+  transform: scale(1.05);
+}
+
+
+#salehead {
+  background-color: rgb(202, 144, 35); /* replace with your color */
+  text-align: center;
+  overflow: hidden; /* hide the part of animated text that goes outside this div */
+  white-space: nowrap;
+  font-size: 2em;
+}
+
+

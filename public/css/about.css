@@ -11,7 +11,7 @@
 .about-section .content-column .inner-column{
 	position:relative;
 	padding-top:50px;
-	padding-right:100px;
+	padding-right:50px;
 }
 
 .about-section .content-column .text{
@@ -20,6 +20,7 @@
 	font-size:15px;
 	line-height:2em;
 	margin-bottom:40px;
+	
 }
 
 .about-section .content-column .email{
@@ -49,6 +50,7 @@
 	bottom:100px;
 	z-index:-1;
 	border:2px solid #d7a449;
+	
 }
 
 .about-section .image-column .inner-column .image{

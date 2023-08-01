@@ -1,33 +1,72 @@
-/* search bar css */
-
 .search-bar {
-    background-color: #f1f1f1;
-    padding: 20px;
-  }
-  
-  #flightSearchForm {
-    display: flex;
-    align-items: center;
-  }
-  
+  background-color: #f1f1f1;
+  padding: 20px;
+}
+
+#flightSearchForm {
+  display: flex;
+  flex-wrap: wrap; /* this allows the form fields to wrap onto the next line if there isn't enough space */
+  justify-content: space-between; /* this spreads the form fields evenly across the row */
+}
+
+.form-field {
+  display: flex;
+  flex-direction: column; /* stack the label and input vertically */
+  gap: 5px; /* add some space between the label and input */
+  padding: 5px; /* add some padding */
+  border-radius: 5px; /* round the corners */
+  margin-bottom: 2px; /* add some space between form fields */
+  flex-basis: calc(100% / 6); /* this makes each form field take up a third of the row, minus some margin */
+}
+
+.form-field label {
+  font-weight: bold;
+  color: grey;
+}
+
+.form-field input {
+  border: none; /* remove the default input box border */
+  outline: none; /* remove the outline that appears when the input box is focused */
+  background: #ffffff; /* make the input box background white */
+  flex-grow: 1; /* make input area take up the remaining space */
+  border-radius: 5px;
+  height: 40px;
+}
+
+.search-flight-submit {
+  padding: 10px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+  font-weight: bold;
+  margin-top: 10px; /* add some space above the submit button */
+  flex-basis: 100%; /* make the submit button take up the full width of the row */
+}
+
+.search-flight-submit:hover {
+  background-color: #45a049;
+}
+
+/* On screens that are 600px or less, stack the form fields vertically */
+@media screen and (max-width: 600px) {
   .form-field {
-    margin-right: 10px;
+    flex-basis: 100%; /* make each form field take up the full width of the row */
   }
-  
-  input[type="text"],
-  input[type="date"] {
-    padding: 5px;
-    margin-right: 10px;
-  }
-  
-  .search-flight-submit {
-    padding: 10px;
-    background-color: #4CAF50;
-    color: white;
-    border: none;
-    cursor: pointer;
-  }
-  
-  .search-flight-submit:hover {
-    background-color: #45a049;
-  }
+}
+
+.checkbox-field {
+  display: flex;
+  flex-direction: row; /* align the label and input horizontally */
+  align-items: center; /* center the label and checkbox vertically */
+}
+
+.checkbox-field input[type="checkbox"] {
+  width: 15px; /* adjust as needed */
+  height: 15px; /* adjust as needed */
+}
+.checkbox-field input {
+  margin-right: 7px;
+  margin-bottom: 8px;
+}
