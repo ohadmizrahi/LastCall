@@ -2,24 +2,125 @@
     <div class="row">
         <div class="col-md-6">
             <h3>Dream Vacation</h3>
-            <form id="vacationForm" class="mb-4">
-                <div class="form-group">
-                    <label for="budget">Budget:</label>
-                    <input type="text" class="form-control" id="budget" required>
+            <form id="vacationForm" class="mb-6">
+                <div class="row">
+                    <div class="form-group col-md-5">
+                        <label for="travel-style">Travel Style:</label>
+                        <select class="form-select" id="travel-style" required>
+                            <option value="" disabled selected>Select your travel style</option>
+                            <option name="luxury" value="luxury">Luxury</option>
+                            <option name="budget-friendly" value="budget">Budget Friendly</option>
+                            <option name="backpacking" value="backpacking">Backpacking</option>
+                            <option name="family-friendly" value="family">Family Friendly</option>
+                            <option name="solo-travel" value="solo">Solo Travel</option>
+                            <option name="group-travel" value="group">Group Travel</option>
+                        </select>
+                    </div>
+                    <div class="form-group col-md-7">
+                        <label for="season-preference">Season Preference:</label>
+                        <select class="form-select" id="season-preference" required>
+                            <option value="" disabled selected>Select your season preference</option>
+                            <option name="summer" value="summer">Summer</option>
+                            <option name="autumn" value="autumn">Autumn</option>
+                            <option name="spring" value="spring">Spring</option>
+                            <option name="winter" value="winter">Winter</option>
+                        </select>
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label for="adults">Number of Adults:</label>
-                    <input type="number" class="form-control" id="adults" required>
+                <div class="row">
+                    <div class="form-group col-md-12">
+                        <label for="budget-flexibility">Budget Flexibility:</label>
+                        <div class="budget-range">
+                            <input type="number" class="form-control" id="min-budget" placeholder="Min Budget" min="0"
+                                required>
+                            <span class="range-divider">to</span>
+                            <input type="number" class="form-control" id="max-budget" placeholder="Max Budget" required>
+                        </div>
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label for="kids">Number of Kids:</label>
-                    <input type="number" class="form-control" id="kids" required>
+
+                <div class="row">
+                    <div class="form-group col-md-12">
+                        <label for="duration">Travel Duration:</label>
+                        <div class="duration-select">
+                            <input id="duration-value" class="form-select" type="number" min="1" value="1" required>
+                            <select class="form-select" id="duration-size">
+                                <option value="" disabled selected>Select duration</option>
+                                <option name="day" value="day">Days</option>
+                                <option name="week" value="week">Weeks</option>
+                                <option name="month" value="month">Months</option>
+                            </select>
+                        </div>
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label for="atmosphere">Vacation Atmosphere:</label>
-                    <input type="text" class="form-control" id="atmosphere" required>
+
+                <div class="row">
+                    <div class="form-group">
+                        <label for="main-interest">What are your top 3 interests for vacation?</label>
+                        <div class="interest-checkboxes">
+                            <div class="row">
+                                <label class="interest-checkbox col-md-6">
+                                    <input type="checkbox" name="interest" value="cultural exploration"> Cultural Exploration
+                                </label>
+                                <label class="interest-checkbox col-md-6">
+                                    <input type="checkbox" name="interest" value="shopping and fashion"> Shopping and Fashion
+                                </label>
+                                <label class="interest-checkbox col-md-6">
+                                    <input type="checkbox" name="interest" value="beach and relaxation"> Beach and Relaxation
+                                </label>
+                                <label class="interest-checkbox col-md-6">
+                                    <input type="checkbox" name="interest" value="music and festivals"> Music and Festivals
+                                </label>
+
+                            </div>
+                            <div class="row">
+                                <label class="interest-checkbox col-md-6">
+                                    <input type="checkbox" name="interest" value="wildlife and nature"> Wildlife and Nature
+                                </label>
+                                <label class="interest-checkbox col-md-6">
+                                    <input type="checkbox" name="interest" value="extreme sport"> Extreme Sport
+                                </label>
+                                <label class="interest-checkbox col-md-6">
+                                    <input type="checkbox" name="interest" value="food and culinary"> Food and Culinary
+                                </label>
+                                <label class="interest-checkbox col-md-6">
+                                    <input type="checkbox" name="interest" value="kid-friendly activities"> Kid-Friendly Activities
+                                </label>
+                                <label class="interest-checkbox col-md-6">
+                                    <input type="checkbox" name="interest" value="photography and landscape"> Photography and Landscape
+                                </label>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <button type="submit" class="btn btn-primary btn-lg">Find Vacation</button>
+                <div class="row">
+                    <div class="form-group" onclick="toggleGuestsSelection()">
+                        <label for="guests">Number of Guests:</label>
+                        <input type="text" class="form-control" id="guests" placeholder="Open Guests Selection"
+                            readonly>
+                    </div>
+                    <div id="guestsSelection">
+                        <div class="guests-group">
+                            <%- include("guestsSelection", { guest: "adults" , displayGuestName: "Adults" , min: 1,
+                                defaultValue: 1 }) %>
+                                <%- include("guestsSelection", { guest: "kids" , displayGuestName: "Kids" , min: 0,
+                                    defaultValue: 0 }) %>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group">
+                        <label for="unique-destinations">Look for Unique Destinations?</label>
+                        <select class="form-select" id="unique-destinations" required>
+                            <option value="" disabled selected>Select an option</option>
+                            <option value="yes">Yes</option>
+                            <option value="no">No</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row">
+                    <button type="submit" class="btn btn-primary btn-lg">Find Vacation</button>
+                </div>
             </form>
         </div>
         <div class="col-md-6">

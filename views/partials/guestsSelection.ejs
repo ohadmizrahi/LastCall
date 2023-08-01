@@ -1,0 +1,12 @@
+<div class="form-group d-flex align-items-center">
+    <label for="<%= guest %>"><%= displayGuestName %>:</label>
+    <div class="input-group ml-2">
+        <input type="number" class="form-control" id="<%= guest %>" min="<%= min %>" value="<%= defaultValue %>" required>
+        <div class="input-group-append">
+            <button class="btn btn-outline-secondary" type="button" onclick="adjustValue('<%= guest %>', -1)">-</button>
+        </div>
+        <div class="input-group-append">
+            <button class="btn btn-outline-secondary" type="button" onclick="adjustValue('<%= guest %>', 1)">+</button>
+        </div>
+    </div>
+</div>
