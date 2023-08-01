@@ -1,11 +1,10 @@
-
 <div id="sales-container">
   <div id="salehead">
     <span class="animated-text">Sales !!!</span>
-  </div>  
+  </div>
   <div id="sales">
     <% sales.data.forEach((sale, index) => { %>
-      <div class="sale-item">
+      <div class="sale-item<% if (index >= 5) { %> hidden-deal<% } %>">
         <div class="sale-destination">
           <h4><%= sale.destination %></h4>
         </div>
@@ -16,6 +15,6 @@
         </div>
       </div>
     <% }); %>
+    <button id="show-more-btn">Show More</button>
   </div>
 </div>
-

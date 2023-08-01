@@ -7,7 +7,6 @@
   display: flex;
   justify-content: center;  
   flex-wrap: wrap; /* This will ensure items are arranged in a row and wrapped */
-
 }
 
 .sale-item {
@@ -62,3 +61,18 @@
 }
 
 
+#show-more-btn {
+  padding: 10px 20px;
+  background-color: #363333e9;
+  color: white;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+#show-more-btn:hover {
+  background-color: #202020;
+}
+.hidden-deal {
+  display: none;
+}
