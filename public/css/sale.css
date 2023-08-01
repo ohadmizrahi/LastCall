@@ -12,14 +12,15 @@
 .sale-item {
   display: flex;
   flex-direction: column;
-  border: 1px solid #000; 
+  border: 1px solid #000;
   margin: 20px;
   border-radius: 10px;
-  width: calc(20% - 40px);
+  width: calc(18% - 40px); /* 20% width minus margin */
   box-shadow: 0px 0px 10px rgba(0,0,0,1);
   overflow: hidden;
   text-align: center;
   background-color: white;
+  
 }
 
 .sale-img {
@@ -53,12 +54,28 @@
 
 
 #salehead {
-  background-color: rgb(202, 144, 35); /* replace with your color */
   text-align: center;
   overflow: hidden; /* hide the part of animated text that goes outside this div */
   white-space: nowrap;
   font-size: 2em;
+  position: relative; /* added to position the line correctly */
+  padding-top: 30px; /* padding at the top to make space for the line */
+  margin-top: 30px;
 }
+
+#salehead::before {
+  content: ""; /* empty content to create a line */
+  display: block; /* display as a block element */
+  width: 80%; /* full width of the container */
+  height: 1px; /* thickness of the line */
+  background-color: rgb(202, 144, 35); /* color of the line */
+  position: absolute; /* absolute position within #salehead */
+  top: 0; /* at the top of the container */
+  left: 50%; /* center the element horizontally */
+  margin-left: -40%;
+}
+
+
 
 
 #show-more-btn {
@@ -68,11 +85,17 @@
   border: none;
   cursor: pointer;
   transition: background-color 0.3s ease;
+  width: 150px; /* Fixed width */
+  text-align: center; /* Center the text */
+  margin-bottom: 10px;
+  border-radius: 5px;
 }
 
 #show-more-btn:hover {
   background-color: #202020;
 }
+
+
 .hidden-deal {
   display: none;
 }

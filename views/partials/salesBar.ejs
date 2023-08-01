@@ -2,19 +2,21 @@
   <div id="salehead">
     <span class="animated-text">Sales !!!</span>
   </div>
-  <div id="sales">
+  <div id="sales" class="row">
     <% sales.data.forEach((sale, index) => { %>
-      <div class="sale-item<% if (index >= 5) { %> hidden-deal<% } %>">
+      <div class="sale-item<% if (index >= 5) { %> hidden-deal <% } %>">
         <div class="sale-destination">
           <h4><%= sale.destination %></h4>
         </div>
         <img src="<%= sale.picture %>" class="sale-img">
         <div class="sale-content">
-          <p>Deal Dates: <%= sale.deal_dates %></p>
-          <p>Starting Price: <%= sale.min_price %></p>
+          <p>Dates: <%= sale.departure_date %> - <%= sale.return %></p>
+          <p>Starting Price: <%= sale.min_price %>$</p>
         </div>
       </div>
     <% }); %>
-    <button id="show-more-btn">Show More</button>
+  </div>
+  <div class="text-center"> <!-- Add a container with text-center class -->
+    <button id="show-more-btn" onclick="toggleSales()">Show More</button>
   </div>
 </div>
