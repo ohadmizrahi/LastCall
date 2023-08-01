@@ -4,9 +4,34 @@
             <a class="navbar-brand" href="/">
                 <img src="/img/logo.png" alt="Logo" class="logo">
             </a>
+            <div class="container">
+                <div class="nav-buttons-container">
+                    <a class="btn btn-primary my-nav-link" href="/home">Home</a>
+                    <a class="btn btn-primary my-nav-link" href="/dest">Destinations</a>
+                    <a class="btn btn-primary my-nav-link" href="/flights">Flights</a>
+                    <a class="btn btn-primary my-nav-link" href="/reviews">Reviews</a>
+                </div>
+              </div>
+              <div class="afterauth"></div>
+              <div id="user-state" style="margin-left: auto;">
+                <%- include(header.auth) %>
+                </div>
+            </div>
+        </div>
+    </nav>
+</div>
+
+
+
+<!-- <div class="header-dark">
+    <nav class="navbar navbar-dark navbar-expand-md navigation-clean-search">
+        <div class="container">
+            <a class="navbar-brand" href="/">
+                <img src="/img/logo.png" alt="Logo" class="logo">
+            </a>
             <div id="main-menu" class="collapse navbar-collapse" id="navcol-1">
                 <ul class="nav navbar-nav">
-                    <li class="dropdown">
+                    <li class="dropdown menu-dropdown">
                         <a class="dropdown-toggle nav-link dropdown-toggle" data-toggle="dropdown" aria-expanded="false" href="#">Menu </a>
                         <div class="dropdown-menu" role="menu">
                             <a class="dropdown-item" role="presentation" href="/home">Home</a>
@@ -16,13 +41,11 @@
                         </div>
                     </li>
                 </ul>
-            </div>
-            <div id="headline">
-                <h1>Last Call</h1>
-              </div>              
+            </div>           
             <div id="user-state">
                 <%- include(header.auth) %>
             </div>
         </div>
     </nav>
-</div>
+</div> -->
+

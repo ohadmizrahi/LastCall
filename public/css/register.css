@@ -1,0 +1,28 @@
+  .card{
+    background-color: #363333e9;
+    margin-bottom: 60px;
+  }
+  .register-card {
+    background-color: lightgrey;
+    
+  }
+  
+  #register-heading {
+    text-align: center;
+    color: white;
+    font-weight: bold;
+  }
+
+  .white-bold {
+    color: white;
+    font-weight: bold;
+  }
+  
+
+
+  .my-custom-card {
+    max-height: 80px;
+    overflow: auto;
+
+  }
+  
