@@ -1,10 +1,11 @@
   .card{
     background-color: #363333e9;
-
-    
+    margin-bottom: 60px;
+    box-shadow: 0 15px 25px rgba(0, 0, 0, 0.764);
   }
   .register-card {
     background-color: lightgrey;
+    
   }
   
   #register-heading {
@@ -23,5 +24,6 @@
   .my-custom-card {
     max-height: 80px;
     overflow: auto;
+
   }
   
