@@ -3,7 +3,7 @@ function chatOnLoad() {
     const onLoadMessage = [
         `Welcome ${userName}!`,
         'Let me find the perfect vacation for you based on your preferences.',
-        'Please Enter your dream vacation details in the box to the left']
+        'Please Enter your dream vacation details in the box to the left.']
     $(document).ready(() => {
         writingMessage(onLoadMessage);
     });
@@ -21,14 +21,11 @@ async function chatOnSubmit() {
         const seasonPreference = $('#season-preference').val();
         const adults = $('#adults').val();
         const kids = $('#kids').val();
-        const atmosphere = $('#atmosphere').val();
         const duration = $('#duration-value').val() + " " + $('#duration-size').val();
-        const historical = $('#historical-preference').val();
-        var selectedInterests = $('.interest-checkbox input[type="checkbox"]:checked').map(function () { return $(this).val(); }).get();
-
-        console.log(selectedInterests);
-        // const atmosphere = $('#atmosphere').val();
-        // const atmosphere = $('#atmosphere').val();
+        const selectedInterests = $('.interest-checkbox input[type="checkbox"]:checked').map(function () { return $(this).val(); }).get();
+        const minBudget = "$" + $('#min-budget').val();
+        const maxBudget = "$" + $('#max-budget').val();
+        const uniqueDestinations = $('#unique-destinations').val() == "1" ? "Look for" : "Don't look for";
 
         resetForm(this)
 
@@ -36,13 +33,32 @@ async function chatOnSubmit() {
 
         const afterSubmitFormMessage = [
             'Dream Vacation Details are:',
-            `Travel Style: ${travelStyle}, Adults: ${adults}, Kids: ${kids}, Atmosphere: ${atmosphere} ${duration}.`,
-            `Searching for the best destination...`, ""
+            `Travel Style: ${travelStyle}`,
+            `Season Preference: ${seasonPreference}`,
+            `Budget: ${minBudget} - ${maxBudget}`,
+            `Travel Duration: ${duration}`,
+             `Adults: ${adults}, Kids: ${kids}`,
+             `Top Three Interests: ${selectedInterests}`,
+             `${uniqueDestinations} Unique Destinations.`,
+            `Searching for the best destination...`
         ];
 
         await writingMessage(afterSubmitFormMessage);
 
-        const recomandation = findRecomandedDestination();
+        const data = {
+            travelStyle: travelStyle,
+            seasonPreference: seasonPreference,
+            adults: adults,
+            kids: kids,
+            duration: duration,
+            selectedInterests: selectedInterests,
+            minBudget: minBudget,
+            maxBudget: maxBudget,
+            uniqueDestinations: uniqueDestinations
+        }
+        
+        const recomandation = await getRecomandedDestination(data);
+
         await writingMessage(recomandation);
     });
 }
@@ -62,16 +78,27 @@ function resetForm(form) {
     $('.interest-checkbox input[type="checkbox"]').prop('disabled', false);
 }
 
-function findRecomandedDestination() {
-    const recomandetion = [{
-        destination: "Sunny Beach Resort, Maldives",
-        description: "Spend your dream vacation at the beautiful Sunny Beach Resort in Maldives. Relax on sandy beaches, enjoy water activities, and indulge in luxury amenities."
-    }]
-    return recomandetion
+async function getRecomandedDestination(data) {
+    return fetch("/dest/get_recomandation", {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+      })
+      .then(response => response.json())
+      .then(recommendation => {
+        return recommendation;
+      })
+      .catch(error => {
+            console.log(error);
+            throw error;
+      });
 }
 
-const typeDelay = 35;
+
 async function writingMessage(messageToWrite) {
+    const typeDelay = 30;
     let typingDelay = 0;
 
     for (const message of messageToWrite) {
@@ -80,23 +107,30 @@ async function writingMessage(messageToWrite) {
                 if (typeof message === 'string') {
                     Writer(message);
                 } else if (typeof message === 'object') {
-                    Writer(`Our recommendation is \n ${message.destination}.\n`);
+                    setTimeout(() => {
+                    Writer(`Our recommendation is: ${message.destination}.`, true);
+                },typeDelay * (message.destination.length + 18)*2);
                     setTimeout(() => {
                         Writer(`${message.description}`);
                         resolve();
-                    }, typeDelay * (message.destination.length + 18));
+                    }, typeDelay * (message.destination.length + 18)*4);
                 }
                 resolve();
             }, typingDelay);
         });
 
-        typingDelay += typeDelay * message.length + 500;
+        typingDelay = typeDelay * message.length + 500;
     }
 }
 
-function Writer(message) {
+function Writer(message, isDestination=false) {
+    const typeDelay = 30;
     const recommendedDestination = $('#recommendedDestination');
     const messageElement = $('<div>').addClass('typing-message')
+    if (isDestination) {
+        messageElement.attr('id', 'typing-destination');
+    }
+    
     recommendedDestination.append(messageElement);
 
     let index = 0;
@@ -131,7 +165,6 @@ function toggleGuestsSelection() {
     var placeholderText = $("#guestsSelection").is(":visible") ? "Close Guests Selection" : "Open Guests Selection";
     $("#guests").attr("placeholder", placeholderText);
 }
-
 
 function adjustValue(inputId, increment) {
     var inputField = $("#" + inputId);

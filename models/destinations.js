@@ -1,5 +1,6 @@
 require('dotenv').config()
 const axios = require("axios");
+const askGPT = require("./chat.js")
 
 const destinations = [{
     name: "Barcelona",
@@ -85,8 +86,30 @@ async function generateTourismData(dest) {
     return tourismData;
 }
 
+async function getRecomandationFromGPT(data) {
+    const prompt = `
+    I need a Destination Recomandation based on the following data.
+    The data is:
+    Travel Style is ${data.travelStyle}, Prefered Season is ${data.seasonPreference}, Total number of travelers is ${parseInt(data.adults, 10) + parseInt(data.kids, 10)}
+    Number of Adults is ${data.adults}, Number of kids is ${data.kids}, Total vacation duration is ${data.duration}, Budget range is between ${data.minBudget} to ${data.maxBudget}
+    The main interests for the vacation are ${data.selectedInterests[0], data.selectedInterests[1], data.selectedInterests[2]}, And ${data.uniqueDestinations} unique destinations.
+    Please אake into account flights, hotels and attractions prices when choosing the destination
+    Please return answer build as a json with: 
+    First parameter called destination holdin the Destination name and country. 
+    Second parameter called description holding the Description over the destionation.`
+    
+    const recomandationString = await askGPT(prompt);
+    const recomandation = JSON.parse(recomandationString);
+    console.log(recomandation);
+
+
+    return recomandation
+
+}
+
 
 module.exports.getDestinations = getDestinations
 module.exports.addDestinations = addDestinations
 module.exports.getDestImg = getDestImg
 module.exports.generateTourismData = generateTourismData
+module.exports.getRecomandationFromGPT = getRecomandationFromGPT

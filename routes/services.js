@@ -3,7 +3,7 @@ const bodyParser = require("body-parser");
 const session = require('express-session');
 const { getReviews, addReview } = require('../models/reviews')
 const { getSales } = require('../models/sale')
-const { getDestinations, addDestinations, generateTourismData } = require('../models/destinations')
+const { getDestinations, addDestinations, generateTourismData, getRecomandationFromGPT } = require('../models/destinations')
 
 const router = Router();
 
@@ -51,13 +51,24 @@ router.get("/generate_chart_data", async (req, res) => {
     res.json(tourismData);
 })
 
+router.post("/dest/get_recomandation", async (req, res) => {
+    const data = req.body;
+    getRecomandationFromGPT(data)
+    .then(recomandation => {
+        const messageList = [{destination: recomandation.destination, description: recomandation.description}]
+        res.json(messageList);
+    })
+    .catch(error => {
+        console.error("Error getting recommendation:", error);
+        res.status(500).json({ error: "Error getting recommendation" });
+    });
+});
+
 router.post("/dest/:name", (req, res) => {
     const destination = req.body;
 
-    // Store the destination object in the session
     req.session.destination = destination;
 
-    // Redirect to the EJS page using a GET request
     res.redirect(`/dest/${destination.name}`);
 });
 
