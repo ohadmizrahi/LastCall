@@ -4,6 +4,9 @@ const session = require('express-session');
 const { getReviews, addReview } = require('../models/reviews')
 const { getSales } = require('../models/sale')
 const { getPopularDestinations, updateDestinations, generateTourismData, getRecomandationFromGPT } = require('../models/destinations')
+const { insertNewFlights } = require('../models/flights')
+const { insertNewAirports } = require('../models/airports')
+const { generateFlights } = require('../models/flightsGenerator')
 
 const router = Router();
 
@@ -13,12 +16,12 @@ router.get("/dest", (req, res) => {
     if (req.isAuthenticated()) {
         const data = getSales()
         const destinations = getPopularDestinations()
-        
+
         res.render("index",
             {
-                body: {main: "partials/bodies/destination", destinations: destinations},
-                header: {main: "partials/headers/header", auth: "authDiv/afterAuth", pageTitle: "Destinations"},
-                sales: {main:"../salesBar",data:  data}
+                body: { main: "partials/bodies/destination", destinations: destinations },
+                header: { main: "partials/headers/header", auth: "authDiv/afterAuth", pageTitle: "Destinations" },
+                sales: { main: "../salesBar", data: data }
             })
     } else {
         res.cookie("returnTo", "/dest")
@@ -34,9 +37,9 @@ router.get("/dest/:name", async (req, res) => {
     if (req.isAuthenticated()) {
         res.render("index",
             {
-                body: {main: "partials/destinationPage", destination: destination},
-                header: {main: "partials/headers/header", auth: "authDiv/afterAuth"},
-                sales: {main:"../salesBar",data:  data}
+                body: { main: "partials/destinationPage", destination: destination },
+                header: { main: "partials/headers/header", auth: "authDiv/afterAuth" },
+                sales: { main: "../salesBar", data: data }
             })
     } else {
         res.cookie("returnTo", "/dest")
@@ -54,11 +57,11 @@ router.get("/generate_chart_data", async (req, res) => {
 router.post("/dest/get_recomandation", async (req, res) => {
     const data = req.body;
     getRecomandationFromGPT(data)
-    .then(recomandation => {
-        const messageList = [recomandation]
-        res.cookie("gptRecommendation", recomandation)
-        res.json(messageList);
-    })
+        .then(recomandation => {
+            const messageList = [recomandation]
+            res.cookie("gptRecommendation", recomandation)
+            res.json(messageList);
+        })
     // .catch(error => {
     //     console.error("Error getting recommendation:", error);
     //     res.status(500).json({ error: "Error getting recommendation" });
@@ -84,9 +87,9 @@ router.get("/flights", (req, res) => {
         const data = getSales()
         res.render("index",
             {
-                body: {main:"partials/bodies/flights", searchData: searchData},
-                header: {main: "partials/headers/header", auth: "authDiv/afterAuth", pageTitle: "Flights"},
-                sales: {main:"../salesBar",data:  data}
+                body: { main: "partials/bodies/flights", searchData: searchData },
+                header: { main: "partials/headers/header", auth: "authDiv/afterAuth" , pageTitle: "Flights" },
+                sales: { main: "../salesBar", data: data }
             })
     } else {
         res.cookie("returnTo", "/flights")
@@ -94,16 +97,41 @@ router.get("/flights", (req, res) => {
     }
 
 })
-  
+
+router.get("/generate_new_flights", async (req, res) => {
+    try {
+        console.log("Start Generating new flights")
+        const flightsData = await generateFlights(50)
+        if (flightsData) {
+            console.log("Finished Generating new flights")
+            console.log("Start inserting new flights to DB");
+            const flights = await insertNewFlights(flightsData)
+            if (flights) {
+                console.log("Finished inserting new flights to DB");
+                res.status(200).json({ message: "Flights inserted successfully." });
+            } else {
+                res.status(500).json({ error: "Failed to insert flights." });
+            }
+        } else {
+            res.status(500).json({ error: "Failed to fetch flights data." });
+        }
+    } catch (error) {
+        console.error('Error:', error);
+        res.status(500).json({ error: "Failed to fetch flights data." });
+    }
+
+})
+
+
 router.get("/reviews", (req, res) => {
     const reviews = getReviews()
     if (req.isAuthenticated()) {
         const data = getSales()
         res.render("index",
             {
-                body: {main: "partials/bodies/reviews", reviews: reviews},
-                header: {main: "partials/headers/header", auth: "authDiv/afterAuth", pageTitle: "Reviews"},
-                sales: {main:"../salesBar",data:  data}
+                body: { main: "partials/bodies/reviews", reviews: reviews },
+                header: { main: "partials/headers/header", auth: "authDiv/afterAuth" , pageTitle: "Reviews" },
+                sales: { main: "../salesBar", data: data }
             })
     } else {
         res.cookie("returnTo", "/reviews")
