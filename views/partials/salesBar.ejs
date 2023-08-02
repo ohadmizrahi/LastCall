@@ -4,7 +4,7 @@
   </div>
   <div id="sales" class="row">
     <% sales.data.forEach((sale, index) => { %>
-      <div class="sale-item to-flights<% if (index >= 5) { %> hidden-deal <% } %>">
+      <div class="sale-item to-flights<% if (index >= 5) { %> hidden-deal <% } %>">  <!-- Add the hidden-deal class to all items -->
         <div class="sale-destination">
           <h4><%= sale.name %></h4>
         </div>
@@ -16,7 +16,9 @@
       </div>
     <% }); %>
   </div>
-  <div class="text-center"> <!-- Add a container with text-center class -->
-    <button id="show-more-btn" onclick="toggleSales()">Show More</button>
+  <div class="text-center">
+    <button id="show-more-btn" class="toggle-btn" onclick="toggleSales('more')">Show More</button>
+    <button id="show-less-btn" class="toggle-btn" onclick="toggleSales('less')" style="display: none;">Show Less</button>
   </div>
+  
 </div>
