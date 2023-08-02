@@ -45,7 +45,7 @@ app.get("/", (req, res) => {
   const data = getSales()
   res.render("index", {
     body: {main: "partials/bodies/landing"},
-    header: {main: "partials/headers/header", auth: "authDiv/beforeAuth"},
+    header: {main: "partials/headers/header", auth: "authDiv/beforeAuth", pageTitle: "Welcome"},
     sales: {main:"../salesBar",data:  data}
 
   })
