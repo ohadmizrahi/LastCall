@@ -34,15 +34,14 @@
 }
 
 .search-flight-submit {
-  padding: 10px;
   background-color: #4CAF50;
   color: white;
   border: none;
   cursor: pointer;
-  border-radius: 5px;
+  border-radius: 10px;
   font-weight: bold;
   margin-top: 10px; /* add some space above the submit button */
-  flex-basis: 100%; /* make the submit button take up the full width of the row */
+  flex-basis: 10%; /* make the submit button take up the full width of the row */
 }
 
 .search-flight-submit:hover {

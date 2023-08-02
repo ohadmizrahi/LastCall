@@ -11,7 +11,7 @@ router.get("/home", (req, res) => {
         res.render("index",
             {
                 body: {main: "partials/bodies/home"},
-                header: {main: "partials/headers/header", auth: "authDiv/afterAuth"},
+                header: {main: "partials/headers/header", auth: "authDiv/afterAuth", pageTitle: "Home"},
                 sales: {main:"../salesBar",data:  data}
             })
     } else {

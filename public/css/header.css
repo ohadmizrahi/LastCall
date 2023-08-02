@@ -13,6 +13,23 @@
   height: 100px;
 }
 
+
+/* Add this CSS to your stylesheet or within a <style> tag in your HTML file */
+@font-face {
+  font-family: 'Your Chosen Font';
+  src: url('your-font-file.ttf') format('truetype');
+}
+
+#dynamic-title {
+  text-align: center;
+  font-size: 100px; /* Adjust the size as needed */
+  color: white;
+  font-weight: bold;
+  font-family: 'Your Chosen Font', sans-serif;
+}
+
+
+
 .nav-buttons-container {
   display: flex;
   justify-content: center; /* This centers the buttons */
@@ -21,7 +38,7 @@
   border-radius: 10px;
   margin: 20px auto; /* Increase top and bottom margin */
   position: relative;
-  top: 80px; /* Lower the container */
+  top: -30px; /* Lower the container */
 }
 .my-nav-link {
   color: #000; /* This sets the button color to black */

@@ -1,16 +1,29 @@
 .info-cube {
-    text-align: center;
-    padding: 20px;
-    background-color: #f4f4f4;
-  }
-  
-  .info-cube h1 {
+  text-align: center;
+  padding: 20px;
+  background-color: #f4f4f4;
+  position: relative; /* Added to position the line correctly */
+  padding-top: 30px; /* Increased padding to make space for the line */
+}
 
-    color: #333;
-    font-size: 2em;
-    margin-bottom: 20px;
-    font-weight: bold;
-  }
+.info-cube::before {
+  content: ""; /* empty content to create a line */
+  display: block; /* display as a block element */
+  width: 80%; /* full width of the container */
+  height: 1px; /* thickness of the line */
+  background-color: rgb(202, 144, 35); /* color of the line */
+  position: absolute; /* absolute position within #salehead */
+  top: 0; /* at the top of the container */
+  left: 50%; /* center the element horizontally */
+  margin-left: -40%;
+}
+
+.info-cube h1 {
+  color: #333;
+  font-size: 2em;
+  margin-bottom: 20px;
+  font-weight: bold;
+}
   
   .cube-container {
     display: flex;

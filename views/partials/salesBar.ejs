@@ -1,21 +1,24 @@
-
 <div id="sales-container">
   <div id="salehead">
     <span class="animated-text">Sales !!!</span>
-  </div>  
-  <div id="sales">
+  </div>
+  <div id="sales" class="row">
     <% sales.data.forEach((sale, index) => { %>
-      <div class="sale-item to-flights">
+      <div class="sale-item to-flights<% if (index >= 5) { %> hidden-deal <% } %>">  <!-- Add the hidden-deal class to all items -->
         <div class="sale-destination">
           <h4><%= sale.name %></h4>
         </div>
         <img src="<%= sale.picture %>" class="sale-img">
         <div class="sale-content">
-          <p>Deal Dates: <%= sale.deal_dates %></p>
-          <p>Starting Price: <%= sale.min_price %></p>
+          <p>Dates: <%= sale.departure_date %> - <%= sale.return %></p>
+          <p>Starting Price: <%= sale.min_price %>$</p>
         </div>
       </div>
     <% }); %>
   </div>
+  <div class="text-center">
+    <button id="show-more-btn" class="toggle-btn" onclick="toggleSales('more')">Show More</button>
+    <button id="show-less-btn" class="toggle-btn" onclick="toggleSales('less')" style="display: none;">Show Less</button>
+  </div>
+  
 </div>
-
