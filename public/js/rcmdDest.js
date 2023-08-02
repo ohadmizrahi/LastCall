@@ -16,6 +16,7 @@ async function chatOnSubmit() {
     vacationForm.on('submit', async function (event) {
         const recommendedDestination = $('#recommendedDestination');
         event.preventDefault();
+        $("#after-chat-buttons").hide();
 
         const travelStyle = $('#travel-style').val();
         const seasonPreference = $('#season-preference').val();
@@ -56,8 +57,14 @@ async function chatOnSubmit() {
             maxBudget: maxBudget,
             uniqueDestinations: uniqueDestinations
         }
-        
+
         const recomandation = await getRecomandedDestination(data);
+        $("#after-chat-buttons").show();
+
+        $(document).ready(() => {
+            $("#to-dest-card").data("destination", recomandation[0])
+        });
+
 
         await writingMessage(recomandation);
     });
@@ -108,12 +115,12 @@ async function writingMessage(messageToWrite) {
                     Writer(message);
                 } else if (typeof message === 'object') {
                     setTimeout(() => {
-                    Writer(`Our recommendation is: ${message.destination}.`, true);
-                },typeDelay * (message.destination.length + 18)*2);
+                    Writer(`Our recommendation is: ${message.name}, ${message.country}.`, true);
+                },typeDelay * (message.name.length + 18)*2);
                     setTimeout(() => {
                         Writer(`${message.description}`);
                         resolve();
-                    }, typeDelay * (message.destination.length + 18)*4);
+                    }, typeDelay * (message.name.length + 18)*4);
                 }
                 resolve();
             }, typingDelay);

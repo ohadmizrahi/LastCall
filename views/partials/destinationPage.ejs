@@ -11,7 +11,7 @@
                 <strong>Description:</strong> <%= body.destination.description %>
             </p>
             <div class="text-center">
-                <button class="btn btn-primary btn-lg" onclick="redirectToWikipedia('https://en.wikipedia.org/wiki/<%= body.destination.name %>')">Read More on Wikipedia</button>
+                <button class="btn btn-primary btn-lg" onclick="redirectToWikipedia('<%= body.destination.name %>')">Read More on Wikipedia</button>
                 <button class="btn btn-primary btn-lg" onclick="toggleChart()">Tourism Chart</button>
             </div>
             <div class="mt-5">

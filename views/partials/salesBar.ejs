@@ -5,9 +5,9 @@
   </div>  
   <div id="sales">
     <% sales.data.forEach((sale, index) => { %>
-      <div class="sale-item">
+      <div class="sale-item to-flights">
         <div class="sale-destination">
-          <h4><%= sale.destination %></h4>
+          <h4><%= sale.name %></h4>
         </div>
         <img src="<%= sale.picture %>" class="sale-img">
         <div class="sale-content">

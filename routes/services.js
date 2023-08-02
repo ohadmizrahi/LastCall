@@ -3,7 +3,7 @@ const bodyParser = require("body-parser");
 const session = require('express-session');
 const { getReviews, addReview } = require('../models/reviews')
 const { getSales } = require('../models/sale')
-const { getDestinations, addDestinations, generateTourismData, getRecomandationFromGPT } = require('../models/destinations')
+const { getPopularDestinations, updateDestinations, generateTourismData, getRecomandationFromGPT } = require('../models/destinations')
 
 const router = Router();
 
@@ -12,7 +12,7 @@ router.use(bodyParser.json());
 router.get("/dest", (req, res) => {
     if (req.isAuthenticated()) {
         const data = getSales()
-        const destinations = getDestinations()
+        const destinations = getPopularDestinations()
         
         res.render("index",
             {
@@ -55,7 +55,8 @@ router.post("/dest/get_recomandation", async (req, res) => {
     const data = req.body;
     getRecomandationFromGPT(data)
     .then(recomandation => {
-        const messageList = [{destination: recomandation.destination, description: recomandation.description}]
+        const messageList = [recomandation]
+        res.cookie("gptRecommendation", recomandation)
         res.json(messageList);
     })
     .catch(error => {
@@ -64,9 +65,13 @@ router.post("/dest/get_recomandation", async (req, res) => {
     });
 });
 
-router.post("/dest/:name", (req, res) => {
+router.post("/dest/:name", async (req, res) => {
     const destination = req.body;
 
+    if (!destination.avgRank) {
+        destination.avgRank = Number((Math.random() * (10 - 5) + 5).toFixed(1))
+    }
+    destination.img = await updateDestinations(destination)
     req.session.destination = destination;
 
     res.redirect(`/dest/${destination.name}`);
@@ -74,10 +79,12 @@ router.post("/dest/:name", (req, res) => {
 
 router.get("/flights", (req, res) => {
     if (req.isAuthenticated()) {
+        const searchData = req.cookies.flightData || null;
+        console.log(searchData);
         const data = getSales()
         res.render("index",
             {
-                body: {main:"partials/bodies/flights"},
+                body: {main:"partials/bodies/flights", searchData: searchData},
                 header: {main: "partials/headers/header", auth: "authDiv/afterAuth"},
                 sales: {main:"../salesBar",data:  data}
             })
