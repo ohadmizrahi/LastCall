@@ -1,0 +1,18 @@
+#loader-wrapper {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1000;
+    background: white;
+    display: flex;
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically */
+  }
+  
+  #loader img {
+    max-width: 100px; /* You can adjust this value based on the size you want */
+    max-height: 100px; /* You can adjust this value based on the size you want */
+  }
+  

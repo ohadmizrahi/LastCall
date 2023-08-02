@@ -13,17 +13,23 @@
   .review {
     border: 1px solid #ccc;
     border-radius: 5px;
-    padding: 10px;
-    margin-bottom: 20px;
+    padding: 5px; /* Reduced padding */
+    margin-bottom: 10px; /* Reduced margin */
+    background-color: #f0f0f0; /* Added background color */
+    width: 50%;
   }
   
+
   .review-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 10px;
+    border-bottom: 2px solid #ccc; /* Adds a longer line under the name and circle */
+    padding-bottom: 5px; /* Adds space below the line */
   }
   
+
   .reviewer-name {
     font-size: 16px;
     font-weight: bold;
@@ -64,32 +70,37 @@
   .review-filter-bar {
     margin-bottom: 20px;
     padding-bottom: 10px; /* Add padding to create space for the separation line */
-    border-bottom: 1px solid #ccc; /* Add a separation line using a border */
+    border-bottom: 1px solid #ccc;
+    text-align: center; /* Add a separation line using a border */
   }
   
   .review-filter-bar h3 {
     margin: 0;
-    font-size: 18px;
+    font-size: 30px;
     font-weight: bold;
     margin-bottom: 5px;
+    text-align: center; /* Center the text */
   }
+  
   
   .review-filter-bar label {
     font-size: 16px;
     font-weight: bold;
-    margin-right: 5px;
+    margin-bottom: 5px; /* Add space below the label */
   }
   
-  .review-filter-bar select {
-    font-size: 14px;
-    padding: 5px 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-  }
+.review-filter-bar select {
+  font-size: 14px;
+  padding: 5px 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  width: fit-content;
+}
   
   /* Styling for Sorting Bar */
   .review-sorting-bar {
     margin-bottom: 20px;
+
   }
   
   .review-sorting-bar select {
@@ -98,6 +109,7 @@
     border: 1px solid #ccc;
     border-radius: 5px;
     margin-left: 5px;
+    justify-content: center;
   }
   
   .review-sorting-bar label {
@@ -136,18 +148,57 @@
   }
   
   /* Style for the button to open the modal */
+  .add-review-btn-container {
+    float: right; /* Align the button to the right */
+  }
+  
   #add-review-btn {
-    background-color: #4CAF50;
-    color: white;
+    background-color: rgb(234, 160, 23);
+    color: black;
     padding: 10px 20px;
     border: none;
     border-radius: 5px;
     cursor: pointer;
     font-size: 16px;
     margin: 20px;
+    display: inline-block; /* Make the button an inline-level element */
   }
+
+  
   
   /* Optional: Add hover effect */
   #add-review-btn:hover {
-    background-color: #45a049;
+    background-color: rgb(215, 148, 23);
   }
+
+  .author-info {
+    display: flex;
+    align-items: center;
+
+  }
+  
+  
+  .author-initials {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background-color: rgb(234, 160, 23);
+    color: #333;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    margin-right: 10px;
+    font-size: 16px; /* Adjust the font size as needed */
+  }
+
+  .destination-text {
+    font-size: 20px; /* Adjust the size as needed */
+  }
+  .review-sorting-bar {
+    text-align: center; /* Center the inner container */
+}
+
+.sort-container {
+    display: inline-block; /* Inline block to keep the size as required by the content */
+}

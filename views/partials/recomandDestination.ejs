@@ -1,13 +1,13 @@
 <div class="container">
-    <div class="row">
-        <div class="col-md-6">
-            <h3>Dream Vacation</h3>
+    <div class="row custom-row">
+        <div class="col-md-6 dream-vacation-section">
+            <h2 class="text-center font-weight-bold">Dream Vacation</h2>
             <form id="vacationForm" class="mb-6">
-                <div class="row">
-                    <div class="form-group col-md-5">
+                <div class="row text-center">
+                    <div class="form-group col-md-4 offset-md-0 select-container travel-style-container">
                         <label for="travel-style">Travel Style:</label>
                         <select class="form-select" id="travel-style" required>
-                            <option value="" disabled selected>Select your travel style</option>
+                            <option value="" disabled selected>Select travel style</option>
                             <option name="luxury" value="Luxury">Luxury</option>
                             <option name="budget-friendly" value="Budget Friendly">Budget Friendly</option>
                             <option name="backpacking" value="Backpacking">Backpacking</option>
@@ -16,10 +16,10 @@
                             <option name="group-travel" value="Group Travel">Group Travel</option>
                         </select>
                     </div>
-                    <div class="form-group col-md-7">
+                    <div class="form-group col-md-5 offset-md-1 select-container">
                         <label for="season-preference">Season Preference:</label>
                         <select class="form-select" id="season-preference" required>
-                            <option value="" disabled selected>Select your season preference</option>
+                            <option value="" disabled selected>Select season</option>
                             <option name="summer" value="Summer">Summer</option>
                             <option name="autumn" value="Autumn">Autumn</option>
                             <option name="spring" value="Spring">Spring</option>
@@ -28,22 +28,21 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="form-group col-md-12">
+                    <div class="form-group col-md-10">
                         <label for="budget-flexibility">Budget Flexibility (USD):</label>
                         <div class="budget-range">
-                            <input type="number" class="form-control" id="min-budget" placeholder="Min Budget" min="0" required>
+                            <input type="number" class="form-control min-budget" id="min-budget" placeholder="Min Budget" min="0" required>
                             <span class="range-divider">to</span>
-                            <input type="number" class="form-control" id="max-budget" placeholder="Max Budget" required>
+                            <input type="number" class="form-control max-budget" id="max-budget" placeholder="Max Budget" required>
                         </div>
                     </div>
                 </div>
-
                 <div class="row">
-                    <div class="form-group col-md-12">
+                    <div class="form-group col-md-10">
                         <label for="duration">Travel Duration:</label>
                         <div class="duration-select">
-                            <input id="duration-value" class="form-select" type="number" min="1" value="1" required>
-                            <select class="form-select" id="duration-size">
+                            <input id="duration-value" class="form-select duration-input" type="number" min="1" value="1" required>
+                            <select class="form-select duration-select" id="duration-size">
                                 <option value="" disabled selected>Select duration</option>
                                 <option name="day" value="Days">Days</option>
                                 <option name="week" value="Weeks">Weeks</option>
@@ -52,9 +51,8 @@
                         </div>
                     </div>
                 </div>
-
                 <div class="row">
-                    <div class="form-group">
+                    <div class="form-group col-md-10">
                         <label for="main-interest">What are your top 3 interests for vacation?</label>
                         <div class="interest-checkboxes">
                             <div class="row">
@@ -86,7 +84,7 @@
                                     <input type="checkbox" name="interest" value="Kid-Friendly Activities"> Kid-Friendly Activities
                                 </label>
                                 <label class="interest-checkbox col-md-6">
-                                    <input type="checkbox" name="interest" value="Photography and Landscape"> Photography and Landscape
+                                    <input type="checkbox" name="interest" value="Photography and Landscape"> Photography
                                 </label>
                             </div>
                         </div>
@@ -94,22 +92,22 @@
                 </div>
                 <div class="row">
                     <div class="form-group" onclick="toggleGuestsSelection()">
-                        <label for="guests">Number of Guests:</label>
-                        <input type="text" class="form-control" id="guests" placeholder="Open Guests Selection" readonly>
+                        <div class="guests-container">
+                            <label for="guests">Number of Guests:</label>
+                            <input type="text" class="form-control guests-input" id="guests" placeholder="Open Guests Selection" readonly>
+                        </div>
                     </div>
                     <div id="guestsSelection">
                         <div class="guests-group">
-                            <%- include("guestsSelection", { guest: "adults" , displayGuestName: "Adults" , min: 1,
-                                defaultValue: 1 }) %>
-                                <%- include("guestsSelection", { guest: "kids" , displayGuestName: "Kids" , min: 0,
-                                    defaultValue: 0 }) %>
+                            <%- include("guestsSelection", { guest: "adults" , displayGuestName: "Adults" , min: 1, defaultValue: 1 }) %>
+                            <%- include("guestsSelection", { guest: "kids" , displayGuestName: "Kids" , min: 0, defaultValue: 0 }) %>
                         </div>
                     </div>
                 </div>
                 <div class="row">
                     <div class="form-group">
                         <label for="unique-destinations">Look for Unique Destinations?</label>
-                        <select class="form-select" id="unique-destinations" required>
+                        <select class="form-select unique-destinations-select" id="unique-destinations" required>
                             <option value="" disabled selected>Select an option</option>
                             <option value="1">Yes</option>
                             <option value="0">No</option>
@@ -120,7 +118,7 @@
                     <button type="submit" class="btn btn-primary btn-lg">Find Vacation</button>
                 </div>
             </form>
-        </div>
+         </div>
         <div class="col-md-6 d-flex flex-column">
             <h3>Recomandation</h3>
             <div id="after-chat-buttons">
@@ -128,8 +126,7 @@
                 <button id="to-flights-button" class="btn btn-primary btn-md to-flights">Search Flights</button>
             </div>
             <div id="recommendedDestination" class="chat-container"></div>
-
         </div>
-        
+
     </div>
 </div>

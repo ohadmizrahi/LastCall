@@ -17,7 +17,7 @@ router.get("/dest", (req, res) => {
         res.render("index",
             {
                 body: {main: "partials/bodies/destination", destinations: destinations},
-                header: {main: "partials/headers/header", auth: "authDiv/afterAuth"},
+                header: {main: "partials/headers/header", auth: "authDiv/afterAuth", pageTitle: "Destinations"},
                 sales: {main:"../salesBar",data:  data}
             })
     } else {
@@ -85,7 +85,7 @@ router.get("/flights", (req, res) => {
         res.render("index",
             {
                 body: {main:"partials/bodies/flights", searchData: searchData},
-                header: {main: "partials/headers/header", auth: "authDiv/afterAuth"},
+                header: {main: "partials/headers/header", auth: "authDiv/afterAuth", pageTitle: "Flights"},
                 sales: {main:"../salesBar",data:  data}
             })
     } else {
@@ -102,7 +102,7 @@ router.get("/reviews", (req, res) => {
         res.render("index",
             {
                 body: {main: "partials/bodies/reviews", reviews: reviews},
-                header: {main: "partials/headers/header", auth: "authDiv/afterAuth"},
+                header: {main: "partials/headers/header", auth: "authDiv/afterAuth", pageTitle: "Reviews"},
                 sales: {main:"../salesBar",data:  data}
             })
     } else {
