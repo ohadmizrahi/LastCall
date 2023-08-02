@@ -59,10 +59,10 @@ router.post("/dest/get_recomandation", async (req, res) => {
         res.cookie("gptRecommendation", recomandation)
         res.json(messageList);
     })
-    .catch(error => {
-        console.error("Error getting recommendation:", error);
-        res.status(500).json({ error: "Error getting recommendation" });
-    });
+    // .catch(error => {
+    //     console.error("Error getting recommendation:", error);
+    //     res.status(500).json({ error: "Error getting recommendation" });
+    // });
 });
 
 router.post("/dest/:name", async (req, res) => {
