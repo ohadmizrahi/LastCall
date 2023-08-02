@@ -8,31 +8,30 @@
                         <label for="travel-style">Travel Style:</label>
                         <select class="form-select" id="travel-style" required>
                             <option value="" disabled selected>Select your travel style</option>
-                            <option name="luxury" value="luxury">Luxury</option>
-                            <option name="budget-friendly" value="budget">Budget Friendly</option>
-                            <option name="backpacking" value="backpacking">Backpacking</option>
-                            <option name="family-friendly" value="family">Family Friendly</option>
-                            <option name="solo-travel" value="solo">Solo Travel</option>
-                            <option name="group-travel" value="group">Group Travel</option>
+                            <option name="luxury" value="Luxury">Luxury</option>
+                            <option name="budget-friendly" value="Budget Friendly">Budget Friendly</option>
+                            <option name="backpacking" value="Backpacking">Backpacking</option>
+                            <option name="family-friendly" value="Family Friendly">Family Friendly</option>
+                            <option name="solo-travel" value="Solo Travel">Solo Travel</option>
+                            <option name="group-travel" value="Group Travel">Group Travel</option>
                         </select>
                     </div>
                     <div class="form-group col-md-7">
                         <label for="season-preference">Season Preference:</label>
                         <select class="form-select" id="season-preference" required>
                             <option value="" disabled selected>Select your season preference</option>
-                            <option name="summer" value="summer">Summer</option>
-                            <option name="autumn" value="autumn">Autumn</option>
-                            <option name="spring" value="spring">Spring</option>
-                            <option name="winter" value="winter">Winter</option>
+                            <option name="summer" value="Summer">Summer</option>
+                            <option name="autumn" value="Autumn">Autumn</option>
+                            <option name="spring" value="Spring">Spring</option>
+                            <option name="winter" value="Winter">Winter</option>
                         </select>
                     </div>
                 </div>
                 <div class="row">
                     <div class="form-group col-md-12">
-                        <label for="budget-flexibility">Budget Flexibility:</label>
+                        <label for="budget-flexibility">Budget Flexibility (USD):</label>
                         <div class="budget-range">
-                            <input type="number" class="form-control" id="min-budget" placeholder="Min Budget" min="0"
-                                required>
+                            <input type="number" class="form-control" id="min-budget" placeholder="Min Budget" min="0" required>
                             <span class="range-divider">to</span>
                             <input type="number" class="form-control" id="max-budget" placeholder="Max Budget" required>
                         </div>
@@ -46,9 +45,9 @@
                             <input id="duration-value" class="form-select" type="number" min="1" value="1" required>
                             <select class="form-select" id="duration-size">
                                 <option value="" disabled selected>Select duration</option>
-                                <option name="day" value="day">Days</option>
-                                <option name="week" value="week">Weeks</option>
-                                <option name="month" value="month">Months</option>
+                                <option name="day" value="Days">Days</option>
+                                <option name="week" value="Weeks">Weeks</option>
+                                <option name="month" value="Months">Months</option>
                             </select>
                         </div>
                     </div>
@@ -60,34 +59,34 @@
                         <div class="interest-checkboxes">
                             <div class="row">
                                 <label class="interest-checkbox col-md-6">
-                                    <input type="checkbox" name="interest" value="cultural exploration"> Cultural Exploration
+                                    <input type="checkbox" name="interest" value="Cultural Exploration"> Cultural Exploration
                                 </label>
                                 <label class="interest-checkbox col-md-6">
-                                    <input type="checkbox" name="interest" value="shopping and fashion"> Shopping and Fashion
+                                    <input type="checkbox" name="interest" value="Shopping and Fashion"> Shopping and Fashion
                                 </label>
                                 <label class="interest-checkbox col-md-6">
-                                    <input type="checkbox" name="interest" value="beach and relaxation"> Beach and Relaxation
+                                    <input type="checkbox" name="interest" value="Beach and Relaxation"> Beach and Relaxation
                                 </label>
                                 <label class="interest-checkbox col-md-6">
-                                    <input type="checkbox" name="interest" value="music and festivals"> Music and Festivals
+                                    <input type="checkbox" name="interest" value="Music and Festivals"> Music and Festivals
                                 </label>
 
                             </div>
                             <div class="row">
                                 <label class="interest-checkbox col-md-6">
-                                    <input type="checkbox" name="interest" value="wildlife and nature"> Wildlife and Nature
+                                    <input type="checkbox" name="interest" value="Wildlife and Nature"> Wildlife and Nature
                                 </label>
                                 <label class="interest-checkbox col-md-6">
-                                    <input type="checkbox" name="interest" value="extreme sport"> Extreme Sport
+                                    <input type="checkbox" name="interest" value="Extreme Sport"> Extreme Sport
                                 </label>
                                 <label class="interest-checkbox col-md-6">
-                                    <input type="checkbox" name="interest" value="food and culinary"> Food and Culinary
+                                    <input type="checkbox" name="interest" value="Food and Culinary"> Food and Culinary
                                 </label>
                                 <label class="interest-checkbox col-md-6">
-                                    <input type="checkbox" name="interest" value="kid-friendly activities"> Kid-Friendly Activities
+                                    <input type="checkbox" name="interest" value="Kid-Friendly Activities"> Kid-Friendly Activities
                                 </label>
                                 <label class="interest-checkbox col-md-6">
-                                    <input type="checkbox" name="interest" value="photography and landscape"> Photography and Landscape
+                                    <input type="checkbox" name="interest" value="Photography and Landscape"> Photography and Landscape
                                 </label>
                             </div>
                         </div>
@@ -96,8 +95,7 @@
                 <div class="row">
                     <div class="form-group" onclick="toggleGuestsSelection()">
                         <label for="guests">Number of Guests:</label>
-                        <input type="text" class="form-control" id="guests" placeholder="Open Guests Selection"
-                            readonly>
+                        <input type="text" class="form-control" id="guests" placeholder="Open Guests Selection" readonly>
                     </div>
                     <div id="guestsSelection">
                         <div class="guests-group">
@@ -113,8 +111,8 @@
                         <label for="unique-destinations">Look for Unique Destinations?</label>
                         <select class="form-select" id="unique-destinations" required>
                             <option value="" disabled selected>Select an option</option>
-                            <option value="yes">Yes</option>
-                            <option value="no">No</option>
+                            <option value="1">Yes</option>
+                            <option value="0">No</option>
                         </select>
                     </div>
                 </div>
@@ -123,9 +121,15 @@
                 </div>
             </form>
         </div>
-        <div class="col-md-6">
+        <div class="col-md-6 d-flex flex-column">
             <h3>Recomandation</h3>
+            <div id="after-chat-buttons">
+                <button id="to-dest-card" class="btn btn-primary btn-md to-destination-card">Go to Destination Card</button>
+                <button id="to-flights-button" class="btn btn-primary btn-md to-flights">Search Flights</button>
+            </div>
             <div id="recommendedDestination" class="chat-container"></div>
+
         </div>
+        
     </div>
 </div>

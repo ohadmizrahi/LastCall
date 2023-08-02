@@ -159,3 +159,17 @@ body {
 #guestsSelection{
   display: none;
 }
+
+.typing-message {
+  font-family:Georgia, 'Times New Roman', Times, serif;
+  font-size: large;
+}
+
+#typing-destination {
+  font-size: 1.2em;
+  font-weight: bold;
+}
+
+#after-chat-buttons {
+  display: none;
+}

@@ -4,9 +4,9 @@
   </div>
   <div id="sales" class="row">
     <% sales.data.forEach((sale, index) => { %>
-      <div class="sale-item<% if (index >= 5) { %> hidden-deal <% } %>">
+      <div class="sale-item to-flights<% if (index >= 5) { %> hidden-deal <% } %>">
         <div class="sale-destination">
-          <h4><%= sale.destination %></h4>
+          <h4><%= sale.name %></h4>
         </div>
         <img src="<%= sale.picture %>" class="sale-img">
         <div class="sale-content">

@@ -2,17 +2,18 @@
     <div class="card border-0 shadow-lg">
         <img src="<%= body.destination.img %>" id="destination-img" class="card-img-top rounded-top" alt="<%= body.destination.name %>">
         <div class="card-body">
-            <h1 class="card-title text-center"><%= body.destination.name %>, <%= body.destination.country %></h1>
+            <div class="text-center">
+                <h1 class="card-title text-center"><%= body.destination.name %>, <%= body.destination.country %></h1>
+                <button id="to-flights-button" class="btn btn-primary btn-md to-flights">Search Flights</button>
+            </div>
             <div class="card-text">
                 <p class="font-weight-bold">Best Month to Visit: <span class="font-weight-normal"><%= body.destination.bestMonth %></span></p>
                 <p class="font-weight-bold">Average Rank: <span class="font-weight-normal"><%= body.destination.avgRank %></span></p>
             </div>
-            <p class="card-text mt-3">
-                <strong>Description:</strong> <%= body.destination.description %>
-            </p>
+            <p class="card-text mt-3 font-weight-bold">Description: <span class="font-weight-normal"><%= body.destination.description %></span></p>
             <div class="text-center">
-                <button class="btn btn-primary btn-lg" onclick="redirectToWikipedia('https://en.wikipedia.org/wiki/<%= body.destination.name %>')">Read More on Wikipedia</button>
-                <button class="btn btn-primary btn-lg" onclick="toggleChart()">Tourism Chart</button>
+                <button class="btn btn-primary btn-md" onclick="redirectToWikipedia('<%= body.destination.name %>')">Read More on Wikipedia</button>
+                <button class="btn btn-primary btn-md" onclick="toggleChart()">Tourism Chart</button>
             </div>
             <div class="mt-5">
                 <canvas id="tourismChart"></canvas>

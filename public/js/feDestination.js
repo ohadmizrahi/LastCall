@@ -1,5 +1,5 @@
 function goToDestination() {
-    $(".destination-card").click(function () {
+    $(".to-destination-card").click(function () {
         const destination = $(this).data("destination");
         fetch(`/dest/${destination.name.toLowerCase()}`, {
             method: 'POST',
@@ -23,7 +23,8 @@ function goToDestination() {
 }
 goToDestination()
 
-function redirectToWikipedia(wikipediaLink) {
+function redirectToWikipedia(destination) {
+    const wikipediaLink = "https://en.wikipedia.org/wiki/" + destination
     window.open(wikipediaLink, '_blank');
 }
 
