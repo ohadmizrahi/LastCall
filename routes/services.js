@@ -4,7 +4,7 @@ const session = require('express-session');
 const { getReviews, addReview } = require('../models/reviews')
 const { getSales } = require('../models/sale')
 const { getPopularDestinations, updateDestinations, generateTourismData, getRecomandationFromGPT } = require('../models/destinations')
-const { insertNewFlights } = require('../models/flights')
+const { insertNewFlights, buildFindQuery, findFlights } = require('../models/flights')
 const { insertNewAirports } = require('../models/airports')
 const { generateFlights } = require('../models/flightsGenerator')
 
@@ -80,14 +80,14 @@ router.post("/dest/:name", async (req, res) => {
     res.redirect(`/dest/${destination.name}`);
 });
 
-router.get("/flights", (req, res) => {
+router.get("/flights", async (req, res) => {
     if (req.isAuthenticated()) {
-        const searchData = req.cookies.flightData || null;
-        console.log(searchData);
         const data = getSales()
+
+        const allFlights = await findFlights()
         res.render("index",
             {
-                body: { main: "partials/bodies/flights", searchData: searchData },
+                body: { main: "partials/bodies/flights", flights: allFlights },
                 header: { main: "partials/headers/header", auth: "authDiv/afterAuth" , pageTitle: "Flights" },
                 sales: { main: "../salesBar", data: data }
             })
