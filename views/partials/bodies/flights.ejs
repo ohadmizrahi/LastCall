@@ -2,5 +2,12 @@
     <%- include("../searchBar") %>
 </div>
 <button onclick="generateNewFlights()">Generate New Flights</button>
-<h1>Flights List</h1>
+<% body.flights.forEach((flight) => { %>
+    <p>Date: <%= flight.flight.date %></p>
+    <p>Number: <%= flight.flight.iata %></p>
+    <p>Departure: <%= flight.departure.country %>, <%= flight.departure.airport %>, Terminal: <%= flight.departure.terminal %></p>
+    <p>Arrival: <%= flight.arrival.country %>, <%= flight.arrival.airport %>, Terminal: <%= flight.arrival.terminal %></p>
+    <p>Airline: <%= flight.airline.name %></p>
+    <p>Price: $<%= flight.price %></p>
+  <% }) %>
 <%- include(sales.main) %>
