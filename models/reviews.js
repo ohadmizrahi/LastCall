@@ -18,7 +18,7 @@ const reviews = [{
     author: "Osher Edri",
     date: "July 28, 2023",
     destination: "Dubai",
-    rank: "4.2",
+    rank: "4.5",
     happyContent: "Vey interesting country, but very hot",
     badContent: "very loud"   
 }
