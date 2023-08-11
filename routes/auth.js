@@ -36,7 +36,7 @@ passport.deserializeUser(function (id, done) {
 router.get("/login", (req, res) => {
   res.render("index", {
     body: {main: "partials/bodies/login"},
-    header: {main: "partials/headers/header", auth: "authDiv/beforeAuth"}
+    header: {main: "partials/headers/header", auth: "authDiv/beforeAuth", pageTitle: "Login"}
   })
 })
 

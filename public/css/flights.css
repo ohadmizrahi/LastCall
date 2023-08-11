@@ -8,7 +8,7 @@
     font-weight: bold;
     margin-bottom: 10px;
     margin-top: 10px;
-    margin-left: 30px;
+    margin-left: 100px;
 }
 
 .generate-btn:hover {
@@ -24,9 +24,11 @@
 .sidebar {
     width: 200px;
     padding: 15px;
-    border-right: 1px solid #ddd;
+    border-right: 2px solid #ddd;
+    border-left: 2px solid #ddd;
     float: left;
     margin-top: 80px;
+    margin-left : 30px;
 }
 
 .flights-container {
@@ -82,11 +84,13 @@
 .vcenter{
   display:flex;
   align-items:center;
+  
 }
-.flightResults{
-  width:800px;
-  margin:0 auto;
+.flightResults {
+  width: 800px;
+  margin-left: 100px;
 }
+
 .flightResult{
   height:120px;
   margin-top : 16px;
@@ -145,5 +149,3 @@
     height: 100%; /* Adjust the height as needed */
     border-right: 2px solid #bdc3c7; /* Adjust color as needed */
   }
-  
-  
