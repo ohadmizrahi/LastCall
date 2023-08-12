@@ -202,3 +202,42 @@
 .sort-container {
     display: inline-block; /* Inline block to keep the size as required by the content */
 }
+
+#review-form {
+  display: flex;
+  flex-direction: column;
+  
+}
+
+#review-form label,
+#review-form input,
+#review-form textarea {
+  margin-bottom: 10px;
+}
+
+#add-review-modal h2 {
+  text-align: center;
+  font-weight: bold;
+}
+
+#review-form label {
+  font-weight: bold;
+}
+.modal-content {
+  background-color: rgb(204, 204, 204);
+  border-radius: 10px;
+  padding: 15px; /* Optional: Adds some space between the content and the edges of the div */
+}
+#review-form button[type="submit"] {
+  background-color: rgb(234, 160, 23); /* Background color */
+  color: rgb(0, 0, 0); /* Text color */
+  padding: 10px 20px; /* Padding around the text */
+  border: none; /* Removes the default border */
+  cursor: pointer; /* Changes the cursor to a hand when hovering */
+  border-radius: 5px; /* Rounds the corners */
+  font-weight: bold; /* Makes the text bold */
+}
+
+#review-form button[type="submit"]:hover {
+  background-color: rgb(215, 148, 23); /* Changes the background color when hovering */
+}

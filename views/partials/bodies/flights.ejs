@@ -1,13 +1,74 @@
+
 <div id="search-bar">
-    <%- include("../searchBar") %>
+  <%- include("../searchBar") %>
 </div>
-<button onclick="generateNewFlights()">Generate New Flights</button>
+<button class="generate-btn" onclick="generateNewFlights()">Generate New Flights</button>
+<div class="sidebar">
+  <h3>Flight Filters</h3>
+  <h5>Stops</h5>
+  <label><input type="checkbox" name="stops" value="direct" checked> Direct Flight</label>
+  <label><input type="checkbox" name="stops" value="1stop" checked> 1 Stop</label>
+  <label><input type="checkbox" name="stops" value="2stops" checked> More than 2 Stops</label>
+  <h5>Price Range</h5>
+  <label>Price: <input type="range" min="100" max="5000" step="10" id="price-range" value="5000"></label>
+  <span id="price-range-display">$100 - $5000</span>
+  <h5>Departure Times</h5>
+  <label>Outbound Flight: <input type="range" min="0" max="23" step="1" id="outbound-time" value="23"></label>
+  <span id="outbound-time-display">0:00 - 23:59</span>
+  <label>Return: <input type="range" min="0" max="23" step="1" id="return-time" value="23"></label>
+  <span id="return-time-display">0:00 - 23:59</span>
+</div>
+<div class="flights-container">
 <% body.flights.forEach((flight) => { %>
-    <p>Date: <%= flight.flight.date %></p>
-    <p>Number: <%= flight.flight.iata %></p>
-    <p>Departure: <%= flight.departure.country %>, <%= flight.departure.airport %>, Terminal: <%= flight.departure.terminal %></p>
-    <p>Arrival: <%= flight.arrival.country %>, <%= flight.arrival.airport %>, Terminal: <%= flight.arrival.terminal %></p>
-    <p>Airline: <%= flight.airline.name %></p>
-    <p>Price: $<%= flight.price %></p>
-  <% }) %>
+  <div class="flightResults" id="flight_<%= flight.flight.iata %>" data="<%=JSON.stringify(flight) %>">
+    <div class="flightResult vcenter">
+      <div class="flightNo infoDiv">
+        <div class="label">
+          FLIGHT NO.
+        </div>
+        <div class="value">
+          <%= flight.flight.iata %>
+        </div>
+      </div>
+      <div class="flightDisplay vcenter">
+        <div class="location infoDiv">
+          <div class="label">SOURCE</div>
+          <div class="value"><%= flight.departure.iata %></div>
+        </div>
+        <div class="timeline">
+          <div class="symbol center"><img src="/img/flightCard.png" alt="airplane.png"></div>
+          <div class="duration center">2h 30m</div>
+        </div>
+        <div class="location infoDiv">
+          <div class="label">DESTINATION</div>
+          <div class="value"><%= flight.arrival.iata %></div>
+        </div>
+      </div>
+      <div class="flightInfo infoDiv">
+        <div class="label">FLIGHT TIME</div>
+         <div class="value">5:30</div>
+        <div class="label">SEAT CLASS</div>
+         <div class="value">BUSINESS</div>
+      </div>
+      <div class="flightFare infoDiv">
+        <div class="label">PRICE</div>
+         <div class="value">$<%= flight.price %></div>
+         <button class="choose-btn" onclick="ChooseFlight('<%=JSON.stringify(flight) %>');">Choose</button>
+        </div>
+    </div>
+  </div>
+  <!-- <div class="flight-card">
+      <p>Date: <%= flight.flight.date %></p>
+      <p>Number: <%= flight.flight.iata %></p>
+      <p>Departure: <%= flight.departure.country %>, <%= flight.departure.airport %>, Terminal: <%= flight.departure.terminal %></p>
+      <p>Arrival: <%= flight.arrival.country %>, <%= flight.arrival.airport %>, Terminal: <%= flight.arrival.terminal %></p>
+      <p>Airline: <%= flight.airline.name %></p>
+      <p>Price: $<%= flight.price %></p>
+  </div> -->
+<% }) %>
+<%- include('flightRightSideBar.ejs') %>
+</div>
 <%- include(sales.main) %>
+
+
+

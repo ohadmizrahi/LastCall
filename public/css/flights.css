@@ -1,0 +1,168 @@
+.generate-btn {
+    background-color: rgb(234, 160, 23);
+    color: black;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    margin-top: 10px;
+    margin-left: 100px;
+}
+
+.generate-btn:hover {
+    background-color: #ff8c00 ;
+}
+
+.flights-container {
+    display: flex;
+    flex-direction: column; /* Makes the cards stack vertically */
+}
+
+
+.sidebar {
+    width: 200px;
+    padding: 15px;
+    border-right: 2px solid #ddd;
+    border-left: 2px solid #ddd;
+    float: left;
+    margin-top: 80px;
+    margin-left : 30px;
+}
+
+.flights-container {
+    margin-left: 220px;
+}
+
+.sidebar h5 {
+    font-weight: bold;
+    margin-bottom: 10px;
+    border-top: 1px solid #ccc; /* Adds a border */
+    padding-bottom: 5px;
+}
+
+.sidebar h3 {
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.sidebar label {
+    display: block;
+    margin: 5px 0;
+    font-size: 14px;
+}
+
+.sidebar input[type="checkbox"] {
+    margin-right: 5px;
+}
+
+.sidebar input[type="range"] {
+    width: 100%;
+}
+
+.sidebar span {
+    display: block;
+    font-size: 12px;
+    color: #666;
+}
+@import url('https://fonts.googleapis.com/css?family=Fjalla+One');
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family: 'Fjalla One', sans-serif;
+}
+*:focus {
+    outline: none;
+}
+.center{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+}
+.vcenter{
+  display:flex;
+  align-items:center;
+  
+}
+.flightResults {
+  width: 800px;
+  margin-left: 100px;
+}
+
+.flightResult{
+  height:120px;
+  margin-top : 16px;
+  padding:20px;
+  border-radius: 10px;
+  box-shadow:0 0 10px #2323;
+}
+.label{
+  font-size:11px;
+  letter-spacing:3px;
+  padding:4px 0;
+  color:#bdc3c7;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+}
+.value{
+  letter-spacing:2px;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+}
+.infoDiv{
+  width:120px;
+  padding-left:12px;
+}
+.timeline{
+  width:150px;
+}
+.symbol{
+  height:40px;
+  border-bottom:2px solid;
+}
+.symbol > img{
+  height:25px;
+}
+.duration{
+  padding:10px;
+  font-size:14px;
+  letter-spacing:3px;
+}
+.symbol img {
+    width: 35px;
+    height: 35px;
+  }
+  .flightInfo {
+    position: relative;
+  }
+  
+  .flightInfo::after {
+    content: "";
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    height: 100%; /* Adjust the height as needed */
+    border-right: 2px solid #bdc3c7; /* Adjust color as needed */
+  }
+
+  .choose-btn {
+    background-color: rgb(67, 67, 252); /* Blue background */
+    color: white; /* White text */
+    padding: 8px 16px; /* Padding around the text */
+    border: none; /* No border */
+    border-radius: 5px; /* Rounded corners */
+    cursor: pointer; /* Cursor changes to hand on hover */
+    display: block; /* Block-level element */
+    margin: 10px auto; /* Center horizontally with auto margin */
+    text-align: center; /* Center the text */
+    font-weight: bold; /* Bold text */
+  }
+  
+  .choose-btn:hover {
+    background-color: rgb(19, 19, 208); /* Darker blue on hover */
+  }

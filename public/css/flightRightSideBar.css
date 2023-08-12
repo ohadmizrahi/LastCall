@@ -1,0 +1,61 @@
+.details-sidebar {
+  position: fixed;
+  right: -500px;
+  top: 10%;
+  height: 80%;
+  width: 500px;
+  background-color: #ced3d1;
+  overflow-x: hidden;
+  transition: 0.5s;
+  padding: 20px;
+  border-radius: 10px;
+}
+  
+  .details-sidebar.active {
+    right: 0; /* Show when active */
+  }
+  
+  .close-sidebar {
+    background: none;
+    border: none;
+    font-size: 30px;
+    line-height: 30px;
+    color: #333;
+    cursor: pointer;
+  }
+  
+  .sidebar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px; /* Add space after the header */
+  }
+
+.sidebar-header h3 {
+  font-weight: bold; /* Make text bold */
+  text-align: center; /* Center the text */
+  flex-grow: 1; /* Allow the text to take up available space */
+}
+  
+  #details-form label,
+  #details-form input {
+    display: block;
+    margin-bottom: 10px;
+  }
+
+  .continue-btn {
+    background-color: rgb(67, 67, 252);
+    color: white;
+    padding: 10px 20px;
+    text-decoration: none;
+    font-size: 16px;
+    margin: 20px auto; /* Center the button */
+    cursor: pointer;
+    border: none;
+    width: 50%;
+    border-radius: 5px;
+
+  }
+  .continue-btn:hover {
+    background-color: rgb(19, 19, 208); /* Darker blue on hover */
+  }

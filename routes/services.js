@@ -34,11 +34,13 @@ router.get("/dest", (req, res) => {
 router.get("/dest/:name", async (req, res) => {
     const data = getSales()
     const destination = req.session.destination;
+    const reviews = getReviews();
+
     if (req.isAuthenticated()) {
         res.render("index",
             {
-                body: { main: "partials/destinationPage", destination: destination },
-                header: { main: "partials/headers/header", auth: "authDiv/afterAuth" },
+                body: { main: "partials/destinationPage", destination: destination , reviews: reviews},
+                header: { main: "partials/headers/header", auth: "authDiv/afterAuth", pageTitle: "Destinations" },
                 sales: { main: "../salesBar", data: data }
             })
     } else {

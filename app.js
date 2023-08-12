@@ -8,6 +8,7 @@ const loginRouter = require('./routes/auth')
 const regiterRouter = require('./routes/register')
 const homeRoute = require('./routes/home')
 const menuRoute = require('./routes/services')
+const orderRoute = require('./routes/orderFlight')
 const { getSales } = require('./models/sale')
 
 const app = express();
@@ -29,6 +30,8 @@ app.use(homeRoute)
 
 // To handle get request for menu
 app.use(menuRoute)
+
+app.use(orderRoute)
 
 app.use(session({
   secret: 'your-secret-key',
