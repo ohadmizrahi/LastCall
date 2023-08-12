@@ -2,6 +2,7 @@
 function resetInput(element) {
     $(element).val('');
 }
+
 function applyFilters() {
     $('#reviews-wrapper').hide(1000, () => {
     
@@ -82,7 +83,7 @@ function closeModal() {
     $("#add-review-modal").hide();
 }
   
-function addReview() {
+function newReview() {
     $('#review-form').on('submit', function(event) {
         event.preventDefault();
         let newReview = {}
@@ -119,5 +120,5 @@ function addReview() {
 
 
 sortReviews(); // for default desc sort
-addReview();
+newReview();
 

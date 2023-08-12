@@ -1,9 +1,9 @@
 const { Router } = require('express');
 const bodyParser = require("body-parser");
 const session = require('express-session');
-const { getReviews, addReview } = require('../models/reviews')
+const { findReviews, newReview } = require('../models/reviews')
 const { getSales } = require('../models/sale')
-const { getPopularDestinations, updateDestinations, generateTourismData, getRecomandationFromGPT } = require('../models/destinations')
+const { getPopularDestinations, updateDestinationsPopularity, generateTourismData, getRecomandationFromGPT } = require('../models/destinations')
 const { insertNewFlights, buildFindQuery, findFlights } = require('../models/flights')
 const { insertNewAirports } = require('../models/airports')
 const { generateFlights } = require('../models/flightsGenerator')
@@ -12,10 +12,10 @@ const router = Router();
 
 router.use(bodyParser.json());
 
-router.get("/dest", (req, res) => {
+router.get("/dest", async (req, res) => {
     if (req.isAuthenticated()) {
         const data = getSales()
-        const destinations = getPopularDestinations()
+        const destinations = await getPopularDestinations()
 
         res.render("index",
             {
@@ -34,7 +34,7 @@ router.get("/dest", (req, res) => {
 router.get("/dest/:name", async (req, res) => {
     const data = getSales()
     const destination = req.session.destination;
-    const reviews = getReviews();
+    const reviews = findReviews();
 
     if (req.isAuthenticated()) {
         res.render("index",
@@ -73,13 +73,10 @@ router.post("/dest/get_recomandation", async (req, res) => {
 router.post("/dest/:name", async (req, res) => {
     const destination = req.body;
 
-    if (!destination.avgRank) {
-        destination.avgRank = Number((Math.random() * (10 - 5) + 5).toFixed(1))
-    }
-    destination.img = await updateDestinations(destination)
-    req.session.destination = destination;
+    const updatedDestination = await updateDestinationsPopularity(destination)
+    req.session.destination = updatedDestination;
 
-    res.redirect(`/dest/${destination.name}`);
+    res.redirect(`/dest/${updatedDestination.name}`);
 });
 
 router.get("/flights", async (req, res) => {
@@ -125,8 +122,8 @@ router.get("/generate_new_flights", async (req, res) => {
 })
 
 
-router.get("/reviews", (req, res) => {
-    const reviews = getReviews()
+router.get("/reviews", async (req, res) => {
+    const reviews = await findReviews()
     if (req.isAuthenticated()) {
         const data = getSales()
         res.render("index",
@@ -141,8 +138,8 @@ router.get("/reviews", (req, res) => {
     }
 
 })
-router.post("/add_review", (req, res) => {
-    addReview(req.body)
+router.post("/add_review", async (req, res) => {
+    await newReview(req.body)
     res.json({ success: true });
 
 })

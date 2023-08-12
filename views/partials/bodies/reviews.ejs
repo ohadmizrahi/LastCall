@@ -47,7 +47,7 @@
     </div>
     
     <div class="review-sorting-bar">
-        <div class="sort-container"> <!-- Wrap the sorting elements -->
+        <div class="sort-container">
             <label for="date-sort">Sort By:</label>
             <select name="date" id="date-sort" onchange="sortReviews()">
                 <option value="latest">Latest</option>
@@ -59,9 +59,12 @@
     </div>
     <div id="reviews-wrapper">
     <div id="reviews-container">
+        <% if (body.reviews) { %>
         <% body.reviews.forEach((review) => { %>
             <%- include("../review", { review: review }) %>
-        <% }); %>
+        <% })} else { %> 
+            <p id="no-reviews">No reviews found</p>
+        <% } %>
     </div>
     </div>
     <%- include(sales.main) %>
