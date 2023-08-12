@@ -76,5 +76,3 @@ function ChooseFlight(flightData) {
   insertFlightDetails(flightJsonData);
   $('#details-sidebar').addClass('active');
 }
-
-

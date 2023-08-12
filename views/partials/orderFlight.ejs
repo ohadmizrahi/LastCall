@@ -1,0 +1,49 @@
+<h1>Order Your Flight</h1>
+<p>Here you can complete your flight booking.</p>
+<div id="flight-details">
+    <h2>Flight Information</h2>
+    <p><strong>Flight Number:</strong> <span id="flightNumber"></span></p>
+    <p><strong>Date:</strong> <span id="flightDate"></span></p>
+    <p><strong>Airline Name:</strong> <span id="airlineName"></span></p>
+    <p><strong>Source:</strong> <span id="source"></span></p>
+    <p><strong>Departure Airport:</strong> <span id="departureAirport"></span></p>
+    <p><strong>Departure Terminal:</strong> <span id="departureTerminal"></span></p>
+    <p><strong>Departure Country:</strong> <span id="departureCountry"></span></p>
+    <p><strong>Destination:</strong> <span id="destination"></span></p> <!-- Fixed missing quote -->
+    <p><strong>Arrival Airport:</strong> <span id="arrivalAirport"></span></p>
+    <p><strong>Arrival Terminal:</strong> <span id="arrivalTerminal"></span></p>
+    <p><strong>Arrival Country:</strong> <span id="arrivalCountry"></span></p>
+    <p><strong>Price:</strong> <span id="price"></span></p>
+</div>
+<form action="/submit_order" method="post" id="order-form">
+  <label for="name">Full Name:</label>
+  <input type="text" id="name" name="name" required>
+  
+  <label for="email">Email Address:</label>
+  <input type="email" id="email" name="email" required>
+  
+  <label for="phone">Phone Number:</label>
+  <input type="tel" id="phone" name="phone" required>
+  
+  <label for="passport">Passport Number:</label>
+  <input type="text" id="passport" name="passport" required>
+  
+  <label for="seat">Seat Preference:</label>
+  <select id="seat" name="seat">
+    <option value="window">Window</option>
+    <option value="aisle">Aisle</option>
+    <option value="middle">Middle</option>
+  </select>
+  
+  <label for="special-requests">Special Requests:</label>
+  <textarea id="special-requests" name="special-requests" rows="3" placeholder="Any dietary requirements, etc."></textarea>
+  
+  <label for="payment">Payment Method:</label>
+  <select id="payment" name="payment">
+    <option value="credit-card">Credit Card</option>
+    <option value="debit-card">Debit Card</option>
+    <option value="paypal">PayPal</option>
+  </select>
+
+  <button type="submit">Confirm Order</button>
+</form>
