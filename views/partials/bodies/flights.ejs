@@ -20,7 +20,7 @@
 </div>
 <div class="flights-container">
 <% body.flights.forEach((flight) => { %>
-  <div class="flightResults">
+  <div class="flightResults" id="flight_<%= flight.flight.iata %>" data="<%=JSON.stringify(flight) %>">
     <div class="flightResult vcenter">
       <div class="flightNo infoDiv">
         <div class="label">
@@ -53,7 +53,8 @@
       <div class="flightFare infoDiv">
         <div class="label">PRICE</div>
          <div class="value">$<%= flight.price %></div>
-      </div>
+         <button class="choose-btn" onclick="ChooseFlight('<%=JSON.stringify(flight) %>');">Choose</button>
+        </div>
     </div>
   </div>
   <!-- <div class="flight-card">
@@ -65,6 +66,7 @@
       <p>Price: $<%= flight.price %></p>
   </div> -->
 <% }) %>
+<%- include('flightRightSideBar.ejs') %>
 </div>
 <%- include(sales.main) %>
 
