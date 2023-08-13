@@ -9,6 +9,7 @@ const regiterRouter = require('./routes/register')
 const homeRoute = require('./routes/home')
 const menuRoute = require('./routes/services')
 const orderRoute = require('./routes/orderFlight')
+
 const { getSales } = require('./models/sale')
 
 const app = express();
@@ -21,7 +22,6 @@ app.use(express.json());
 // To handle get and post request for login
 app.use(loginRouter)
 
-
 // To handle get and post request for register
 app.use(regiterRouter)
 
@@ -31,7 +31,9 @@ app.use(homeRoute)
 // To handle get request for menu
 app.use(menuRoute)
 
+// To handle get request for order flight
 app.use(orderRoute)
+
 
 app.use(session({
   secret: 'your-secret-key',
