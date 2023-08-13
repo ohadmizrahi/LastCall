@@ -1,86 +1,174 @@
 require('dotenv').config()
+const mongoose = require('mongoose');
 const axios = require("axios");
 const askGPT = require("./chat.js")
 
-const destinations = [{
-    name: "Barcelona",
-    country: "Spain",
-    bestMonth: "July",
-    avgRank: "6.7",
-    img: "https://api.time.com/wp-content/uploads/2023/03/Worlds-Greatest-Places-Barcelona-Spain.jpg",
-    description: "Barcelona, Spain's vibrant capital of Catalonia, blends rich history with modern creativity, showcasing iconic architectural wonders by Antoni Gaudí. Its lively cultural scene, picturesque beaches, and thriving nightlife make it a captivating destination for travelers worldwide.",
-    searches: 0
-}, 
-{
-    name: "Paris",
-    country: "France",
-    bestMonth: "April",
-    avgRank: "8.4",
-    img: "https://res.klook.com/image/upload/Mobile/City/swox6wjsl5ndvkv5jvum.jpg" ,
-    description: "Paris, the romantic capital of France, enthralls visitors with its timeless beauty and iconic landmarks like the Eiffel Tower, Louvre Museum, and Notre-Dame Cathedral. Immerse in its art, culture, and exquisite cuisine, while strolling along charming streets and experiencing the city's unmistakable allure.",
-    searches: 0
-}, 
-{
-    name: "Tel Aviv",
-    country: "Israel",
-    bestMonth: "August",
-    avgRank: "9.6",
-    img: "https://f6h8q2y9.stackpathcdn.com/wp-content/uploads/2020/02/Beach-1024x682.jpg",
-    description: "Tel Aviv, the cosmopolitan hub of Israel, beckons travelers with its sunny Mediterranean beaches, modern architecture, and thriving cultural scene. Explore its dynamic art galleries, indulge in diverse culinary delights, and immerse yourself in the city's energetic spirit. Tel Aviv's unique blend of ancient history and contemporary charm creates an alluring destination for visitors seeking an enriching and unforgettable urban experience.",
-    searches: 0
-}, 
-{
-    name: "Buenos Aires",
-    country: "Argentina",
-    bestMonth: "November",
-    avgRank: "7.5",
-    img: "https://earth5r.org/wp-content/uploads/2020/08/Mumbai-India-Environmental-NGO-Earth5R-BUENOS-AIRES-Sustainability-through-circular-economyjpg.jpg",
-    description: "Buenos Aires, the vibrant capital of Argentina, captivates with its rich culture, tango music, and historic architecture. This bustling metropolis boasts an array of world-class theaters, museums, and trendy neighborhoods, making it a lively hub for art, food, and entertainment. Explore its colorful streets, savor delectable Argentine cuisine, and immerse yourself in the city's passionate spirit.",
-    searches: 0
-},
-{
-    name: "New York City",
-    country: "United State",
-    bestMonth: "November",
-    avgRank: "8.5",
-    img: "https://static.independent.co.uk/2023/07/05/16/iStock-1277102943.jpg",
-    description: "New York City, the bustling metropolis in the USA, is an iconic blend of culture, architecture, and diversity. Known for its famous landmarks such as the Statue of Liberty, Times Square, and Central Park, the city offers a vibrant arts scene, world-class dining, and endless entertainment options, making it a captivating destination for visitors from around the globe.",
-    searches: 0
+const destinationSchema = new mongoose.Schema({
+    name: {
+        type: String,
+        required: true
+    },
+    country: {
+        type: String,
+        required: true
+    },
+    bestMonth: {
+        type: String,
+        required: true
+    },
+    avgRank: {
+        type: String,
+        required: true
+    },
+    img: {
+        type: String,
+        required: true
+    },
+    description: {
+        type: String,
+        required: true
+    },
+    searches: {
+        type: Number,
+        default: 0
+    }
+});
+
+const Destination = mongoose.model('Destination', destinationSchema);
+
+async function findDestinations(query = null) {
+    try {
+        if (query) {
+            console.log("Looking for destinations...");
+            const destinations = await Destination.find(query)
+            return destinations
+
+        } else {
+            console.log("Getting all destinations...");
+            const destinations = await Destination.find()
+            return destinations
+
+        }
+    }
+    catch (error) {
+        console.error("Error: error trying to find destinations", error)
+    }
 }
-]
-function getPopularDestinations() {
+
+async function updateDestination(destName, fieldToUpdate, newValue) {
+    try {
+        const filter = { name: destName };
+        let update;
+
+        if (newValue === "+1") {
+            update = { $inc: { [fieldToUpdate]: 1 } };
+        } else {
+            update = { [fieldToUpdate]: newValue };
+        }
+
+        const options = { new: true };
+        const newDestination = await Destination.findOneAndUpdate(filter, update, options);
+
+        if (newDestination) {
+            console.log(`${newDestination.name} has been updated`);
+            return newDestination;
+        } else {
+            console.log(`No destination found with name ${destName}.`);
+            return false;
+        }
+    } catch (error) {
+        console.error("Error: error trying to update destinations", error);
+        return false;
+    }
+}
+
+
+async function insertNewDestinations(destinationsDataArray) {
+    try {
+        console.log("Start inserting new destinations");
+        let insertCount = 0
+
+        for (const data of destinationsDataArray) {
+
+            const {
+                name: name,
+                country: country,
+                bestMonth: bestMonth,
+                avgRank: avgRank,
+                img: img,
+                description: description 
+            } = data;
+
+            const searches = data.searches ? data.searches : 0;
+
+            const existingDestination = await Destination.findOne({
+                'name': name,
+            });
+
+            if (!existingDestination) {
+
+                console.log(`Creating new destination ${name}`);
+
+                const newDestination = new Destination({
+                    name: name,
+                    country: country,
+                    bestMonth: bestMonth,
+                    avgRank: avgRank,
+                    img: img,
+                    description: description,
+                    searches: searches
+                })
+
+                await newDestination.save();
+                insertCount++
+            } else {
+                console.log(`Destination ${name} is already exist`);
+            }
+        }
+
+        console.log(`${insertCount} new destinations inserted to DB`)
+    } catch (error) {
+        throw new Error('Error finding or creating destinations: ' + error.message);
+    }
+}
+
+async function getPopularDestinations() {
+    const destinations = await findDestinations()
     destinations.sort((a, b) => b.searches - a.searches);
     const top6Searches = destinations.slice(0, 6);
-    
+
     return top6Searches
 }
 
-async function updateDestinations(destination) {
-    
-    const existingDestinationIndex = destinations.findIndex(dest => dest.name === destination.name);
-    if (existingDestinationIndex !== -1) {
+async function updateDestinationsPopularity(destination) {
 
-        destinations[existingDestinationIndex].searches += 1;
+    console.log(`Start updating ${destination.name}`);
+    const newDestination = await updateDestination(destination.name, "searches", "+1");
+
+    if (newDestination) {
+        return newDestination
     } else {
+        if (!destination.avgRank) {
+            destination.avgRank = Number((Math.random() * (10 - 5) + 5).toFixed(1))
+        }
         destination.img = await getDestImg(destination.name);
         destination.searches = 1;
-        destinations.push(destination);
-        
+        await insertNewDestinations([destination])
+        return destination
     }
-    return destination.img
 }
 
 
 async function getDestImg(destinationName) {
     const apiKey = process.env.UNSPLASH_KEY;
 
-        try {
-            const response = await axios.get(`https://api.unsplash.com/search/photos?query=${destinationName}&client_id=${apiKey}`);;
-            const imageUrl = response.data.results[0]?.urls?.regular || '/images/placeholder.jpg';
-            return imageUrl
-        } catch (error) {
-            console.error('Error fetching image:', error);
-        }
+    try {
+        const response = await axios.get(`https://api.unsplash.com/search/photos?query=${destinationName}&client_id=${apiKey}`);;
+        const imageUrl = response.data.results[0]?.urls?.regular || '/images/placeholder.jpg';
+        return imageUrl
+    } catch (error) {
+        console.error('Error fetching image:', error);
+    }
 }
 
 async function generateTourismData(dest) {
@@ -98,7 +186,7 @@ async function generateTourismData(dest) {
         if (month === dest.bestMonth) {
             tourismData.push({ month, tourists: 1450 });
         } else {
-            tourismData.push({ month, tourists:  Math.floor(tourists*0.75) });
+            tourismData.push({ month, tourists: Math.floor(tourists * 0.75) });
         }
     });
 
@@ -119,7 +207,7 @@ async function getRecomandationFromGPT(data) {
     Second parameter called country holding the country of the selected destination.
     Third parameter called bestMonth holding the recomended month to visit this destination, verify its a calender month. 
     and Last parameter called description holding the Description over the destionation.`
-    
+
     const recomandationString = await askGPT(prompt);
     const recomandation = JSON.parse(recomandationString);
     console.log(recomandation);
@@ -131,7 +219,9 @@ async function getRecomandationFromGPT(data) {
 
 
 module.exports.getPopularDestinations = getPopularDestinations
-module.exports.updateDestinations = updateDestinations
+module.exports.updateDestinationsPopularity = updateDestinationsPopularity
+module.exports.updateDestination = updateDestination
 module.exports.getDestImg = getDestImg
 module.exports.generateTourismData = generateTourismData
 module.exports.getRecomandationFromGPT = getRecomandationFromGPT
+module.exports.findDestinations = findDestinations

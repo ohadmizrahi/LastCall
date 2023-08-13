@@ -3,23 +3,27 @@ const cron = require('node-cron');
 
 const flightSchema = new mongoose.Schema({
   flight: {
-    date: { type: Date, required: true },
     status: { type: String, required: true },
     number: { type: String, required: true },
     iata: { type: String, required: true },
-    airplane: { type: String, required: true }
+    airplane: { type: String, required: true },
+    duration: { type: String, required: true }
   },
   departure: {
     country: { type: String },
     airport: { type: String },
     terminal: { type: String },
-    iata: { type: String }
+    iata: { type: String },
+    date: { type: String, required: true },
+    time: { type: String, required: true }
   },
   arrival: {
     country: { type: String },
     airport: { type: String },
     terminal: { type: String },
     iata: { type: String },
+    date: { type: String, required: true },
+    time: { type: String, required: true }
   },
   airline: {
     name: { type: String },
@@ -42,9 +46,9 @@ async function insertNewFlights(flightDataArray) {
     for (const data of flightDataArray) {
 
       const {
-        flight: { date, status, number, iata, airplane },
-        departure: { airport: depAirport, terminal: depTerminal, iata: depIata, country: depCountry },
-        arrival: { airport: arrAirport, terminal: arrTerminal, iata: arrIata, country: arrCountry },
+        flight: { status, number, iata, airplane, duration },
+        departure: { airport: depAirport, terminal: depTerminal, iata: depIata, country: depCountry, date: depDate, time: depTime },
+        arrival: { airport: arrAirport, terminal: arrTerminal, iata: arrIata, country: arrCountry, date: arrDate, time: arrTime },
         airline: { name: airlineName, iata: airlineIata },
         price: price
       } = data;
@@ -59,23 +63,27 @@ async function insertNewFlights(flightDataArray) {
 
         const newFlight = new Flight({
           flight: {
-            date: date,
             status: status,
             number: number,
             iata: iata,
-            airplane: airplane
+            airplane: airplane, 
+            duration: duration
           },
           departure: {
             country: depCountry,
             airport: depAirport,
             terminal: depTerminal,
-            iata: depIata
+            iata: depIata,
+            date: depDate,
+            time: depTime
           },
           arrival: {
             country: arrCountry,
             airport: arrAirport,
             terminal: arrTerminal,
-            iata: arrIata
+            iata: arrIata,
+            date: arrDate,
+            time: arrTime
           },
           airline: {
             name: airlineName,
