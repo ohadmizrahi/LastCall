@@ -21,31 +21,37 @@
         <div class="col-md-6">
             <form action="/submit_order" method="post" id="order-form" onsubmit="showConfirmation()">
                 <div class="form-group row">
-                  <label for="name" class="col-sm-4 col-form-label text-right">Full Name:</label>
+                  <label for="first-name" class="col-sm-4 col-form-label text-left">First Name:</label>
                   <div class="col-sm-8">
                       <input type="text" id="name" name="name" required class="form-control">
                   </div>
               </div>
               <div class="form-group row">
-                  <label for="email" class="col-sm-4 col-form-label text-right">Email Address:</label>
+                <label for="last-name" class="col-sm-4 col-form-label text-left">Last Name:</label>
+                <div class="col-sm-8">
+                    <input type="text" id="name" name="name" required class="form-control">
+                </div>
+            </div>
+              <div class="form-group row">
+                  <label for="email" class="col-sm-4 col-form-label text-left">Email Address:</label>
                   <div class="col-sm-8">
                       <input type="email" id="email" name="email" required class="form-control">
                   </div>
               </div>
               <div class="form-group row">
-                  <label for="phone" class="col-sm-4 col-form-label text-right">Phone Number:</label>
+                  <label for="phone" class="col-sm-4 col-form-label text-left">Phone Number:</label>
                   <div class="col-sm-8">
                       <input type="tel" id="phone" name="phone" required class="form-control">
                   </div>
               </div>
               <div class="form-group row">
-                  <label for="passport" class="col-sm-4 col-form-label text-right">Passport Number:</label>
+                  <label for="passport" class="col-sm-4 col-form-label text-left">Passport Number:</label>
                   <div class="col-sm-8">
                       <input type="text" id="passport" name="passport" required class="form-control">
                   </div>
               </div>
               <div class="form-group row">
-                  <label for="seat" class="col-sm-4 col-form-label text-right">Seat Preference:</label>
+                  <label for="seat" class="col-sm-4 col-form-label text-left">Seat Preference:</label>
                   <div class="col-sm-8">
                       <select id="seat" name="seat" class="form-control">
                           <option value="window">Window</option>
@@ -55,25 +61,25 @@
                   </div>
               </div>
               <div class="form-group row">
-                <label for="card-number" class="col-sm-4 col-form-label text-right">Card Number:</label>
+                <label for="card-number" class="col-sm-4 col-form-label text-left">Card Number:</label>
                 <div class="col-sm-8">
                     <input type="text" id="card-number" name="card-number" required pattern="\d{16}" maxlength="16" class="form-control" placeholder="0000 0000 0000 0000">
                 </div>
             </div>
             <div class="form-group row">
-                <label for="expiration-date" class="col-sm-4 col-form-label text-right">Expiration Date (MM/YY):</label>
+                <label for="expiration-date" class="col-sm-4 col-form-label text-left">Expiration Date (MM/YY):</label>
                 <div class="col-sm-8">
                     <input type="text" id="expiration-date" name="expiration-date" required pattern="(0[1-9]|1[0-2])\/\d{2}" class="form-control" placeholder="MM/YY">
                 </div>
             </div>
             <div class="form-group row">
-                <label for="name-on-card" class="col-sm-4 col-form-label text-right">Name on Card:</label>
+                <label for="name-on-card" class="col-sm-4 col-form-label text-left">Name on Card:</label>
                 <div class="col-sm-8">
                     <input type="text" id="name-on-card" name="name-on-card" required class="form-control" placeholder="Or Solomon">
                 </div>
             </div>
             <div class="form-group row">
-                <label for="cvv" class="col-sm-4 col-form-label text-right">CVV:</label>
+                <label for="cvv" class="col-sm-4 col-form-label text-left">CVV:</label>
                 <div class="col-sm-8">
                     <input type="text" id="cvv" name="cvv" required pattern="\d{3,4}" maxlength="4" class="form-control" placeholder="123">
                 </div>
