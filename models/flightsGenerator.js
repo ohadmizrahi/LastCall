@@ -80,4 +80,5 @@ function addRandomTimeToDate(depDate) {
     };
 }
 
+
 module.exports.generateFlights = generateFlights

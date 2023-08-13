@@ -1,22 +1,25 @@
 <div id="details-sidebar" class="details-sidebar">
-    <div class="sidebar-header">
-      <button id="close-sidebar" class="close-sidebar">&times;</button>
-      <h3>Flight Details</h3>
+  <div class="sidebar-header">
+    <button id="close-sidebar" class="close-sidebar">&times;</button>
+    <h3>Flight Details</h3>
+  </div>
+  <div id="go-flight-details">
+    <hr>
+    <h4>Go Flight</h4>
+    <div id="flight-details-go">
+      <%- include('../flightInfo') %>
     </div>
-    <div id="flight-details">
-      <p><span class="label-text">Flight Number:</span> <span id="flightNumber"></span></p>
-      <p><span class="label-text">Date:</span> <span id="flightDate"></span></p>
-      <p><span class="label-text">Airline Name:</span> <span id="airlineName"></span></p>
-      <p><span class="label-text">Source:</span> <span id="source"></span></p>
-      <p><span class="label-text">Departure Airport:</span> <span id="departureAirport"></span></p>
-      <p><span class="label-text">Departure Terminal:</span> <span id="departureTerminal"></span></p>
-      <p><span class="label-text">Departure Country:</span> <span id="departureCountry"></span></p>
-      <p><span class="label-text">Destination:</span> <span id="destination"></span></p>
-      <p><span class="label-text">Arrival Airport:</span> <span id="arrivalAirport"></span></p>
-      <p><span class="label-text">Arrival Terminal:</span> <span id="arrivalTerminal"></span></p>
-      <p><span class="label-text">Arrival Country:</span> <span id="arrivalCountry"></span></p>
-      <p><span class="label-text">Price:</span> <span id="price"></span></p>
+  </div>
+  <div id="return-flight-details">
+    <hr>
+    <h4>Return Flight</h4>
+    <div id="flight-details-return">
+      <%- include('../flightInfo') %>
     </div>
-    <button id="continue-btn" class="continue-btn">Continue</button>
+  </div>
+  <div id="total-price-section">
+    <hr>
+    <h4>Total Price Per Person: <span id="total-price"></span></h4>
+  </div>
+  <button id="continue-btn" class="continue-btn">Continue</button>
 </div>
-

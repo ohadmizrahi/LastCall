@@ -1,0 +1,37 @@
+<div class="flightResults" id="flight_<%= flight.flight.iata %>" data="<%=JSON.stringify(flight) %>">
+    <div class="flightResult vcenter">
+      <div class="flightNo infoDiv">
+        <div class="label">
+          FLIGHT NO.
+        </div>
+        <div class="value">
+          <%= flight.flight.iata %>
+        </div>
+      </div>
+      <div class="flightDisplay vcenter">
+        <div class="location infoDiv">
+          <div class="label">SOURCE</div>
+          <div class="value"><%= flight.departure.iata %></div>
+        </div>
+        <div class="timeline">
+          <div class="symbol center"><img src="/img/flightCard.png" alt="airplane.png"></div>
+          <div class="duration center"><%= flight.flight.duration %></div>
+        </div>
+        <div class="location infoDiv">
+          <div class="label">DESTINATION</div>
+          <div class="value"><%= flight.arrival.iata %></div>
+        </div>
+      </div>
+      <div class="flightInfo infoDiv">
+        <div class="label">DIPARTURE</div>
+         <div class="value">5:30</div>
+        <div class="label">SEAT CLASS</div>
+         <div class="value">BUSINESS</div>
+      </div>
+      <div class="flightFare infoDiv">
+        <div class="label">PRICE</div>
+         <div class="value">$<%= flight.price %></div>
+        </div>
+    </div>
+  </div>
+  <div>
