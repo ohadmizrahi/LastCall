@@ -88,7 +88,7 @@
 }
 .flightResults {
   width: 800px;
-  margin-left: 100px;
+  margin-left: 10px;
 }
 
 .flightResult{
@@ -153,7 +153,7 @@
   .choose-btn {
     background-color: rgb(67, 67, 252); /* Blue background */
     color: white; /* White text */
-    padding: 8px 16px; /* Padding around the text */
+    padding: 15px 23px; /* Padding around the text */
     border: none; /* No border */
     border-radius: 5px; /* Rounded corners */
     cursor: pointer; /* Cursor changes to hand on hover */
@@ -162,7 +162,78 @@
     text-align: center; /* Center the text */
     font-weight: bold; /* Bold text */
   }
+  .choose-btn-container {
+    position: absolute; /* Absolute positioning */
+    right: 40px; /* Distance from the right edge */
+    top: 80%; /* Centered vertically */
+    transform: translateY(-50%); /* Centering adjustment */
+  }
   
+
   .choose-btn:hover {
     background-color: rgb(19, 19, 208); /* Darker blue on hover */
+  }
+
+  .flights-combination {
+    margin: 10px 0; /* Space between flight combinations */
+  }
+  
+  .bordered-flight-container {
+    display: flex; /* Enables flexbox layout */
+    flex-direction: column; /* Stacks children vertically */
+    align-items: flex-start; /* Aligns children to the left */
+    border: 2px solid #bdc3c7; /* Border color */
+    padding: 5px; /* Padding inside the border */
+    border-radius: 10px; /* Rounded corners */
+    width: 1000px;
+    margin-left: 100px;
+    position: relative; /* Enables absolute positioning for children */
+  }
+  
+  
+  .flight-section {
+    border-bottom: 1px solid #eaeaea; /* Line between sections */
+  }
+  
+  .flight-section:last-child {
+    border-bottom: none; /* No line for the last section */
+  }
+  
+  .flight-section h4 {
+    margin-bottom: 10px; /* Space below the section title */
+    font-weight: bold; /* Bold text for the section title */
+  }
+  
+  .no-return-flight {
+    text-align: center; /* Centers the text */
+    font-weight: bold; /* Makes the text bold */
+    font-size: 20px; /* Increases the font size */
+  }
+
+  .no-return-flight-container {
+    font-family: 'Fjalla One', sans-serif;
+    padding: 20px;
+    border-radius: 10px; /* Rounded corners */
+    width: 800px; /* Same width as flight results */
+    margin-left: 10px; /* Left margin */
+    margin-top: 10px; /* Top margin */
+    text-align: center; /* Centers the text horizontally */
+    font-weight: bold; /* Makes the text bold */
+    font-size: 30px; /* Font size */
+    background-color: #f5f5f5; /* Background color */
+    box-shadow:0 0 10px #2323;
+    justify-content: center; /* Centers the content horizontally */
+  }
+  
+
+  .total-container {
+    position: absolute; /* Absolutely positioned */
+    top: 50px; /* Distance from the top */
+    right: 30px; /* Distance from the right */
+  }
+
+  .total-label, .total-price {
+    font-weight: bold; /* Bold text */
+    font-size: 30px; /* Font size */
+    margin: 0; /* No margin */
   }
