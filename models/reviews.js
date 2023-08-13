@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const { findDestinations } = require("./destinations")
 
 
 const reviewSchema = new mongoose.Schema({
@@ -71,22 +72,41 @@ async function insertNewReview(review) {
             badContent: badContent
         } = review;
 
-        const newReview = new Review({
-            author: author,
-            date: date,
-            destination: destination,
-            rank: rank,
-            happyContent: happyContent,
-            badContent: badContent
-        })
+        const existingReview = await Review.findOne({
+            'author': author,
+            'date': date,
+            'destination': destination
+        }
+        )
+        if (!existingReview) {
+            console.log("Creating new review");
+            const newReview = new Review({
+                author: author,
+                date: date,
+                destination: destination,
+                rank: rank,
+                happyContent: happyContent,
+                badContent: badContent
+            })
 
-        await newReview.save();
+            await newReview.save();
+        } else {
+            console.log("Review already exist");
+        }
 
-        console.log(`${insertCount} new reviews inserted to DB`)
     } catch (error) {
         throw new Error('Error finding or creating reviews: ' + error.message);
     }
 }
 
+async function getValidDestinations() {
+    const destinations = await findDestinations();
+    const sortedValidDestinationsNames = destinations.map(destination => destination.name);
+    sortedValidDestinationsNames.sort();
+    return sortedValidDestinationsNames;
+}
+
+
 module.exports.findReviews = findReviews
 module.exports.newReview = newReview
+module.exports.getValidDestinations = getValidDestinations

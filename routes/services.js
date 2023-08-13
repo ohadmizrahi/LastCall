@@ -1,9 +1,9 @@
 const { Router } = require('express');
 const bodyParser = require("body-parser");
 const session = require('express-session');
-const { findReviews, newReview } = require('../models/reviews')
+const { findReviews, newReview, getValidDestinations } = require('../models/reviews')
 const { getSales } = require('../models/sale')
-const { getPopularDestinations, updateDestinationsPopularity, generateTourismData, getRecomandationFromGPT } = require('../models/destinations')
+const { getPopularDestinations, updateDestinationsPopularity, generateTourismData, getRecomandationFromGPT, findDestinations } = require('../models/destinations')
 const { insertNewFlights, buildFindQuery, findFlights } = require('../models/flights')
 const { insertNewAirports } = require('../models/airports')
 const { generateFlights } = require('../models/flightsGenerator')
@@ -124,11 +124,12 @@ router.get("/generate_new_flights", async (req, res) => {
 
 router.get("/reviews", async (req, res) => {
     const reviews = await findReviews()
+    const validDestinations = await getValidDestinations()
     if (req.isAuthenticated()) {
         const data = getSales()
         res.render("index",
             {
-                body: { main: "partials/bodies/reviews", reviews: reviews },
+                body: { main: "partials/bodies/reviews", reviews: reviews, validDestinations: validDestinations },
                 header: { main: "partials/headers/header", auth: "authDiv/afterAuth" , pageTitle: "Reviews" },
                 sales: { main: "../salesBar", data: data }
             })

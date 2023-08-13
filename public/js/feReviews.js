@@ -119,6 +119,19 @@ function newReview() {
 })};
 
 
+function buildDestinationOptions() {
+    const validDestinationsElement = $("#validDestinations");
+    const dataListElement = $(".destination-options")
+     if (validDestinationsElement.length > 0) {
+        const validDestinations = JSON.parse(validDestinationsElement.attr("data-destinations"));
+        validDestinations.forEach(destination => {
+        dataListElement.append($(`<option value="${destination}">`))
+    });
+    }
+
+}
+
 sortReviews(); // for default desc sort
 newReview();
+buildDestinationOptions()
 
