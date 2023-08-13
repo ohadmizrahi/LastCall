@@ -55,20 +55,7 @@ function searchFlights() {
 }
 
 
-function insertFlightDetails(flight) {
-  $('#flightNumber').text(flight.flight.iata);
-  $('#flightDate').text(flight.flight.date);
-  $('#airlineName').text(flight.airline.name);
-  $('#source').text(flight.departure.iata);
-  $('#departureAirport').text(flight.departure.airport);
-  $('#departureTerminal').text(flight.departure.terminal);
-  $('#departureCountry').text(flight.departure.country);
-  $('#destination').text(flight.arrival.iata);
-  $('#arrivalAirport').text(flight.arrival.airport);
-  $('#arrivalTerminal').text(flight.arrival.terminal);
-  $('#arrivalCountry').text(flight.arrival.country);
-  $('#price').text('$' + flight.price);
-}
+
 
 $(document).ready(function () {
   $('#outbound-time').on('input', function () {
@@ -106,9 +93,47 @@ $(document).ready(function () {
 });
 
 function ChooseFlight(flightData) {
+  console.log(flightData);
   var flightJsonData = JSON.parse(flightData);
-  insertFlightDetails(flightJsonData);
+  insertFlightDetails(flightJsonData.go, flightJsonData.return);
+  
+  // Calculate total price
+  var totalPrice = flightJsonData.go.price + (flightJsonData.return ? flightJsonData.return.price : 0);
+  
+  // Insert total price into sidebar
+  $('#total-price').text(totalPrice.toFixed(2) + '$');
+
   $('#details-sidebar').addClass('active');
+}
+
+
+function insertFlightDetails(goFlight, returnFlight) {
+  // Insert Go Flight details
+  insertSingleFlightDetails('#go-flight-details', goFlight);
+
+  // If Return Flight exists, insert details
+  if (returnFlight) {
+    $('#return-flight-details').show(); // Show return flight details if available
+    insertSingleFlightDetails('#return-flight-details', returnFlight);
+  } else {
+    $('#return-flight-details').hide(); // Hide return flight details if not available
+  }
+}
+
+function insertSingleFlightDetails(containerId, flight) {
+  $(containerId + ' #flightNumber').text(flight.flight.iata);
+  $(containerId + ' #departureDate').text(flight.departure.dateTime);
+  $(containerId + ' #arrivalDate').text(flight.arrival.dateTime);
+  $(containerId + ' #airlineName').text(flight.airline.name);
+  $(containerId + ' #source').text(flight.departure.iata);
+  $(containerId + ' #departureAirport').text(flight.departure.airport);
+  $(containerId + ' #departureTerminal').text(flight.departure.terminal);
+  $(containerId + ' #departureCountry').text(flight.departure.country);
+  $(containerId + ' #destination').text(flight.arrival.iata);
+  $(containerId + ' #arrivalAirport').text(flight.arrival.airport);
+  $(containerId + ' #arrivalTerminal').text(flight.arrival.terminal);
+  $(containerId + ' #arrivalCountry').text(flight.arrival.country);
+  $(containerId + ' #price').text('$' + flight.price);
 }
 
 searchFlights()

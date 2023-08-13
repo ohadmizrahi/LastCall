@@ -59,3 +59,11 @@
   .continue-btn:hover {
     background-color: rgb(19, 19, 208); /* Darker blue on hover */
   }
+  
+  #total-price-section h4 {
+    font-weight: bold; /* Makes the text bold */
+  }
+  #go-flight-details h4, #return-flight-details h4 {
+    font-weight: bold;
+  }
+  
