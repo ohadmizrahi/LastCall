@@ -32,11 +32,11 @@ router.get("/dest", async (req, res) => {
 })
 
 router.get("/dest/:name", async (req, res) => {
-    const data = getSales()
-    const destination = req.session.destination;
-    const reviews = findReviews();
 
     if (req.isAuthenticated()) {
+        const data = getSales()
+        const destination = req.session.destination;
+        const reviews = await findReviews();
         res.render("index",
             {
                 body: { main: "partials/destinationPage", destination: destination , reviews: reviews},
@@ -123,9 +123,10 @@ router.get("/generate_new_flights", async (req, res) => {
 
 
 router.get("/reviews", async (req, res) => {
-    const reviews = await findReviews()
-    const validDestinations = await getValidDestinations()
+
     if (req.isAuthenticated()) {
+        const reviews = await findReviews()
+        const validDestinations = await getValidDestinations()
         const data = getSales()
         res.render("index",
             {
