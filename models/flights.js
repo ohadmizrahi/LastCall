@@ -14,16 +14,14 @@ const flightSchema = new mongoose.Schema({
     airport: { type: String },
     terminal: { type: String },
     iata: { type: String },
-    date: { type: String, required: true },
-    time: { type: String, required: true }
+    dateTime: { type: Date, required: true }
   },
   arrival: {
     country: { type: String },
     airport: { type: String },
     terminal: { type: String },
     iata: { type: String },
-    date: { type: String, required: true },
-    time: { type: String, required: true }
+    dateTime: { type: Date, required: true }
   },
   airline: {
     name: { type: String },
@@ -47,8 +45,8 @@ async function insertNewFlights(flightDataArray) {
 
       const {
         flight: { status, number, iata, airplane, duration },
-        departure: { airport: depAirport, terminal: depTerminal, iata: depIata, country: depCountry, date: depDate, time: depTime },
-        arrival: { airport: arrAirport, terminal: arrTerminal, iata: arrIata, country: arrCountry, date: arrDate, time: arrTime },
+        departure: { airport: depAirport, terminal: depTerminal, iata: depIata, country: depCountry, dateTime: depDateTime },
+        arrival: { airport: arrAirport, terminal: arrTerminal, iata: arrIata, country: arrCountry, dateTime: arrDateTime },
         airline: { name: airlineName, iata: airlineIata },
         price: price
       } = data;
@@ -74,16 +72,14 @@ async function insertNewFlights(flightDataArray) {
             airport: depAirport,
             terminal: depTerminal,
             iata: depIata,
-            date: depDate,
-            time: depTime
+            dateTime: depDateTime
           },
           arrival: {
             country: arrCountry,
             airport: arrAirport,
             terminal: arrTerminal,
             iata: arrIata,
-            date: arrDate,
-            time: arrTime
+            dateTime: arrDateTime
           },
           airline: {
             name: airlineName,
@@ -133,12 +129,10 @@ async function updateOldFlightStatus() {
 
 };
 
-async function findFlights(query = null) {
+async function findFlights(limit, query = null) {
   try {
-    const limit = 15
     if (query) {
       const flights = await Flight.find(query).limit(limit)
-      console.log(flights);
       return flights
 
     } else {
@@ -147,7 +141,6 @@ async function findFlights(query = null) {
         { $sample: { size: limit } }
       ]);
       
-      console.log(flights);
       return flights
     }
   }
@@ -166,12 +159,12 @@ function buildFindQuery(dep, totalPassangers, fullDate=null, monthDate=null, des
     // Add month validation
 
     const oneMonthAhead = new Date(fullDate ? fullDate : monthDate)
-    oneMonthAhead.setMonth(oneMonthAhead.getMonth() + 1);
+    oneMonthAhead.setMonth(oneMonthAhead.getMonth() + 12);
     
     
     const query = {
       "departure.country": dep,
-      "flight.date": { $gte: fullDate ? new Date(fullDate) :  new Date(monthDate), $lte: oneMonthAhead },
+      "departure.dateTime": { $gte: fullDate ? new Date(fullDate) :  new Date(monthDate), $lte: oneMonthAhead },
       "flight.status": { $ne: "done"}
     }
 

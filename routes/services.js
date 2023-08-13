@@ -82,14 +82,24 @@ router.post("/dest/:name", async (req, res) => {
 router.get("/flights", async (req, res) => {
     if (req.isAuthenticated()) {
         const data = getSales()
+        
+        let flights;
 
-        const allFlights = await findFlights()
+        if (req.session.searchFlights) {
+            flights = req.session.searchFlights
+        } else {
+            const limit = 5
+            flights = await findFlights(limit)
+        }
+
+        req.session.searchFlights = null
         res.render("index",
             {
-                body: { main: "partials/bodies/flights", flights: allFlights },
+                body: { main: "partials/bodies/flights", flights: flights },
                 header: { main: "partials/headers/header", auth: "authDiv/afterAuth" , pageTitle: "Flights" },
                 sales: { main: "../salesBar", data: data }
             })
+
     } else {
         res.cookie("returnTo", "/flights")
         res.redirect("/login");
@@ -119,6 +129,28 @@ router.get("/generate_new_flights", async (req, res) => {
         res.status(500).json({ error: "Failed to fetch flights data." });
     }
 
+})
+
+router.post("/search_flights", async (req, res) => {
+    try {
+        const {
+            departure: departure,
+            destination: destination,
+            departureDate: departureDate,
+            arrivelDate: arrivelDate,
+            travelers: travelers
+        } = req.body.searchFields
+
+        const limit = 5
+        const query = buildFindQuery(departure, travelers, departureDate, null, destination)
+        const flights = await findFlights(limit, query)
+        req.session.searchFlights = flights;
+        res.send({success: true})
+    }
+    catch (error) {
+        console.error('Error:', error);
+        res.status(500).json({ error: "Failed to search flights." });
+    }
 })
 
 

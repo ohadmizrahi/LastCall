@@ -1,6 +1,6 @@
 const { faker } = require('@faker-js/faker');
 const { findAirportByCode } = require('./airports')
-const { format, addMinutes, addHours, parseISO, add } = require('date-fns');
+const { format, addMinutes, parse, parseISO, add } = require('date-fns');
 
 
 async function generateFlights(numberOfFlights) {
@@ -37,16 +37,14 @@ async function generateFlights(numberOfFlights) {
         departureData.iata = airportIataD;
         departureData.terminal = faker.number.int({ min: 1, max: 8 })
         departureData.country = airportCountryD
-        departureData.date = format(randomFlightDate, 'dd/MM/yyyy')
-        departureData.time = format(parseISO(randomFlightDate.toISOString()), 'HH:mm')
+        departureData.dateTime = randomFlightDate
 
-        const { date: arrDate, time: arrTime, hours: flightHours, minutes: flightMinutes } = addRandomTimeToDate(randomFlightDate)
+        const { date: arrDateTime, hours: flightHours, minutes: flightMinutes } = addRandomTimeToDate(randomFlightDate)
         arrivalData.airport = airportA;
         arrivalData.iata = airportIataA;
         arrivalData.terminal = faker.number.int({ min: 1, max: 8 })
         arrivalData.country = airportCountryA
-        arrivalData.date = arrDate
-        arrivalData.time = arrTime
+        arrivalData.dateTime = arrDateTime
 
         price = faker.finance.amount({ min: 50, max: 1500, dec: 2 })
 
@@ -76,8 +74,7 @@ function addRandomTimeToDate(depDate) {
     });
 
     return {
-        date: format(arrDate, 'dd/MM/yyyy'),
-        time: format(arrDate, 'HH:mm'),
+        date: arrDate,
         hours: randomHours,
         minutes: randomMinutes
     };
