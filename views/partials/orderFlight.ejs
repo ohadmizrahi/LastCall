@@ -4,23 +4,23 @@
     <div class="row">
         <div class="col-md-5" id="flight-details">
             <h2>Flight Information</h2>
-            <p><strong>Flight Number:</strong> <span id="flightNumber"></span></p>
-            <p><strong>Date:</strong> <span id="flightDate"></span></p>
-            <p><strong>Airline Name:</strong> <span id="airlineName"></span></p>
-            <p><strong>Source:</strong> <span id="source"></span></p>
-            <p><strong>Departure Airport:</strong> <span id="departureAirport"></span></p>
-            <p><strong>Departure Terminal:</strong> <span id="departureTerminal"></span></p>
-            <p><strong>Departure Country:</strong> <span id="departureCountry"></span></p>
-            <p><strong>Destination:</strong> <span id="destination"></span></p>
-            <p><strong>Arrival Airport:</strong> <span id="arrivalAirport"></span></p>
-            <p><strong>Arrival Terminal:</strong> <span id="arrivalTerminal"></span></p>
-            <p><strong>Arrival Country:</strong> <span id="arrivalCountry"></span></p>
-            <p><strong>Price:</strong> <span id="price"></span></p>
-        </div>
+            <p><span class="label-text">Flight Number:</span> <span id="flightNumber"></span></p>
+            <p><span class="label-text">Date:</span> <span id="flightDate"></span></p>
+            <p><span class="label-text">Airline Name:</span> <span id="airlineName"></span></p>
+            <p><span class="label-text">Source:</span> <span id="source"></span></p>
+            <p><span class="label-text">Departure Airport:</span> <span id="departureAirport"></span></p>
+            <p><span class="label-text">Departure Terminal:</span> <span id="departureTerminal"></span></p>
+            <p><span class="label-text">Departure Country:</span> <span id="departureCountry"></span></p>
+            <p><span class="label-text">Destination:</span> <span id="destination"></span></p>
+            <p><span class="label-text">Arrival Airport:</span> <span id="arrivalAirport"></span></p>
+            <p><span class="label-text">Arrival Terminal:</span> <span id="arrivalTerminal"></span></p>
+            <p><span class="label-text">Arrival Country:</span> <span id="arrivalCountry"></span></p>
+            <p><span class="label-text">Price:</span> <span id="price"></span></p>
+        </div>        
         <div class="col-md-1 d-flex flex-column"></div>
         <div class="col-md-6">
-          <form action="/submit_order" method="post" id="order-form">
-              <div class="form-group row">
+            <form action="/submit_order" method="post" id="order-form" onsubmit="showConfirmation()">
+                <div class="form-group row">
                   <label for="name" class="col-sm-4 col-form-label text-right">Full Name:</label>
                   <div class="col-sm-8">
                       <input type="text" id="name" name="name" required class="form-control">
@@ -78,9 +78,19 @@
                     <input type="text" id="cvv" name="cvv" required pattern="\d{3,4}" maxlength="4" class="form-control" placeholder="123">
                 </div>
             </div>
-              <button type="submit" class="btn btn-primary">Confirm Order</button>
-          </form>
+            <button type="submit" class="btn btn-primary">Confirm Order</button>
+        </form>
       </div>
-      
     </div>
 </div>
+<div id="confirmation-modal" class="confirmation-modal">
+    <div class="confirmation-content">
+      <h1>Congratulations!</h1>
+      <p>Your payment has been confirmed.</p>
+      <p>The flight ticket will be sent to your email in the next few minutes.</p>
+      <p>Have a pleasant flight from the Last Call team!</p>
+      <button id="go-home-btn" class="btn btn-primary">Go Home</button>
+    </div>
+</div>
+
+  

@@ -9,7 +9,6 @@ const regiterRouter = require('./routes/register')
 const homeRoute = require('./routes/home')
 const menuRoute = require('./routes/services')
 const orderRoute = require('./routes/orderFlight')
-const confirmRoute = require('./routes/confirmOrder')
 
 const { getSales } = require('./models/sale')
 
@@ -34,9 +33,6 @@ app.use(menuRoute)
 
 // To handle get request for order flight
 app.use(orderRoute)
-
-// To handle post request for confirm flight
-app.use(confirmRoute)
 
 
 app.use(session({
