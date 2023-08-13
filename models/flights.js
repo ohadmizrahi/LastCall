@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const { faker } = require('@faker-js/faker');
 const cron = require('node-cron');
 
 const flightSchema = new mongoose.Schema({
@@ -14,16 +15,14 @@ const flightSchema = new mongoose.Schema({
     airport: { type: String },
     terminal: { type: String },
     iata: { type: String },
-    date: { type: String, required: true },
-    time: { type: String, required: true }
+    dateTime: { type: Date, required: true }
   },
   arrival: {
     country: { type: String },
     airport: { type: String },
     terminal: { type: String },
     iata: { type: String },
-    date: { type: String, required: true },
-    time: { type: String, required: true }
+    dateTime: { type: Date, required: true }
   },
   airline: {
     name: { type: String },
@@ -47,8 +46,8 @@ async function insertNewFlights(flightDataArray) {
 
       const {
         flight: { status, number, iata, airplane, duration },
-        departure: { airport: depAirport, terminal: depTerminal, iata: depIata, country: depCountry, date: depDate, time: depTime },
-        arrival: { airport: arrAirport, terminal: arrTerminal, iata: arrIata, country: arrCountry, date: arrDate, time: arrTime },
+        departure: { airport: depAirport, terminal: depTerminal, iata: depIata, country: depCountry, dateTime: depDateTime },
+        arrival: { airport: arrAirport, terminal: arrTerminal, iata: arrIata, country: arrCountry, dateTime: arrDateTime },
         airline: { name: airlineName, iata: airlineIata },
         price: price
       } = data;
@@ -74,16 +73,14 @@ async function insertNewFlights(flightDataArray) {
             airport: depAirport,
             terminal: depTerminal,
             iata: depIata,
-            date: depDate,
-            time: depTime
+            dateTime: depDateTime
           },
           arrival: {
             country: arrCountry,
             airport: arrAirport,
             terminal: arrTerminal,
             iata: arrIata,
-            date: arrDate,
-            time: arrTime
+            dateTime: arrDateTime
           },
           airline: {
             name: airlineName,
@@ -133,28 +130,51 @@ async function updateOldFlightStatus() {
 
 };
 
-async function findFlights(query = null) {
+async function findFlights(limit, query = null) {
   try {
-    const limit = 15
-    if (query) {
-      const flights = await Flight.find(query).limit(limit)
-      console.log(flights);
-      return flights
 
-    } else {
-      const flights = await Flight.aggregate([
-        { $match: { "flight.status": { $ne: "done" } } },
-        { $sample: { size: limit } }
-      ]);
-      
-      console.log(flights);
-      return flights
-    }
+    const goFlights = await findGoFlights(limit, query)
+    const flights = await findReturnFlights(goFlights)
+
+    return flights
   }
   catch (error) {
     console.error("Error: error trying to find flights", error)
   }
 }
+
+async function findGoFlights(limit, query = null) {
+  let goFlights;
+  if (query) {
+    goFlights = await Flight.find(query).limit(limit)
+
+  } else {
+    goFlights = await Flight.aggregate([
+      { $match: { "flight.status": { $ne: "done" } } },
+      { $sample: { size: limit } }
+    ]);
+  }
+  return goFlights
+}
+
+async function findReturnFlights(goFlights) {
+  const flightsArray = [];
+
+  for (const goFlight of goFlights) {
+
+    const returnDate = new Date(goFlight.arrival.dateTime);
+    returnDate.setDate(returnDate.getDate() + 2); // Add 2 days to the return date
+    
+    const query = buildFindQuery(goFlight.arrival.country, 1, returnDate, null, goFlight.departure.country);
+
+    const returnFlights = await Flight.findOne(query)
+
+    flightsArray.push({ go: goFlight, return: returnFlights });
+  }
+
+  return flightsArray;
+}
+
 
 
 
@@ -165,13 +185,13 @@ function buildFindQuery(dep, totalPassangers, fullDate=null, monthDate=null, des
     
     // Add month validation
 
-    const oneMonthAhead = new Date(fullDate ? fullDate : monthDate)
-    oneMonthAhead.setMonth(oneMonthAhead.getMonth() + 1);
+    let oneMonthAhead = new Date(fullDate ? fullDate : monthDate)
+    oneMonthAhead.setMonth(oneMonthAhead.getMonth() + 12);
     
     
     const query = {
       "departure.country": dep,
-      "flight.date": { $gte: fullDate ? new Date(fullDate) :  new Date(monthDate), $lte: oneMonthAhead },
+      "departure.dateTime": { $gte: fullDate ? new Date(fullDate) :  new Date(monthDate), $lte: oneMonthAhead },
       "flight.status": { $ne: "done"}
     }
 
