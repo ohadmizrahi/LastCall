@@ -110,7 +110,7 @@ router.get("/flights", async (req, res) => {
 router.get("/generate_new_flights", async (req, res) => {
     try {
         console.log("Start Generating new flights")
-        const flightsData = await generateFlights(50)
+        const flightsData = await generateFlights(1000)
         if (flightsData) {
             console.log("Finished Generating new flights")
             console.log("Start inserting new flights to DB");

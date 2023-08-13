@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-const { faker } = require('@faker-js/faker');
 const cron = require('node-cron');
 
 const flightSchema = new mongoose.Schema({
@@ -130,11 +129,11 @@ async function updateOldFlightStatus() {
 
 };
 
-async function findFlights(limit, query = null) {
+async function findFlights(limit, query = null, arrDate = null) {
   try {
 
     const goFlights = await findGoFlights(limit, query)
-    const flights = await findReturnFlights(goFlights)
+    const flights = await findReturnFlights(goFlights, arrDate)
 
     return flights
   }
@@ -157,13 +156,19 @@ async function findGoFlights(limit, query = null) {
   return goFlights
 }
 
-async function findReturnFlights(goFlights) {
+async function findReturnFlights(goFlights, arrDate) {
   const flightsArray = [];
 
   for (const goFlight of goFlights) {
 
-    const returnDate = new Date(goFlight.arrival.dateTime);
-    returnDate.setDate(returnDate.getDate() + 2); // Add 2 days to the return date
+    let returnDate;
+
+    if (arrDate) {
+      returnDate = new Date(arrDate);
+    } else { 
+    returnDate = new Date(goFlight.arrival.dateTime);
+    }
+    returnDate.setDate(returnDate.getDate() + 2);
     
     const query = buildFindQuery(goFlight.arrival.country, 1, returnDate, null, goFlight.departure.country);
 
@@ -176,8 +181,6 @@ async function findReturnFlights(goFlights) {
 }
 
 
-
-
 function buildFindQuery(dep, totalPassangers, fullDate=null, monthDate=null, des=null) {
   if (!(dep && ((fullDate && !monthDate) || (monthDate && !fullDate)) && totalPassangers)) {
     throw new Error("All of the parameters (dep, date or month, totalPassengers) must be provided.");
@@ -186,7 +189,7 @@ function buildFindQuery(dep, totalPassangers, fullDate=null, monthDate=null, des
     // Add month validation
 
     let oneMonthAhead = new Date(fullDate ? fullDate : monthDate)
-    oneMonthAhead.setMonth(oneMonthAhead.getMonth() + 12);
+    oneMonthAhead.setMonth(oneMonthAhead.getMonth() + 1);
     
     
     const query = {
