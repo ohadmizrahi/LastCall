@@ -1,7 +1,7 @@
 const { Router } = require('express');
 const router = Router();
 
-router.get("/order_flight", (req, res) => {
+router.get("/order", (req, res) => {
     res.render("index",
     {
     body: { main: "partials/orderFlight" },

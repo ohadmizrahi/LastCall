@@ -16,7 +16,7 @@
       }
     };
     localStorage.setItem('flightData', JSON.stringify(flightData));
-    window.location.href = '/order_flight';
+    window.location.href = '/order';
   });
   
   $(document).ready(function() {
@@ -34,5 +34,18 @@
     $('#arrivalTerminal').text(flightData.flight.arrivalTerminal);
     $('#arrivalCountry').text(flightData.flight.arrivalCountry);
     $('#price').text(flightData.flight.price);
+  });
+  
+
+  $(document).ready(function() {
+    $('#order-form').submit(function(e) {
+      e.preventDefault(); // Prevent the form from actually submitting
+      $('#confirmation-modal').show(); // Show the modal
+    });
+  
+    $('#go-home-btn').click(function() {
+      $('#confirmation-modal').hide(); // Hide the modal
+      window.location.href = '/home'; // Redirect to the home page (update as needed)
+    });
   });
   

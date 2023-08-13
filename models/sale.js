@@ -35,11 +35,11 @@ function getSales() {
       picture: "https://assets.cntraveller.in/photos/6470565df0771fd865ff76b4/3:2/w_5184,h_3456,c_limit/Emirates%20Offering%20Free%20Hotel%20Stays%20This%20Summer%20to%20Passengers%20Flying%20to%20Dubai_emma-harrisova-UDsO83Ts6tQ-unsplash.jpg"
     },
     {
-      name: "Israel",
+      name: "Amsterdam",
       departure_date: "18/5/23",
       return: "28/5/23",
       min_price: 129,
-      picture: "https://en.idi.org.il/media/17616/statistical_report_-arab.jpg"
+      picture: "https://www.elal.com/magazine/wp-content/uploads/2019/04/shutterstock_797232592.jpg"
     },
     {
       name: "Paris",
