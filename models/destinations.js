@@ -151,6 +151,15 @@ async function updateDestinationsPopularity(destination) {
         if (!destination.avgRank) {
             destination.avgRank = Number((Math.random() * (10 - 5) + 5).toFixed(1))
         }
+        if (!destination.avgRank) {
+            destination.avgRank = Number((Math.random() * (10 - 5) + 5).toFixed(1))
+        }
+        if (!destination.description) {
+            const destData = await getDataOverDestFromChat(destination.name)
+            destination.country = destData.country
+            destination.description = destData.description
+            destination.bestMonth = destData.bestMonth
+        }
         destination.img = await getDestImg(destination.name);
         destination.searches = 1;
         await insertNewDestinations([destination])
@@ -217,6 +226,22 @@ async function getRecomandationFromGPT(data) {
 
 }
 
+async function getDataOverDestFromChat(destName) {
+    const prompt = `
+    Please return answer build as a json with: 
+    First parameter called country holding the country of the selected destination.
+    Second parameter called bestMonth holding the recomended month to visit this destination, verify its a calender month. 
+    and Last parameter called description holding the Description over the destionation.
+    The Destination is ${destName}.
+    `
+    const destDataString = await askGPT(prompt);
+    const destData = JSON.parse(destDataString);
+    console.log(destData);
+
+    return destData
+
+}
+
 
 module.exports.getPopularDestinations = getPopularDestinations
 module.exports.updateDestinationsPopularity = updateDestinationsPopularity
@@ -225,3 +250,4 @@ module.exports.getDestImg = getDestImg
 module.exports.generateTourismData = generateTourismData
 module.exports.getRecomandationFromGPT = getRecomandationFromGPT
 module.exports.findDestinations = findDestinations
+module.exports.getDataOverDestFromChat = getDataOverDestFromChat

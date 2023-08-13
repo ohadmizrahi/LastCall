@@ -4,14 +4,14 @@
   </div>
   <div id="sales" class="row">
     <% sales.data.forEach((sale, index) => { %>
-      <div class="sale-item to-flights<% if (index >= 5) { %> hidden-deal <% } %>">  <!-- Add the hidden-deal class to all items -->
+      <div class="sale-item to-flights<% if (index >= 5) { %> hidden-deal <% } %>">
         <div class="sale-destination">
-          <h4><%= sale.name %></h4>
+          <h4><%= sale.destination %></h4>
         </div>
-        <img src="<%= sale.picture %>" class="sale-img">
+        <img src="<%= sale.img %>" class="sale-img">
         <div class="sale-content">
-          <p>Dates: <%= sale.departure_date %> - <%= sale.return %></p>
-          <p>Starting Price: <%= sale.min_price %>$</p>
+          <p>Dates: <%= sale.departureDate %> - <%= sale.returnDate %></p>
+          <p>Starting Price: <%= sale.minPrice %>$</p>
         </div>
       </div>
     <% }); %>

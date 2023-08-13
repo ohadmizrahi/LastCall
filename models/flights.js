@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-const { faker } = require('@faker-js/faker');
 const cron = require('node-cron');
 
 const flightSchema = new mongoose.Schema({
@@ -12,6 +11,7 @@ const flightSchema = new mongoose.Schema({
   },
   departure: {
     country: { type: String },
+    city: { type: String },
     airport: { type: String },
     terminal: { type: String },
     iata: { type: String },
@@ -19,6 +19,7 @@ const flightSchema = new mongoose.Schema({
   },
   arrival: {
     country: { type: String },
+    city: { type: String },
     airport: { type: String },
     terminal: { type: String },
     iata: { type: String },
@@ -46,8 +47,8 @@ async function insertNewFlights(flightDataArray) {
 
       const {
         flight: { status, number, iata, airplane, duration },
-        departure: { airport: depAirport, terminal: depTerminal, iata: depIata, country: depCountry, dateTime: depDateTime },
-        arrival: { airport: arrAirport, terminal: arrTerminal, iata: arrIata, country: arrCountry, dateTime: arrDateTime },
+        departure: { airport: depAirport, terminal: depTerminal, iata: depIata, country: depCountry, city: depCity, dateTime: depDateTime },
+        arrival: { airport: arrAirport, terminal: arrTerminal, iata: arrIata, country: arrCountry, city: arrCity, dateTime: arrDateTime },
         airline: { name: airlineName, iata: airlineIata },
         price: price
       } = data;
@@ -70,6 +71,7 @@ async function insertNewFlights(flightDataArray) {
           },
           departure: {
             country: depCountry,
+            city: depCity,
             airport: depAirport,
             terminal: depTerminal,
             iata: depIata,
@@ -77,6 +79,7 @@ async function insertNewFlights(flightDataArray) {
           },
           arrival: {
             country: arrCountry,
+            city: arrCity,
             airport: arrAirport,
             terminal: arrTerminal,
             iata: arrIata,
@@ -130,11 +133,11 @@ async function updateOldFlightStatus() {
 
 };
 
-async function findFlights(limit, query = null) {
+async function findFlights(limit, query = null, arrDate = null) {
   try {
 
     const goFlights = await findGoFlights(limit, query)
-    const flights = await findReturnFlights(goFlights)
+    const flights = await findReturnFlights(goFlights, arrDate)
 
     return flights
   }
@@ -170,8 +173,8 @@ async function findReturnFlights(goFlights, arrDate) {
     returnDate = new Date(goFlight.arrival.dateTime);
     }
     returnDate.setDate(returnDate.getDate() + 2);
-
-    const query = buildFindQuery(goFlight.arrival.country, 1, returnDate, null, goFlight.departure.country);
+    
+    const query = buildFindQuery(goFlight.arrival.city, 1, returnDate, null, goFlight.departure.city);
 
     const returnFlights = await Flight.findOne(query)
 
@@ -180,8 +183,6 @@ async function findReturnFlights(goFlights, arrDate) {
 
   return flightsArray;
 }
-
-
 
 
 function buildFindQuery(dep, totalPassangers, fullDate=null, monthDate=null, des=null) {
@@ -196,13 +197,13 @@ function buildFindQuery(dep, totalPassangers, fullDate=null, monthDate=null, des
     
     
     const query = {
-      "departure.country": dep,
+      "departure.city": dep,
       "departure.dateTime": { $gte: fullDate ? new Date(fullDate) :  new Date(monthDate), $lte: oneMonthAhead },
       "flight.status": { $ne: "done"}
     }
 
     if (des) {
-      query["arrival.country"] = des;
+      query["arrival.city"] = des;
     }
     
     return query
