@@ -1,49 +1,86 @@
-<h1>Order Your Flight</h1>
-<p>Here you can complete your flight booking.</p>
-<div id="flight-details">
-    <h2>Flight Information</h2>
-    <p><strong>Flight Number:</strong> <span id="flightNumber"></span></p>
-    <p><strong>Date:</strong> <span id="flightDate"></span></p>
-    <p><strong>Airline Name:</strong> <span id="airlineName"></span></p>
-    <p><strong>Source:</strong> <span id="source"></span></p>
-    <p><strong>Departure Airport:</strong> <span id="departureAirport"></span></p>
-    <p><strong>Departure Terminal:</strong> <span id="departureTerminal"></span></p>
-    <p><strong>Departure Country:</strong> <span id="departureCountry"></span></p>
-    <p><strong>Destination:</strong> <span id="destination"></span></p> <!-- Fixed missing quote -->
-    <p><strong>Arrival Airport:</strong> <span id="arrivalAirport"></span></p>
-    <p><strong>Arrival Terminal:</strong> <span id="arrivalTerminal"></span></p>
-    <p><strong>Arrival Country:</strong> <span id="arrivalCountry"></span></p>
-    <p><strong>Price:</strong> <span id="price"></span></p>
+<h1 class="text-center">Order Your Flight</h1>
+<p class="text-center">Here you can complete your flight booking.</p>
+<div class="container">
+    <div class="row">
+        <div class="col-md-5" id="flight-details">
+            <h2>Flight Information</h2>
+            <p><strong>Flight Number:</strong> <span id="flightNumber"></span></p>
+            <p><strong>Date:</strong> <span id="flightDate"></span></p>
+            <p><strong>Airline Name:</strong> <span id="airlineName"></span></p>
+            <p><strong>Source:</strong> <span id="source"></span></p>
+            <p><strong>Departure Airport:</strong> <span id="departureAirport"></span></p>
+            <p><strong>Departure Terminal:</strong> <span id="departureTerminal"></span></p>
+            <p><strong>Departure Country:</strong> <span id="departureCountry"></span></p>
+            <p><strong>Destination:</strong> <span id="destination"></span></p>
+            <p><strong>Arrival Airport:</strong> <span id="arrivalAirport"></span></p>
+            <p><strong>Arrival Terminal:</strong> <span id="arrivalTerminal"></span></p>
+            <p><strong>Arrival Country:</strong> <span id="arrivalCountry"></span></p>
+            <p><strong>Price:</strong> <span id="price"></span></p>
+        </div>
+        <div class="col-md-1 d-flex flex-column"></div>
+        <div class="col-md-6">
+          <form action="/submit_order" method="post" id="order-form">
+              <div class="form-group row">
+                  <label for="name" class="col-sm-4 col-form-label text-right">Full Name:</label>
+                  <div class="col-sm-8">
+                      <input type="text" id="name" name="name" required class="form-control">
+                  </div>
+              </div>
+              <div class="form-group row">
+                  <label for="email" class="col-sm-4 col-form-label text-right">Email Address:</label>
+                  <div class="col-sm-8">
+                      <input type="email" id="email" name="email" required class="form-control">
+                  </div>
+              </div>
+              <div class="form-group row">
+                  <label for="phone" class="col-sm-4 col-form-label text-right">Phone Number:</label>
+                  <div class="col-sm-8">
+                      <input type="tel" id="phone" name="phone" required class="form-control">
+                  </div>
+              </div>
+              <div class="form-group row">
+                  <label for="passport" class="col-sm-4 col-form-label text-right">Passport Number:</label>
+                  <div class="col-sm-8">
+                      <input type="text" id="passport" name="passport" required class="form-control">
+                  </div>
+              </div>
+              <div class="form-group row">
+                  <label for="seat" class="col-sm-4 col-form-label text-right">Seat Preference:</label>
+                  <div class="col-sm-8">
+                      <select id="seat" name="seat" class="form-control">
+                          <option value="window">Window</option>
+                          <option value="aisle">Aisle</option>
+                          <option value="middle">Middle</option>
+                      </select>
+                  </div>
+              </div>
+              <div class="form-group row">
+                <label for="card-number" class="col-sm-4 col-form-label text-right">Card Number:</label>
+                <div class="col-sm-8">
+                    <input type="text" id="card-number" name="card-number" required pattern="\d{16}" maxlength="16" class="form-control" placeholder="0000 0000 0000 0000">
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="expiration-date" class="col-sm-4 col-form-label text-right">Expiration Date (MM/YY):</label>
+                <div class="col-sm-8">
+                    <input type="text" id="expiration-date" name="expiration-date" required pattern="(0[1-9]|1[0-2])\/\d{2}" class="form-control" placeholder="MM/YY">
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="name-on-card" class="col-sm-4 col-form-label text-right">Name on Card:</label>
+                <div class="col-sm-8">
+                    <input type="text" id="name-on-card" name="name-on-card" required class="form-control" placeholder="Or Solomon">
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="cvv" class="col-sm-4 col-form-label text-right">CVV:</label>
+                <div class="col-sm-8">
+                    <input type="text" id="cvv" name="cvv" required pattern="\d{3,4}" maxlength="4" class="form-control" placeholder="123">
+                </div>
+            </div>
+              <button type="submit" class="btn btn-primary">Confirm Order</button>
+          </form>
+      </div>
+      
+    </div>
 </div>
-<form action="/submit_order" method="post" id="order-form">
-  <label for="name">Full Name:</label>
-  <input type="text" id="name" name="name" required>
-  
-  <label for="email">Email Address:</label>
-  <input type="email" id="email" name="email" required>
-  
-  <label for="phone">Phone Number:</label>
-  <input type="tel" id="phone" name="phone" required>
-  
-  <label for="passport">Passport Number:</label>
-  <input type="text" id="passport" name="passport" required>
-  
-  <label for="seat">Seat Preference:</label>
-  <select id="seat" name="seat">
-    <option value="window">Window</option>
-    <option value="aisle">Aisle</option>
-    <option value="middle">Middle</option>
-  </select>
-  
-  <label for="special-requests">Special Requests:</label>
-  <textarea id="special-requests" name="special-requests" rows="3" placeholder="Any dietary requirements, etc."></textarea>
-  
-  <label for="payment">Payment Method:</label>
-  <select id="payment" name="payment">
-    <option value="credit-card">Credit Card</option>
-    <option value="debit-card">Debit Card</option>
-    <option value="paypal">PayPal</option>
-  </select>
-
-  <button type="submit">Confirm Order</button>
-</form>

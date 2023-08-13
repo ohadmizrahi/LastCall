@@ -1,4 +1,24 @@
-.center-text {
-    text-align: center;
-  }
-  
+#order-form {
+  padding: 15px; /* Padding inside the border */
+  border-radius: 10px; /* Rounded corners */
+  background-color: #a7b6c28b; /* Background color */
+  margin-bottom: 20px;
+}
+
+#flight-details {
+  padding: 15px; /* Padding inside the border */
+  border-radius: 10px; /* Rounded corners */
+  background-color: #a7b6c28b; /* Background color */
+  margin-bottom: 20px;
+}
+
+h1.text-center {
+  font-weight: bold; /* Bold text */
+}
+
+p.text-center {
+  font-size: 18px; /* Larger font size */
+}
+#order-form button[type="submit"] {
+  width: 100%;
+}
