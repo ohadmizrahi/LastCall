@@ -3,9 +3,9 @@ const bodyParser = require("body-parser");
 const session = require('express-session');
 const { findReviews, newReview, getValidDestinations } = require('../models/reviews')
 const { getSales } = require('../models/sale')
-const { getPopularDestinations, updateDestinationsPopularity, generateTourismData, getRecomandationFromGPT, findDestinations } = require('../models/destinations')
+const { getPopularDestinations, updateDestinationsPopularity, generateTourismData, getRecomandationFromGPT } = require('../models/destinations')
 const { insertNewFlights, buildFindQuery, findFlights } = require('../models/flights')
-const { insertNewAirports } = require('../models/airports')
+// const { insertNewAirports } = require('../models/airports')
 const { generateFlights } = require('../models/flightsGenerator')
 
 const router = Router();
@@ -25,7 +25,6 @@ router.get("/dest", async (req, res) => {
             })
     } else {
         res.cookie("returnTo", "/dest")
-        console.log(req.session.returnTo);
         res.redirect("/login");
     }
 
@@ -39,13 +38,12 @@ router.get("/dest/:name", async (req, res) => {
         const reviews = await findReviews();
         res.render("index",
             {
-                body: { main: "partials/destinationPage", destination: destination , reviews: reviews},
+                body: { main: "partials/destinationPage", destination: destination, reviews: reviews },
                 header: { main: "partials/headers/header", auth: "authDiv/afterAuth", pageTitle: "Destinations" },
                 sales: { main: "../salesBar", data: data }
             })
     } else {
         res.cookie("returnTo", "/dest")
-        console.log(req.session.returnTo);
         res.redirect("/login");
     }
 })
@@ -82,7 +80,7 @@ router.post("/dest/:name", async (req, res) => {
 router.get("/flights", async (req, res) => {
     if (req.isAuthenticated()) {
         const data = getSales()
-        
+
         let flights;
 
         if (req.session.searchFlights) {
@@ -91,12 +89,11 @@ router.get("/flights", async (req, res) => {
             const limit = 5
             flights = await findFlights(limit)
         }
-        console.log(flights);
         req.session.searchFlights = null
         res.render("index",
             {
                 body: { main: "partials/bodies/flights", flights: flights },
-                header: { main: "partials/headers/header", auth: "authDiv/afterAuth" , pageTitle: "Flights" },
+                header: { main: "partials/headers/header", auth: "authDiv/afterAuth", pageTitle: "Flights" },
                 sales: { main: "../salesBar", data: data }
             })
 
@@ -110,7 +107,7 @@ router.get("/flights", async (req, res) => {
 router.get("/generate_new_flights", async (req, res) => {
     try {
         console.log("Start Generating new flights")
-        const flightsData = await generateFlights(1000)
+        const flightsData = await generateFlights(1)
         if (flightsData) {
             console.log("Finished Generating new flights")
             console.log("Start inserting new flights to DB");
@@ -141,11 +138,14 @@ router.post("/search_flights", async (req, res) => {
             travelers: travelers
         } = req.body.searchFields
 
+
+
         const limit = 5
         const query = buildFindQuery(departure, travelers, departureDate, null, destination)
         const flights = await findFlights(limit, query)
         req.session.searchFlights = flights;
-        res.send({success: true})
+        await updateDestinationsPopularity({ name: destination })
+        res.send({ success: true })
     }
     catch (error) {
         console.error('Error:', error);
@@ -163,7 +163,7 @@ router.get("/reviews", async (req, res) => {
         res.render("index",
             {
                 body: { main: "partials/bodies/reviews", reviews: reviews, validDestinations: validDestinations },
-                header: { main: "partials/headers/header", auth: "authDiv/afterAuth" , pageTitle: "Reviews" },
+                header: { main: "partials/headers/header", auth: "authDiv/afterAuth", pageTitle: "Reviews" },
                 sales: { main: "../salesBar", data: data }
             })
     } else {
