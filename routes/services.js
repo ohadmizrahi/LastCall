@@ -2,7 +2,7 @@ const { Router } = require('express');
 const bodyParser = require("body-parser");
 const session = require('express-session');
 const { findReviews, newReview, getValidDestinations } = require('../models/reviews')
-const { getSales } = require('../models/sale')
+const { getAllSales } = require('../models/sale')
 const { getPopularDestinations, updateDestinationsPopularity, generateTourismData, getRecomandationFromGPT } = require('../models/destinations')
 const { insertNewFlights, buildFindQuery, findFlights } = require('../models/flights')
 // const { insertNewAirports } = require('../models/airports')
@@ -14,7 +14,7 @@ router.use(bodyParser.json());
 
 router.get("/dest", async (req, res) => {
     if (req.isAuthenticated()) {
-        const data = getSales()
+        const data = await getAllSales()
         const destinations = await getPopularDestinations()
 
         res.render("index",
@@ -33,7 +33,7 @@ router.get("/dest", async (req, res) => {
 router.get("/dest/:name", async (req, res) => {
 
     if (req.isAuthenticated()) {
-        const data = getSales()
+        const data = await getAllSales()
         const destination = req.session.destination;
         const reviews = await findReviews();
         res.render("index",
@@ -79,7 +79,7 @@ router.post("/dest/:name", async (req, res) => {
 
 router.get("/flights", async (req, res) => {
     if (req.isAuthenticated()) {
-        const data = getSales()
+        const data = await getAllSales()
 
         let flights;
 
@@ -159,7 +159,7 @@ router.get("/reviews", async (req, res) => {
     if (req.isAuthenticated()) {
         const reviews = await findReviews()
         const validDestinations = await getValidDestinations()
-        const data = getSales()
+        const data = await getAllSales()
         res.render("index",
             {
                 body: { main: "partials/bodies/reviews", reviews: reviews, validDestinations: validDestinations },

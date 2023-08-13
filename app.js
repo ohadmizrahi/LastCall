@@ -10,7 +10,7 @@ const homeRoute = require('./routes/home')
 const menuRoute = require('./routes/services')
 const orderRoute = require('./routes/orderFlight')
 
-const { getSales } = require('./models/sale')
+const { getAllSales } = require('./models/sale')
 
 const app = express();
 
@@ -46,8 +46,8 @@ app.use(passport.session());
 
 createDBConn()
 
-app.get("/", (req, res) => {
-  const data = getSales()
+app.get("/", async (req, res) => {
+  const data = await getAllSales()
   res.render("index", {
     body: {main: "partials/bodies/landing"},
     header: {main: "partials/headers/header", auth: "authDiv/beforeAuth", pageTitle: "Welcome"},
