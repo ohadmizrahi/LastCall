@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const { faker } = require('@faker-js/faker');
 const cron = require('node-cron');
 
 const flightSchema = new mongoose.Schema({
@@ -131,23 +132,49 @@ async function updateOldFlightStatus() {
 
 async function findFlights(limit, query = null) {
   try {
-    if (query) {
-      const flights = await Flight.find(query).limit(limit)
-      return flights
 
-    } else {
-      const flights = await Flight.aggregate([
-        { $match: { "flight.status": { $ne: "done" } } },
-        { $sample: { size: limit } }
-      ]);
-      
-      return flights
-    }
+    const goFlights = await findGoFlights(limit, query)
+    const flights = await findReturnFlights(goFlights)
+
+    return flights
   }
   catch (error) {
     console.error("Error: error trying to find flights", error)
   }
 }
+
+async function findGoFlights(limit, query = null) {
+  let goFlights;
+  if (query) {
+    goFlights = await Flight.find(query).limit(limit)
+
+  } else {
+    goFlights = await Flight.aggregate([
+      { $match: { "flight.status": { $ne: "done" } } },
+      { $sample: { size: limit } }
+    ]);
+  }
+  return goFlights
+}
+
+async function findReturnFlights(goFlights) {
+  const flightsArray = [];
+
+  for (const goFlight of goFlights) {
+
+    const returnDate = new Date(goFlight.arrival.dateTime);
+    returnDate.setDate(returnDate.getDate() + 2); // Add 2 days to the return date
+    
+    const query = buildFindQuery(goFlight.arrival.country, 1, returnDate, null, goFlight.departure.country);
+
+    const returnFlights = await Flight.findOne(query)
+
+    flightsArray.push({ go: goFlight, return: returnFlights });
+  }
+
+  return flightsArray;
+}
+
 
 
 
@@ -158,7 +185,7 @@ function buildFindQuery(dep, totalPassangers, fullDate=null, monthDate=null, des
     
     // Add month validation
 
-    const oneMonthAhead = new Date(fullDate ? fullDate : monthDate)
+    let oneMonthAhead = new Date(fullDate ? fullDate : monthDate)
     oneMonthAhead.setMonth(oneMonthAhead.getMonth() + 12);
     
     

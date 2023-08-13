@@ -91,7 +91,7 @@ router.get("/flights", async (req, res) => {
             const limit = 5
             flights = await findFlights(limit)
         }
-
+        console.log(flights);
         req.session.searchFlights = null
         res.render("index",
             {

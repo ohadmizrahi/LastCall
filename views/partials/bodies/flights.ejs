@@ -20,20 +20,20 @@
 </div>
 <div class="flights-container">
 <% body.flights.forEach((flight) => { %>
-  <div class="flightResults" id="flight_<%= flight.flight.iata %>" data="<%=JSON.stringify(flight) %>">
+  <div class="flightResults" id="flight_<%= flight.go.flight.iata %>" data="<%=JSON.stringify(flight.go) %>">
     <div class="flightResult vcenter">
       <div class="flightNo infoDiv">
         <div class="label">
           FLIGHT NO.
         </div>
         <div class="value">
-          <%= flight.flight.iata %>
+          <%= flight.go.flight.iata %>
         </div>
       </div>
       <div class="flightDisplay vcenter">
         <div class="location infoDiv">
           <div class="label">SOURCE</div>
-          <div class="value"><%= flight.departure.iata %></div>
+          <div class="value"><%= flight.go.departure.iata %></div>
         </div>
         <div class="timeline">
           <div class="symbol center"><img src="/img/flightCard.png" alt="airplane.png"></div>
@@ -41,7 +41,7 @@
         </div>
         <div class="location infoDiv">
           <div class="label">DESTINATION</div>
-          <div class="value"><%= flight.arrival.iata %></div>
+          <div class="value"><%= flight.go.arrival.iata %></div>
         </div>
       </div>
       <div class="flightInfo infoDiv">
@@ -52,10 +52,13 @@
       </div>
       <div class="flightFare infoDiv">
         <div class="label">PRICE</div>
-         <div class="value">$<%= flight.price %></div>
-         <button class="choose-btn" onclick="ChooseFlight('<%=JSON.stringify(flight) %>');">Choose</button>
+         <div class="value">$<%= flight.go.price %></div>
+         <button class="choose-btn" onclick="ChooseFlight('<%=JSON.stringify(flight.go) %>');">Choose</button>
         </div>
     </div>
+  </div>
+  <div>
+    <p><%= flight.return %></p>
   </div>
 <% }) %>
 <%- include('flightRightSideBar.ejs') %>
