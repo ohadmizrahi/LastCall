@@ -237,3 +237,14 @@
     font-size: 30px; /* Font size */
     margin: 0; /* No margin */
   }
+  #sales-containers {
+    margin-left: -190px; /* Adjust this value as needed */
+  }
+
+  .flights-page {
+    overflow-x: hidden;
+  
+  }
+  
+
+  

@@ -17,6 +17,8 @@
     margin-bottom: 10px; /* Reduced margin */
     background-color: #f0f0f0; /* Added background color */
     width: 50%;
+    margin-left: -90px; /* Adjust this value to shift the content to the left as needed */
+
   }
   
 
@@ -42,6 +44,7 @@
   
   .review-body {
     margin-bottom: 10px;
+    
   }
   
   .review-dest {
@@ -241,3 +244,10 @@
 #review-form button[type="submit"]:hover {
   background-color: rgb(215, 148, 23); /* Changes the background color when hovering */
 }
+
+.reviews-page {
+  overflow-x: hidden;
+
+}
+
+
