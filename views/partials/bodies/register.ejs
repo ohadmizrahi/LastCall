@@ -4,8 +4,23 @@
       
       <div class="card">
         <div class="card-body">
-          <form action="/register" method="POST" onsubmit="return validatePassword()">
+          <form action="/register" method="POST" onsubmit="validatePassword()">
             <h1 id="register-heading">Register</h1>
+            <div class="border-top my-3"></div>
+            <div class="white-bold">
+              <label for="username">UserName</label>
+              <input type="text" class="form-control" name="username">
+            </div>
+            <div class="white-bold">
+              <label for="password">Password</label>
+              <input type="password" class="form-control" id="password" name="password">
+              <span id="passwordValidationMessage" class="text-danger"></span>
+            </div>
+            <div class="white-bold">
+              <label for="password-authentication">Password Confirmation</label>
+              <input type="password" class="form-control" id="password-authentication" name="passwordauth">
+            </div>
+            <div class="border-top my-3"></div>
             <div class="white-bold">
               <label for="fname">First Name</label>
               <input type="text" class="form-control" name="fname">
@@ -19,16 +34,11 @@
               <input type="email" class="form-control" name="email">
             </div>
             <div class="white-bold">
-              <label for="password">Password</label>
-              <input type="password" class="form-control" id="password" name="password">
-              <span id="passwordValidationMessage" class="text-danger"></span>
+              <label for="country">Country</label>
+              <input type="text" class="form-control" name="country">
             </div>
-            <div class="white-bold">
-              <label for="passwordAuthentication">Password Confirmation</label>
-              <input type="password" class="form-control" id="passwordAuthentication" name="password">
-            </div>
-            <br>
-            <button type="submit" class="btn btn-dark">Register</button>
+            <div class="border-top my-3"></div>
+            <button type="submit" class="btn btn-dark btn-lg btn-block">Register</button>
           </form>
         </div>
       </div>

@@ -9,6 +9,7 @@ const regiterRouter = require('./routes/register')
 const homeRoute = require('./routes/home')
 const menuRoute = require('./routes/services')
 const orderRoute = require('./routes/orderFlight')
+const admin = require('./routes/admin')
 
 const { getAllSales } = require('./models/sale')
 
@@ -33,6 +34,9 @@ app.use(menuRoute)
 
 // To handle get request for order flight
 app.use(orderRoute)
+
+// To handle get request for admin
+app.use(admin)
 
 
 app.use(session({

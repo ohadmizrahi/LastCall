@@ -160,21 +160,21 @@ async function findGoFlights(limit, query = null) {
   return goFlights
 }
 
-async function findReturnFlights(goFlights, arrDate) {
+async function findReturnFlights(goFlights, returnDate) {
   const flightsArray = [];
 
   for (const goFlight of goFlights) {
 
-    let returnDate;
+    let newReturnDate;
 
-    if (arrDate) {
-      returnDate = new Date(arrDate);
+    if (returnDate) {
+      newReturnDate = new Date(returnDate);
     } else { 
-    returnDate = new Date(goFlight.arrival.dateTime);
+      newReturnDate = new Date(goFlight.arrival.dateTime);
     }
-    returnDate.setDate(returnDate.getDate() + 2);
+    newReturnDate.setDate(newReturnDate.getDate() + 2);
     
-    const query = buildFindQuery(goFlight.arrival.city, 1, returnDate, null, goFlight.departure.city);
+    const query = buildFindQuery(goFlight.arrival.city, 1, newReturnDate, null, goFlight.departure.city);
 
     const returnFlights = await Flight.findOne(query)
 

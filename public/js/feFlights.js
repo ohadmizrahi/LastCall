@@ -25,8 +25,8 @@ function searchFlights() {
   $("#flight-search-form").on("submit", (event) => {
     event.preventDefault();
     const searchFields = {
-      departure: $("#departure").val(),
-      destination: $("#destination").val(),
+      departure: toTitleCase($("#departure").val()),
+      destination: toTitleCase($("#destination").val()),
       departureDate: $("#departureDate").val(),
       arrivalDate: $("#returnDate").val(),
       travelers: $("#travelers").val()
@@ -93,31 +93,28 @@ $(document).ready(function () {
 });
 
 function ChooseFlight(flightData) {
+
   console.log(flightData);
   var flightJsonData = JSON.parse(flightData);
-  insertFlightDetails(flightJsonData.go, flightJsonData.return);
-  
-  // Calculate total price
-  var totalPrice = flightJsonData.go.price + (flightJsonData.return ? flightJsonData.return.price : 0);
-  
-  // Insert total price into sidebar
-  $('#total-price').text(totalPrice.toFixed(2) + '$');
+  flightJsonData.totalPrice = flightJsonData.go.price + (flightJsonData.return ? flightJsonData.return.price : 0);
+  insertFlightDetails(flightJsonData.go, flightJsonData.return, flightJsonData.totalPrice);
+
 
   $('#details-sidebar').addClass('active');
 }
 
 
-function insertFlightDetails(goFlight, returnFlight) {
-  // Insert Go Flight details
+function insertFlightDetails(goFlight, returnFlight, totalPrice) {
+
   insertSingleFlightDetails('#go-flight-details', goFlight);
 
-  // If Return Flight exists, insert details
   if (returnFlight) {
-    $('#return-flight-details').show(); // Show return flight details if available
+    $('#return-flight-details').show(); 
     insertSingleFlightDetails('#return-flight-details', returnFlight);
   } else {
-    $('#return-flight-details').hide(); // Hide return flight details if not available
+    $('#return-flight-details').hide();
   }
+  $('#total-price').text(totalPrice.toFixed(2) + '$');
 }
 
 function insertSingleFlightDetails(containerId, flight) {
@@ -134,6 +131,12 @@ function insertSingleFlightDetails(containerId, flight) {
   $(containerId + ' #arrivalTerminal').text(flight.arrival.terminal);
   $(containerId + ' #arrivalCountry').text(flight.arrival.country);
   $(containerId + ' #price').text('$' + flight.price);
+}
+
+function toTitleCase(str) {
+  return str.toLowerCase().replace(/(?:^|\s)\w/g, function(match) {
+      return match.toUpperCase();
+  });
 }
 
 searchFlights()

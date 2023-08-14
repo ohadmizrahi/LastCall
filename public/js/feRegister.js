@@ -1,10 +1,10 @@
 function validatePassword() {
-    var password = document.getElementById("password").value;
-    var passwordAuthentication = document.getElementById("passwordAuthentication").value;
+    var password = $("#password").val()
+    var passwordAauthentication = $("#password-authentication").val()
 
     var passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/;
 
-    if (password !== passwordAuthentication) {
+    if (password !== passwordAauthentication) {
       alert("Passwords do not match.");
       return false;
     }

@@ -62,6 +62,16 @@ async function findAirportByCode(code) {
     }
   }
 
+  async function findCityByCountry(country) {
+    try {
+      const document = await Airport.findOne({ country: country });
+      return (document.city).replace('-', ' ').toLowerCase().replace(/(?:^|\s)\w/g, function(match) {return match.toUpperCase();});
+    } catch (error) {
+      console.error('Error finding city by country:', error.message);
+      throw error;
+    }
+  }
+
 // const path = require('path');
 
 // const filePath = path.join(__dirname, 'airports.json'); // Adjust the filename if needed
@@ -84,3 +94,4 @@ async function findAirportByCode(code) {
 
 module.exports.insertNewAirports = insertNewAirports;
 module.exports.findAirportByCode = findAirportByCode;
+module.exports.findCityByCountry = findCityByCountry
