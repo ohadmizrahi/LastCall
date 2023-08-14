@@ -1,6 +1,13 @@
 const mongoose = require('mongoose');
 const cron = require('node-cron');
 
+function formatDuration(duration) {
+  var durationParts = duration.split(':');
+  var hours = durationParts[0];
+  var minutes = durationParts[1];
+  return hours + 'h ' + minutes + 'm';
+}
+
 const flightSchema = new mongoose.Schema({
   flight: {
     status: { type: String, required: true },
@@ -150,39 +157,44 @@ async function findGoFlights(limit, query = null) {
   let goFlights;
   if (query) {
     goFlights = await Flight.find(query).limit(limit)
-
   } else {
     goFlights = await Flight.aggregate([
       { $match: { "flight.status": { $ne: "done" } } },
       { $sample: { size: limit } }
     ]);
   }
-  return goFlights
+  
+  // Format the duration for each retrieved flight
+  goFlights = goFlights.map(flight => {
+    flight.flight.duration = formatDuration(flight.flight.duration);
+    return flight;
+  });
+  
+  return goFlights;
 }
+
 
 async function findReturnFlights(goFlights, arrDate) {
   const flightsArray = [];
 
   for (const goFlight of goFlights) {
-
     let returnDate;
-
     if (arrDate) {
       returnDate = new Date(arrDate);
     } else { 
-    returnDate = new Date(goFlight.arrival.dateTime);
+      returnDate = new Date(goFlight.arrival.dateTime);
     }
     returnDate.setDate(returnDate.getDate() + 2);
-    
     const query = buildFindQuery(goFlight.arrival.city, 1, returnDate, null, goFlight.departure.city);
-
-    const returnFlights = await Flight.findOne(query)
-
-    flightsArray.push({ go: goFlight, return: returnFlights });
+    let returnFlight = await Flight.findOne(query);
+    if (returnFlight) {
+      returnFlight.flight.duration = formatDuration(returnFlight.flight.duration);
+    }
+    flightsArray.push({ go: goFlight, return: returnFlight });
   }
-
   return flightsArray;
 }
+
 
 
 function buildFindQuery(dep, totalPassangers, fullDate=null, monthDate=null, des=null) {
@@ -220,7 +232,9 @@ function buildFindQuery(dep, totalPassangers, fullDate=null, monthDate=null, des
 module.exports.insertNewFlights = insertNewFlights;
 module.exports.buildFindQuery = buildFindQuery;
 module.exports.findFlights = findFlights;
-module.exports.updateOldFlightStatus = updateOldFlightStatus
+module.exports.updateOldFlightStatus = updateOldFlightStatus;
+module.exports.formatDuration = formatDuration;
+
 
 
 

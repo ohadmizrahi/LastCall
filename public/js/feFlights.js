@@ -122,6 +122,7 @@ function insertFlightDetails(goFlight, returnFlight) {
 
 function insertSingleFlightDetails(containerId, flight) {
   var departureTime = new Date(flight.departure.dateTime).toUTCString().split(' ')[4].slice(0, 5);
+  var arrivalTime = new Date(flight.arrival.dateTime).toUTCString().split(' ')[4].slice(0, 5); // Extract arrival time
   var formatDateTime = function(dateTime) {
     var date = new Date(dateTime);
     return date.getDate().toString().padStart(2, '0') + '-' +
@@ -144,6 +145,10 @@ function insertSingleFlightDetails(containerId, flight) {
   $(containerId + ' #arrivalTerminal').text(flight.arrival.terminal);
   $(containerId + ' #arrivalCountry').text(flight.arrival.country);
   $(containerId + ' #price').text('$' + flight.price);
+  $(containerId + ' #departureCity').text(flight.departure.city);
+  $(containerId + ' #arrivalCity').text(flight.arrival.city);
+  $(containerId + ' #duration').text(flight.flight.duration);
+  $(containerId + ' #arrivalTime').text(arrivalTime);
 }
 
 
