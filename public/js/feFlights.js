@@ -121,9 +121,19 @@ function insertFlightDetails(goFlight, returnFlight) {
 }
 
 function insertSingleFlightDetails(containerId, flight) {
+  var departureTime = new Date(flight.departure.dateTime).toUTCString().split(' ')[4].slice(0, 5);
+  var formatDateTime = function(dateTime) {
+    var date = new Date(dateTime);
+    return date.getDate().toString().padStart(2, '0') + '-' +
+           (date.getMonth() + 1).toString().padStart(2, '0') + '-' +
+           date.getFullYear();
+  };
+  var departureDate = formatDateTime(flight.departure.dateTime);
+  var arrivalDate = formatDateTime(flight.arrival.dateTime);
   $(containerId + ' #flightNumber').text(flight.flight.iata);
-  $(containerId + ' #departureDate').text(flight.departure.dateTime);
-  $(containerId + ' #arrivalDate').text(flight.arrival.dateTime);
+  $(containerId + ' #departureDate').text(departureDate);
+  $(containerId + ' #departureTime').text(departureTime);
+  $(containerId + ' #arrivalDate').text(arrivalDate);
   $(containerId + ' #airlineName').text(flight.airline.name);
   $(containerId + ' #source').text(flight.departure.iata);
   $(containerId + ' #departureAirport').text(flight.departure.airport);
@@ -135,5 +145,7 @@ function insertSingleFlightDetails(containerId, flight) {
   $(containerId + ' #arrivalCountry').text(flight.arrival.country);
   $(containerId + ' #price').text('$' + flight.price);
 }
+
+
 
 searchFlights()
