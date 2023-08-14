@@ -4,7 +4,8 @@
         <div class="card-body">
             <div class="text-center">
                 <h1 class="card-title text-center"><%= body.destination.name %>, <%= body.destination.country %></h1>
-                <button id="to-flights-button" class="btn btn-primary btn-md to-flights">Search Flights</button>
+                <button id="to-flights-button" class="btn btn-primary btn-md to-flights" data-toFlight="<%= JSON.stringify(body.destination) %>">Search Flights</button>
+
             </div>
             <div class="card-text">
                 <p class="font-weight-bold">Best Month to Visit: <span class="font-weight-normal"><%= body.destination.bestMonth %></span></p>

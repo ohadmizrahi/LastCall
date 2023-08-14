@@ -5,7 +5,7 @@ const { findReviews, newReview, getValidDestinations } = require('../models/revi
 const { getAllSales } = require('../models/sale')
 const { getPopularDestinations, updateDestinationsPopularity, generateTourismData, getRecomandationFromGPT } = require('../models/destinations')
 const { insertNewFlights, buildFindQuery, findFlights } = require('../models/flights')
-// const { insertNewAirports } = require('../models/airports')
+const { findCityByCountry } = require('../models/airports')
 const { generateFlights } = require('../models/flightsGenerator')
 
 const router = Router();
@@ -80,6 +80,8 @@ router.post("/dest/:name", async (req, res) => {
 router.get("/flights", async (req, res) => {
     if (req.isAuthenticated()) {
         const data = await getAllSales()
+        const userCountry = req.cookies.userCountry;
+        const userCity = await findCityByCountry(userCountry)
 
         let flights;
 
@@ -90,9 +92,10 @@ router.get("/flights", async (req, res) => {
             flights = await findFlights(limit)
         }
         req.session.searchFlights = null
+
         res.render("index",
             {
-                body: { main: "partials/bodies/flights", flights: flights },
+                body: { main: "partials/bodies/flights", flights: flights, defaultDep: userCity },
                 header: { main: "partials/headers/header", auth: "authDiv/afterAuth", pageTitle: "Flights" },
                 sales: { main: "../salesBar", data: data }
             })

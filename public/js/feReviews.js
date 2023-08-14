@@ -40,10 +40,10 @@ function applyFilters() {
         const filteredReviews = reviewsArray.filter(review => {
             const destinationMatches = selectedDestination === 'all' || review.destination.toLowerCase() === selectedDestination;
             const rankMatches = matchRank(selectedRank, parseFloat(review.rank));
-        
+
             return destinationMatches && rankMatches;
         });
-        
+
         const reviewsContainer = $("#reviews-container")
         reviewsContainer.empty()
 
@@ -106,36 +106,57 @@ function newReview() {
         event.preventDefault();
         let newReview = {}
 
-        newReview.author = Cookies.get('name').replace(/\w\S*/g, function (t) { return t.charAt(0).toUpperCase() + t.substr(1).toLowerCase(); });
+        newReview.author = Cookies.get('name')
         newReview.date = new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
         newReview.destination = $('#destination').val();
         newReview.rank = $('#rank').val();
         newReview.happyContent = $('#happyContent').val();
         newReview.badContent = $('#badContent').val();
 
-        fetch("/add_review", {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(newReview)
-        })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    closeModal();
-                    window.location.href = '/reviews';
-                } else {
-                    alert('Failed to add review.');
-                    window.location.href = '/reviews';
-                }
-            })
-            .catch(error => {
-                console.log(error);
-            });
+        const validDest = reviewDestinationValidation(newReview.destination)
 
+        if (validDest) {
+
+            fetch("/add_review", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(newReview)
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        closeModal();
+                        window.location.href = '/reviews';
+                    } else {
+                        alert('Failed to add review.');
+                        window.location.href = '/reviews';
+                    }
+                })
+                .catch(error => {
+                    console.log(error);
+                });
+
+        } else {
+            $('#destination').val("")
+            alert("Not Valid Destination\n Re-Enter Destination")
+
+        }
     })
 };
+
+function reviewDestinationValidation(destInput) {
+
+    const validDestinationsElement = $("#validDestinations");
+    const validDestinations = JSON.parse(validDestinationsElement.attr("data-destinations"));
+
+    if (destInput && (!validDestinations.includes(destInput))) {
+        return false
+    } else {
+        return true
+    }
+}
 
 
 function buildDestinationOptions() {

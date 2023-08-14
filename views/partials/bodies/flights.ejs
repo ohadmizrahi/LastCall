@@ -1,7 +1,7 @@
 <div class="flights-page">
 
 <div id="search-bar">
-  <%- include("../searchBar") %>
+  <%- include("../searchBar", { defaultDep: body.defaultDep }) %>
 </div>
 <button class="generate-btn" onclick="generateNewFlights()">Generate New Flights</button>
 <div class="sidebar">

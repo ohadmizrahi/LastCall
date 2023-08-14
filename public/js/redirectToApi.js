@@ -8,6 +8,15 @@ cubeRediredtTo()
 
 function rediredtToFlights() {
     $(".to-flights").click(function () {
+        const toFlightData = JSON.parse($(this).attr("data-toFlight"));
+        dataToSearch = {
+            destName: toFlightData.name || toFlightData.destination || null,
+            depDate: toFlightData.departureDate || null,
+            returnDate: toFlightData.returnDate || null
+        }
+
+        sessionStorage.setItem("dataToSearch", JSON.stringify(dataToSearch));
+
         window.location.href = '/flights';
     });
 }

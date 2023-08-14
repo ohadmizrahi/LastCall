@@ -64,7 +64,8 @@ router.post("/login", function (req, res) {
           console.log(err);
           return res.redirect("/login");
         }
-        res.cookie('name', user.fName + " " + user.lName);
+        res.cookie('name', (user.fName + " " + user.lName).toLowerCase().replace(/(?:^|\s)\w/g, function(match) {return match.toUpperCase();}));
+        res.cookie('userCountry', user.country.toLowerCase().replace(/(?:^|\s)\w/g, function(match) {return match.toUpperCase();}));
         const returnTo = req.cookies.returnTo || "/home"
         res.clearCookie('returnTo');
         return res.redirect(returnTo);
@@ -75,6 +76,8 @@ router.post("/login", function (req, res) {
 
 router.get("/logout", function (req, res) {
   req.logout(() => {
+    res.clearCookie('name');
+    res.clearCookie('userCountry');
     res.redirect("/");
   })
 });

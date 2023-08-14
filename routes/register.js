@@ -23,14 +23,14 @@ passport.deserializeUser(function (id, done) {
 
 router.get("/register", function (req, res) {
   res.render("index", {
-    body: {main: "partials/bodies/register"},
-    header: {main: "partials/headers/header", auth: "authDiv/beforeAuth", pageTitle: "Register"}
+    body: { main: "partials/bodies/register" },
+    header: { main: "partials/headers/header", auth: "authDiv/beforeAuth", pageTitle: "Register" }
   })
 });
 
 router.post("/register", function (req, res) {
   const password = req.body.password;
-  const passwordAuthentication = req.body.passwordAuthentication;
+  const passwordAuthentication = req.body.passwordauth;
   const passwordRegex = new RegExp(/^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/);
 
   if (password !== passwordAuthentication || !passwordRegex.test(password)) {
@@ -38,14 +38,22 @@ router.post("/register", function (req, res) {
     return res.redirect("/register");
   }
 
-  User.register({ username: req.body.email, fName: req.body.fname, lName: req.body.lname }, password, function (err, user) {
+  User.register({
+    username: req.body.username,
+    fName: req.body.fname,
+    lName: req.body.lname,
+    email: req.body.email,
+    country: req.body.country
+  }, password, function (err, user) {
+
     if (err) {
-      console.log(err);
+      console.error(err);
       return res.redirect("/register");
     } else {
       return res.redirect("/login")
     }
   });
 });
+
 
 module.exports = router;
