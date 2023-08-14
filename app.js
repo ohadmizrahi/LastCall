@@ -53,9 +53,9 @@ createDBConn()
 app.get("/", async (req, res) => {
   const data = await getAllSales()
   res.render("index", {
-    body: {main: "partials/bodies/landing"},
-    header: {main: "partials/headers/header", auth: "authDiv/beforeAuth", pageTitle: "Welcome"},
-    sales: {main:"../salesBar",data:  data}
+    body: {main: "partials/generalBodies/landing"},
+    header: {main: "partials/headers/main", auth: "authDiv/beforeAuth", pageTitle: "Welcome"},
+    sales: {main:"../generalPartials/salesBar",data:  data}
 
   })
 })

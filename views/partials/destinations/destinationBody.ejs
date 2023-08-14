@@ -1,12 +1,12 @@
 <div class="get-recomand-container">
-    <%- include("../recomandDestination") %>
+    <%- include("recomandDestination") %>
 </div>
 
 
 <h1 class="popular-destinations-title">Popular Destinations</h1>
 <div class="destinations-container">
     <% body.destinations.forEach((destination, index) => { %>
-        <%- include("../destinationCard", { destination: destination }) %>
+        <%- include("destinationCard", { destination: destination }) %>
     <% }); %>
 
 </div>

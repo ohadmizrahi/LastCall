@@ -23,8 +23,8 @@ passport.deserializeUser(function (id, done) {
 
 router.get("/register", function (req, res) {
   res.render("index", {
-    body: { main: "partials/bodies/register" },
-    header: { main: "partials/headers/header", auth: "authDiv/beforeAuth", pageTitle: "Register" }
+    body: { main: "partials/generalBodies/register" },
+    header: { main: "partials/headers/main", auth: "authDiv/beforeAuth", pageTitle: "Register" }
   })
 });
 
