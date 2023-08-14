@@ -118,9 +118,20 @@ function insertFlightDetails(goFlight, returnFlight, totalPrice) {
 }
 
 function insertSingleFlightDetails(containerId, flight) {
+  var departureTime = new Date(flight.departure.dateTime).toUTCString().split(' ')[4].slice(0, 5);
+  var arrivalTime = new Date(flight.arrival.dateTime).toUTCString().split(' ')[4].slice(0, 5); // Extract arrival time
+  var formatDateTime = function(dateTime) {
+    var date = new Date(dateTime);
+    return date.getDate().toString().padStart(2, '0') + '-' +
+           (date.getMonth() + 1).toString().padStart(2, '0') + '-' +
+           date.getFullYear();
+  };
+  var departureDate = formatDateTime(flight.departure.dateTime);
+  var arrivalDate = formatDateTime(flight.arrival.dateTime);
   $(containerId + ' #flightNumber').text(flight.flight.iata);
-  $(containerId + ' #departureDate').text(flight.departure.dateTime);
-  $(containerId + ' #arrivalDate').text(flight.arrival.dateTime);
+  $(containerId + ' #departureDate').text(departureDate);
+  $(containerId + ' #departureTime').text(departureTime);
+  $(containerId + ' #arrivalDate').text(arrivalDate);
   $(containerId + ' #airlineName').text(flight.airline.name);
   $(containerId + ' #source').text(flight.departure.iata);
   $(containerId + ' #departureAirport').text(flight.departure.airport);
@@ -131,6 +142,10 @@ function insertSingleFlightDetails(containerId, flight) {
   $(containerId + ' #arrivalTerminal').text(flight.arrival.terminal);
   $(containerId + ' #arrivalCountry').text(flight.arrival.country);
   $(containerId + ' #price').text('$' + flight.price);
+  $(containerId + ' #departureCity').text(flight.departure.city);
+  $(containerId + ' #arrivalCity').text(flight.arrival.city);
+  $(containerId + ' #duration').text(flight.flight.duration);
+  $(containerId + ' #arrivalTime').text(arrivalTime);
 }
 
 function toTitleCase(str) {

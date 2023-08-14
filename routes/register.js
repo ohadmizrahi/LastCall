@@ -50,7 +50,6 @@ router.post("/register", function (req, res) {
       console.error(err);
       return res.redirect("/register");
     } else {
-      res.cookie('userCountry', req.body.country.toLowerCase().replace(/(?:^|\s)\w/g, function(match) {return match.toUpperCase();}));
       return res.redirect("/login")
     }
   });

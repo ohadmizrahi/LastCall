@@ -1,3 +1,5 @@
+<div class="flights-page">
+
 <div id="search-bar">
   <%- include("../searchBar", { defaultDep: body.defaultDep }) %>
 </div>
@@ -46,7 +48,12 @@
 <% }) %>
 <%- include('flightRightSideBar.ejs') %>
 </div>
-<%- include(sales.main) %>
+
+<div id="sales-containers">
+  <%- include(sales.main) %>
+</div>
+
+</div>
 
 
 
