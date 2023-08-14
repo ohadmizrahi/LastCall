@@ -10,8 +10,9 @@
         </div>
         <img src="<%= sale.img %>" class="sale-img">
         <div class="sale-content">
-          <p>Dates: <%= sale.departureDate %> - <%= sale.returnDate %></p>
-          <p>Starting Price: <%= sale.minPrice %>$</p>
+          <p>Departure Date: <%= sale.departureDate %></p>
+          <p>Return Date: <%= sale.returnDate %></p>
+          <p>Start From: <%= sale.dealPrice %>$</p>
         </div>
       </div>
     <% }); %>

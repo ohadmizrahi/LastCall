@@ -58,7 +58,7 @@
     <div id="reviews-container">
         <% if (body.reviews) { %>
         <% body.reviews.forEach((review) => { %>
-            <%- include("../review", { review: review }) %>
+            <%- include("reviewCard", { review: review }) %>
         <% })} else { %> 
             <p id="no-reviews">No reviews found</p>
         <% } %>

@@ -35,8 +35,8 @@ passport.deserializeUser(function (id, done) {
 
 router.get("/login", (req, res) => {
   res.render("index", {
-    body: {main: "partials/bodies/login"},
-    header: {main: "partials/headers/header", auth: "authDiv/beforeAuth", pageTitle: "Login"}
+    body: {main: "partials/generalBodies/login"},
+    header: {main: "partials/headers/main", auth: "authDiv/beforeAuth", pageTitle: "Login"}
   })
 })
 
@@ -66,6 +66,7 @@ router.post("/login", function (req, res) {
         }
         res.cookie('name', (user.fName + " " + user.lName).toLowerCase().replace(/(?:^|\s)\w/g, function(match) {return match.toUpperCase();}));
         res.cookie('userCountry', user.country.toLowerCase().replace(/(?:^|\s)\w/g, function(match) {return match.toUpperCase();}));
+        res.cookie('isAdmin', user.isAdmin)
         const returnTo = req.cookies.returnTo || "/home"
         res.clearCookie('returnTo');
         return res.redirect(returnTo);
@@ -78,6 +79,7 @@ router.get("/logout", function (req, res) {
   req.logout(() => {
     res.clearCookie('name');
     res.clearCookie('userCountry');
+    res.clearCookie('isAdmin');
     res.redirect("/");
   })
 });
