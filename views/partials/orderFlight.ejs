@@ -1,19 +1,8 @@
 <h1 class="text-center">Order Your Flight</h1>
 <p class="text-center">Here you can complete your flight booking.</p>
-<%= JSON.stringify(body.flights) %>
+<button id="showFlightDetailsBtn" onclick="displayFlightDetails('<%=JSON.stringify(body.flights) %>')">Show Flight Details</button>
 <div class="container">
     <div class="row">
-        <div class="col-md-5" id="flight-details" data="<%= JSON.stringify(body.flights) %>">
-            <%- include('./bodies/flightRightSideBar', {flight: body.flights}) %>
-
-
-<!--
-            <h2>Flight Information</h2>
-            <h3>Go</h3>
-           <%- include('./flightInfo', {flight: body.flights.go}) %>
-           <h3>Return</h3>
-           <%- include('./flightInfo', {flight: body.flights.return}) %>-->
-        </div>        
         <div class="col-md-1 d-flex flex-column"></div>
         <div class="col-md-6">
             <form action="/submit_order" method="post" id="order-form" onsubmit="showConfirmation()">
@@ -96,3 +85,4 @@
     </div>
 </div>
 
+<%- include('./bodies/flightRightSideBar', {flight: body.flights}) %>

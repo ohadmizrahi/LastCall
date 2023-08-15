@@ -7,6 +7,7 @@ $(".cube").click(function () {
 cubeRediredtTo()
 
 function rediredtToFlights() {
+    console.log("rediredtToFlights()");
     $(".to-flights").click(function () {
         const toFlightData = JSON.parse($(this).attr("data-toFlight"));
         dataToSearch = {
@@ -14,6 +15,7 @@ function rediredtToFlights() {
             depDate: toFlightData.departureDate || null,
             returnDate: toFlightData.returnDate || null
         }
+        console.log(dataToSearch);
 
         sessionStorage.setItem("dataToSearch", JSON.stringify(dataToSearch));
 
