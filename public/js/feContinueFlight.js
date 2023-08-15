@@ -1,22 +1,6 @@
  $('#continue-btn').click(function() {
-    var flightData = {
-      flight: {
-        iata: $('#flightNumber').text(),
-        date: $('#flightDate').text(),
-        airlineName: $('#airlineName').text(),
-        source: $('#source').text(),
-        departureAirport: $('#departureAirport').text(),
-        departureTerminal: $('#departureTerminal').text(),
-        departureCountry: $('#departureCountry').text(),
-        destination: $('#destination').text(),
-        arrivalAirport: $('#arrivalAirport').text(),
-        arrivalTerminal: $('#arrivalTerminal').text(),
-        arrivalCountry: $('#arrivalCountry').text(),
-        price: $('#price').text()
-      }
-    };
-    localStorage.setItem('flightData', JSON.stringify(flightData));
-    window.location.href = '/order';
+    localStorage.setItem('flightData', JSON.stringify(flightJsonData));
+    window.location.href = '/order?flightData=' + JSON.stringify(flightJsonData);
   });
   
   $(document).ready(function() {
