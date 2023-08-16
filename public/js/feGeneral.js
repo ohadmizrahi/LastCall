@@ -18,5 +18,34 @@ function checkIfAdmin() {
       });
 }
 
-checkIfAdmin()
+function buildDestinationOptions() {
+  const validDestinationsElement = $("#validDestinations");
+  const dataListElement = $(".destination-options")
+  if (validDestinationsElement.length > 0) {
+      const validDestinations = JSON.parse(validDestinationsElement.attr("data-destinations"));
+      validDestinations.forEach(destination => {
+          dataListElement.append($(`<option value="${destination}">`))
+      });
+  }
+
+}
+
+function destinationValidation() {
+  $(".form-with-destination").submit(function (event) {
+      const validDestinationsElement = $("#validDestinations");
+      const validDestinations = JSON.parse(validDestinationsElement.attr("data-destinations"));
+      const destInput = $(".destination-validation")
+
+      if (destInput.val() && (!validDestinations.includes(destInput.val()))) {
+          event.preventDefault();
+          alert("Not Valid Destination\n Re-Enter Destination")
+          destInput.val("")
+      }
+  });
+
+}
+
 loadScreen()
+buildDestinationOptions()
+destinationValidation()
+checkIfAdmin()

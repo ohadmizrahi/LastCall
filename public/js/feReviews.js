@@ -190,5 +190,4 @@ applyFilters();
 $(document).ready(initDestinationReviewsFilter);
 sortReviews(); // for default desc sort
 newReview();
-buildDestinationOptions()
 

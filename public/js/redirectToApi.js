@@ -1,10 +1,10 @@
-function cubeRediredtTo() {
-$(".cube").click(function () {
+function rediredtToAPI() {
+$(".redirect-to").click(function () {
     const apiURL = $(this).data("api");
     window.location.href = apiURL;
 });
 }
-cubeRediredtTo()
+rediredtToAPI()
 
 function rediredtToFlights() {
     console.log("rediredtToFlights()");

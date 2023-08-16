@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-const { findDestinations } = require("./destinations")
 
 
 const reviewSchema = new mongoose.Schema({
@@ -99,14 +98,5 @@ async function insertNewReview(review) {
     }
 }
 
-async function getValidDestinations() {
-    const destinations = await findDestinations();
-    const sortedValidDestinationsNames = destinations.map(destination => destination.name);
-    sortedValidDestinationsNames.sort();
-    return sortedValidDestinationsNames;
-}
-
-
 module.exports.findReviews = findReviews
 module.exports.newReview = newReview
-module.exports.getValidDestinations = getValidDestinations

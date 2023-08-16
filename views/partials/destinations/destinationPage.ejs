@@ -22,7 +22,8 @@
         </div>
     </div>
 </div>
+
 <input type="hidden" id="destination-name" value="<%= body.destination.name %>">
-<%- include('../reviews/reviewsBody', {reviews: body.reviews}) %>
+<%- include('../reviews/reviewsBody', {reviews: body.reviews, validDestinations: body.validDestinations}) %>
 
 
