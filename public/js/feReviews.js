@@ -176,8 +176,18 @@ function capitalizeFirstLetter(string) {
     return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
 }
 
-applyFilters();
+function initDestinationReviewsFilter() {
+    // Check if the hidden input exists
+    if ($('#destination-name').length) {
+        // Set the destination filter's value using the hidden input's value
+        $('#destination-input-filter').val($('#destination-name').val());
+        // Apply filters to show the relevant reviews
+        applyFilters();
+    }
+}
 
+applyFilters();
+$(document).ready(initDestinationReviewsFilter);
 sortReviews(); // for default desc sort
 newReview();
 buildDestinationOptions()

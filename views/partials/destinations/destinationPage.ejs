@@ -18,11 +18,11 @@
             </div>
             <div class="mt-5">
                 <canvas id="tourismChart"></canvas>
-
             </div>
         </div>
     </div>
 </div>
+<input type="hidden" id="destination-name" value="<%= body.destination.name %>">
 <%- include('../reviews/reviewsBody', {reviews: body.reviews}) %>
 
 
