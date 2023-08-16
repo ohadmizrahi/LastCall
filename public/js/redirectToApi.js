@@ -12,7 +12,7 @@ function rediredtToFlights() {
         const toFlightData = JSON.parse($(this).attr("data-toFlight"));
         dataToSearch = {
             destName: toFlightData.name || toFlightData.destination || null,
-            depDate: toFlightData.departureDate || null,
+            departureDate: toFlightData.departureDate || null,
             returnDate: toFlightData.returnDate || null
         }
         console.log(dataToSearch);

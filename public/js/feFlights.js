@@ -129,12 +129,6 @@ console.log(goFlight, returnFlight);
 function insertSingleFlightDetails(containerId, flight) {
   var departureTime = new Date(flight.departure.dateTime).toUTCString().split(' ')[4].slice(0, 5);
   var arrivalTime = new Date(flight.arrival.dateTime).toUTCString().split(' ')[4].slice(0, 5); // Extract arrival time
-  var formatDateTime = function(dateTime) {
-    var date = new Date(dateTime);
-    return date.getDate().toString().padStart(2, '0') + '-' +
-           (date.getMonth() + 1).toString().padStart(2, '0') + '-' +
-           date.getFullYear();
-  };
   var departureDate = formatDateTime(flight.departure.dateTime);
   var arrivalDate = formatDateTime(flight.arrival.dateTime);
   $(containerId + ' #flightNumber').text(flight.flight.iata);
@@ -156,6 +150,14 @@ function insertSingleFlightDetails(containerId, flight) {
   $(containerId + ' #duration').text(flight.flight.duration);
   $(containerId + ' #arrivalTime').text(arrivalTime);
 }
+
+
+function formatDateTime (dateTime) {
+  var date = new Date(dateTime);
+  return date.getDate().toString().padStart(2, '0') + '/' +
+         (date.getMonth() + 1).toString().padStart(2, '0') + '/' +
+         date.getFullYear();
+};
 
 function toTitleCase(str) {
   return str.toLowerCase().replace(/(?:^|\s)\w/g, function(match) {

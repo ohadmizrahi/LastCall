@@ -14,14 +14,14 @@ router.use(bodyParser.json());
 
 router.get("/dest", async (req, res) => {
     if (req.isAuthenticated()) {
-        const data = await getAllSales()
+        const salesData = await getAllSales()
         const destinations = await getPopularDestinations()
 
         res.render("index",
             {
-                body: { main: "partials/bodies/destination", destinations: destinations },
-                header: { main: "partials/headers/header", auth: "authDiv/afterAuth", pageTitle: "Destinations" },
-                sales: { main: "../salesBar", data: data }
+                body: { main: "partials/destinations/destinationBody", destinations: destinations },
+                header: { main: "partials/headers/main", auth: "authDiv/afterAuth", pageTitle: "Destinations"},
+                sales: { main: "../generalPartials/salesBar", data: salesData }
             })
     } else {
         res.cookie("returnTo", "/dest")
@@ -33,14 +33,14 @@ router.get("/dest", async (req, res) => {
 router.get("/dest/:name", async (req, res) => {
 
     if (req.isAuthenticated()) {
-        const data = await getAllSales()
+        const salesData = await getAllSales()
         const destination = req.session.destination;
         const reviews = await findReviews();
         res.render("index",
             {
-                body: { main: "partials/destinationPage", destination: destination, reviews: reviews },
-                header: { main: "partials/headers/header", auth: "authDiv/afterAuth", pageTitle: "Destinations" },
-                sales: { main: "../salesBar", data: data }
+                body: { main: "partials/destinations/destinationPage", destination: destination, reviews: reviews },
+                header: { main: "partials/headers/main", auth: "authDiv/afterAuth", pageTitle: "Destinations" },
+                sales: { main: "../generalPartials/salesBar", data: salesData }
             })
     } else {
         res.cookie("returnTo", "/dest")
@@ -79,7 +79,7 @@ router.post("/dest/:name", async (req, res) => {
 
 router.get("/flights", async (req, res) => {
     if (req.isAuthenticated()) {
-        const data = await getAllSales()
+        const salesData = await getAllSales()
         const userCountry = req.cookies.userCountry;
         const userCity = await findCityByCountry(userCountry)
 
@@ -91,13 +91,16 @@ router.get("/flights", async (req, res) => {
             const limit = 5
             flights = await findFlights(limit)
         }
+        if (flights.length < 1) {
+            flights = null
+        }
         req.session.searchFlights = null
 
         res.render("index",
             {
-                body: { main: "partials/bodies/flights", flights: flights, defaultDep: userCity },
-                header: { main: "partials/headers/header", auth: "authDiv/afterAuth", pageTitle: "Flights" },
-                sales: { main: "../salesBar", data: data }
+                body: { main: "partials/flights/flightsBody", flights: flights, defaultDep: userCity },
+                header: { main: "partials/headers/main", auth: "authDiv/afterAuth", pageTitle: "Flights" },
+                sales: { main: "../generalPartials/salesBar", data: salesData }
             })
 
     } else {
@@ -162,12 +165,12 @@ router.get("/reviews", async (req, res) => {
     if (req.isAuthenticated()) {
         const reviews = await findReviews()
         const validDestinations = await getValidDestinations()
-        const data = await getAllSales()
+        const salesData = await getAllSales()
         res.render("index",
             {
-                body: { main: "partials/bodies/reviews", reviews: reviews, validDestinations: validDestinations },
-                header: { main: "partials/headers/header", auth: "authDiv/afterAuth", pageTitle: "Reviews" },
-                sales: { main: "../salesBar", data: data }
+                body: { main: "partials/reviews/reviewsBody", reviews: reviews, validDestinations: validDestinations },
+                header: { main: "partials/headers/main", auth: "authDiv/afterAuth", pageTitle: "Reviews" },
+                sales: { main: "../generalPartials/salesBar", data: salesData }
             })
     } else {
         res.cookie("returnTo", "/reviews")

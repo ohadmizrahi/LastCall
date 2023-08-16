@@ -1,6 +1,8 @@
 const mongoose = require("mongoose");
+const moment = require('moment');
 const findOrCreate = require('mongoose-findorcreate');
 const { getDestImg } = require('./destinations.js')
+
 
 const saleSchema = new mongoose.Schema({
   destination: {
@@ -8,20 +10,28 @@ const saleSchema = new mongoose.Schema({
     required: true
   },
   departureDate: {
-    type: String,
+    type: Date,
     required: true
   },
   returnDate: {
-    type: String,
+    type: Date,
     required: true
   },
-  minPrice: {
+  dealPrice: {
+    type: Number,
+    required: false
+  },
+  numberOfDays: {
     type: Number,
     required: true
   },
   img: {
     type: String,
     required: true
+  },
+  timeStamp: {
+    type: Date,
+    default: new Date()
   },
 });
 
@@ -34,7 +44,8 @@ async function insertSale(sale) {
       destination: destination,
       departureDate: departureDate,
       returnDate: returnDate,
-      minPrice: minPrice,
+      dealPrice: dealPrice,
+      numberOfDays: numberOfDays,
       img: img
     } = sale;
 
@@ -49,16 +60,18 @@ async function insertSale(sale) {
     });
 
     if (!existingSale) {
-      console.log("Inserting new sale");
+      
       const newSale = new Sale({
         destination: destination,
         departureDate: departureDate,
         returnDate: returnDate,
-        minPrice: minPrice,
+        dealPrice: dealPrice,
+        numberOfDays: numberOfDays,
         img: img
       });
 
-      const savedSale = await newSale.save();
+      await newSale.save();
+      console.log("Sale inserted");
     } else {
       console.log("Sale already exist");
     }
@@ -68,15 +81,21 @@ async function insertSale(sale) {
 }
 
 async function getAllSales() {
-  const sales = await Sale.find()
-  return sales
+  const sales = await Sale.find();
+
+  const formattedSales = sales.map(sale => ({
+    ...sale.toObject(),
+    departureDate: moment(sale.departureDate).format('YYYY/MM/DD'),
+    returnDate: moment(sale.returnDate).format('YYYY/MM/DD')
+  }));
+
+  return formattedSales;
 }
-// getAllSales().forEach((sale) => {
-//   insertSale(sale)
-// })
+
 
 
 
 
 saleSchema.plugin(findOrCreate);
 module.exports.getAllSales = getAllSales;
+module.exports.insertSale = insertSale;

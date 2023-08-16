@@ -1,7 +1,7 @@
 <div class="flights-page">
 
 <div id="search-bar">
-  <%- include("../searchBar", { defaultDep: body.defaultDep }) %>
+  <%- include("searchBar", { defaultDep: body.defaultDep }) %>
 </div>
 <button class="generate-btn" onclick="generateNewFlights()">Generate New Flights</button>
 <div class="sidebar">
@@ -19,16 +19,22 @@
   <label>Return: <input type="range" min="0" max="23" step="1" id="return-time" value="23"></label>
   <span id="return-time-display">0:00 - 23:59</span>
 </div>
-<div class="flights-container">
+
+<% if (!body.flights) { %>
+  <div class="no-flights-container">
+    <p>No Flights Found</p>
+  </div>
+<% } else { %>
+  <div class="flights-container">
 <% body.flights.forEach((flight) => { %>
   <div class="flights-combination">
     <div class="bordered-flight-container">
       <div class="flight-section">
-        <%- include('./flight',{ flight: flight.go }) %>
+        <%- include('flightCard',{ flight: flight.go }) %>
       </div>
       <% if (flight.return) { %>
         <div class="flight-section">
-          <%- include('./flight',{ flight: flight.return }) %>
+          <%- include('flightCard',{ flight: flight.return }) %>
         </div>
       <% } else { %>
         <div class="no-return-flight-container">
@@ -45,7 +51,7 @@
     </div>
   </div>
   </div>
-<% }) %>
+<% })} %>
 <%- include('flightRightSideBar.ejs') %>
 </div>
 
