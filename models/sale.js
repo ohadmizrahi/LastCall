@@ -72,8 +72,10 @@ async function insertSale(sale) {
 
       await newSale.save();
       console.log("Sale inserted");
+      return 0
     } else {
       console.log("Sale already exist");
+      return 1
     }
   } catch (error) {
     throw new Error('Error finding or creating sale: ' + error.message);
@@ -81,6 +83,7 @@ async function insertSale(sale) {
 }
 
 async function getAllSales() {
+  console.log("Getting all sales ...");
   const sales = await Sale.find();
 
   const formattedSales = sales.map(sale => ({

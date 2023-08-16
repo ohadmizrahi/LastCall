@@ -1,29 +1,3 @@
-function generateNewFlights() {
-  fetch("/generate_new_flights", {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json'
-    }
-  })
-    .then(response => {
-      if (!response.ok) {
-        throw new Error('Network response was not ok');
-      }
-      return response.json();
-    })
-    .then(flights => {
-      if (flights > 0) {
-      alert("Getting new flights from suppliers done uccessfully")
-      } else {
-        alert("Getting new flights from suppliiers failed: TRY AGAIN")
-      }
-    })
-    .catch(error => {
-      console.error('Error:', error);
-      alert("Getting new flights from suppliiers failed: TRY AGAIN")
-    });
-}
-
 function searchFlights() {
   $("#flight-search-form").on("submit", (event) => {
     event.preventDefault();
@@ -56,8 +30,6 @@ function searchFlights() {
       });
   });
 }
-
-
 
 
 $(document).ready(function () {

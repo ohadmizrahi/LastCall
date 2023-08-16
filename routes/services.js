@@ -1,12 +1,12 @@
 const { Router } = require('express');
 const bodyParser = require("body-parser");
 const session = require('express-session');
-const { findReviews, newReview, getValidDestinations } = require('../models/reviews')
+const { findReviews, newReview } = require('../models/reviews')
 const { getAllSales } = require('../models/sale')
 const { getPopularDestinations, updateDestinationsPopularity, generateTourismData, getRecomandationFromGPT } = require('../models/destinations')
-const { insertNewFlights, buildFindQuery, findFlights } = require('../models/flights')
+const { buildFindQuery, findFlights } = require('../models/flights')
 const { findCityByCountry } = require('../models/airports')
-const { generateFlights } = require('../models/flightsGenerator')
+const { getAllDestinations } = require('../models/airports')
 
 const router = Router();
 
@@ -36,9 +36,12 @@ router.get("/dest/:name", async (req, res) => {
         const salesData = await getAllSales()
         const destination = req.session.destination;
         const reviews = await findReviews();
+        const validDestinations = await getAllDestinations()
+        console.log("loading");
+        
         res.render("index",
             {
-                body: { main: "partials/destinations/destinationPage", destination: destination, reviews: reviews },
+                body: { main: "partials/destinations/destinationPage", destination: destination, reviews: reviews, validDestinations: validDestinations },
                 header: { main: "partials/headers/main", auth: "authDiv/afterAuth", pageTitle: "Destinations" },
                 sales: { main: "../generalPartials/salesBar", data: salesData }
             })
@@ -110,29 +113,6 @@ router.get("/flights", async (req, res) => {
 
 })
 
-router.get("/generate_new_flights", async (req, res) => {
-    try {
-        console.log("Start Generating new flights")
-        const flightsData = await generateFlights(1)
-        if (flightsData) {
-            console.log("Finished Generating new flights")
-            console.log("Start inserting new flights to DB");
-            const flights = await insertNewFlights(flightsData)
-            if (flights) {
-                console.log("Finished inserting new flights to DB");
-                res.status(200).json({ message: "Flights inserted successfully." });
-            } else {
-                res.status(500).json({ error: "Failed to insert flights." });
-            }
-        } else {
-            res.status(500).json({ error: "Failed to fetch flights data." });
-        }
-    } catch (error) {
-        console.error('Error:', error);
-        res.status(500).json({ error: "Failed to fetch flights data." });
-    }
-
-})
 
 router.post("/search_flights", async (req, res) => {
     try {
@@ -164,7 +144,7 @@ router.get("/reviews", async (req, res) => {
 
     if (req.isAuthenticated()) {
         const reviews = await findReviews()
-        const validDestinations = await getValidDestinations()
+        const validDestinations = await getAllDestinations()
         const salesData = await getAllSales()
         res.render("index",
             {

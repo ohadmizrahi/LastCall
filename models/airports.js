@@ -72,6 +72,29 @@ async function findAirportByCode(code) {
     }
   }
 
+  async function findAirportByCity(city) {
+    try {
+      const airport = await Airport.findOne({ city: city });
+      return airport
+    } catch (error) {
+      console.error('Error finding airport by city:', error.message);
+      throw error;
+    }
+  }
+
+  async function getAllDestinations() {
+    try {
+      console.log("Getting destinations for validation ...");
+        const airports = await Airport.find({}, 'city');
+        const cities = airports.map(airport => airport.city);
+        return cities;
+    } catch (error) {
+        console.error('Error finding airports by city:', error.message);
+        throw error;
+    }
+}
+
+
 // const path = require('path');
 
 // const filePath = path.join(__dirname, 'airports.json'); // Adjust the filename if needed
@@ -95,3 +118,5 @@ async function findAirportByCode(code) {
 module.exports.insertNewAirports = insertNewAirports;
 module.exports.findAirportByCode = findAirportByCode;
 module.exports.findCityByCountry = findCityByCountry
+module.exports.findAirportByCity = findAirportByCity
+module.exports.getAllDestinations = getAllDestinations

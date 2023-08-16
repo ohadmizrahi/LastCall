@@ -149,20 +149,9 @@ function reviewDestinationValidation(destInput) {
 }
 
 
-function buildDestinationOptions() {
-    const validDestinationsElement = $("#validDestinations");
-    const dataListElement = $(".destination-options")
-    if (validDestinationsElement.length > 0) {
-        const validDestinations = JSON.parse(validDestinationsElement.attr("data-destinations"));
-        validDestinations.forEach(destination => {
-            dataListElement.append($(`<option value="${destination}">`))
-        });
-    }
 
-}
 applyFilters();
 
 sortReviews(); // for default desc sort
 newReview();
-buildDestinationOptions()
 

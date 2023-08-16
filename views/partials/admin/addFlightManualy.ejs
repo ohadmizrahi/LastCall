@@ -1,0 +1,88 @@
+<div id="validDestinations" data-destinations="<%= JSON.stringify(body.validDestinations) %>"></div>
+<div class="col-12 col-md-8 offset-md-2 col-lg-6 offset-lg-3">
+    <div class="card">
+        <div class="card-body text-center">
+            <h1 id="add-flight-heading">Add New Flight</h1>
+            <div class="border-top my-3"></div>
+            <form action="/admin/add_flight" method="POST" id="add-flight-form" class="form-with-destination">
+                <h1 id="add-flight-heading">Go Flight</h1>
+                <!-- Departure Details -->
+                <div class="form-group text-center">
+                    <div class="form-group">
+                        <label for="depCity">Departure City</label>
+                        <input type="text" class="form-control destination-validation" name="goDepCity"
+                            list="destination-options-new" required>
+                        <datalist class="destination-options" id="destination-options-new"></datalist>
+                    </div>
+                    <div class="form-group">
+                        <label for="depDateTime">Departure Date</label>
+                        <input type="datetime-local" class="form-control" name="goDepDateTime" required>
+                    </div>
+                </div>
+                <!-- Arrival Details -->
+                <div class="form-group text-center">
+                    <div class="form-group">
+                        <label for="arrCity">Arrival City</label>
+                        <input type="text" class="form-control destination-validation" name="goArrCity"
+                            list="destination-options-new" required>
+                        <datalist class="destination-options" id="destination-options-new"></datalist>
+                    </div>
+                </div>
+
+                <!-- Airline Details -->
+                <div class="form-group text-center">
+                    <div class="form-group">
+                        <label for="goAirlineName">Airline Name</label>
+                        <input type="text" class="form-control" name="goAirlineName">
+                    </div>
+                    <div class="form-group">
+                        <label for="goAirlineCode">Airline IATA Code</label>
+                        <input type="text" class="form-control" name="goAirlineCode" required>
+                    </div>
+                </div>
+
+                <div class="form-group text-center">
+                    <label for="goPrice">Flight Price</label>
+                    <input type="number" class="form-control" name="goPrice" min="20" max="1500" required>
+                </div>
+                <div class="border-top my-3"></div>
+
+                <div class="form-check">
+                    <input type="checkbox" class="form-check-input" id="returnFlightCheckbox" data-toggle="collapse"
+                        data-target="#returnFlightDetails" aria-expanded="false">
+                    <label class="form-check-label" for="returnFlightCheckbox">Return Flight</label>
+                </div>
+                <div class="border-top my-3"></div>
+
+                <!-- Return Flight Details (hidden by default) -->
+                <div id="returnFlightDetails" class="collapse">
+                    <h1 id="add-flight-heading">Return Flight</h1>
+                    <!-- Airline Details -->
+                    <div class="form-group text-center">
+                        <div class="form-group">
+                            <label for="returnAirlineName">Airline Name</label>
+                            <input type="text" class="form-control return-detail" name="return[returnAirlineName]">
+                        </div>
+                        <div class="form-group">
+                            <label for="returnAirlineCode">Airline IATA Code</label>
+                            <input type="text" class="form-control return-detail" name="return[returnAirlineCode]">
+                        </div>
+                    </div>
+                    <!-- Departure Details -->
+                    <div class="form-group text-center">
+                        <div class="form-group">
+                            <label for="returnDateTime">Departure Date</label>
+                            <input type="datetime-local" class="form-control return-detail" name="return[returnDateTime]">
+                        </div>
+                    </div>
+                    <div class="form-group text-center">
+                        <label for="returnPrice">Flight Price</label>
+                        <input type="number" class="form-control return-detail" name="return[returnPrice]" min="20" max="1500">
+                    </div>
+                    <div class="border-top my-3"></div>
+                </div>
+                <button type="submit" class="btn btn-primary">Add Flight</button>
+            </form>
+        </div>
+    </div>
+</div>

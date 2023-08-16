@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const cron = require('node-cron');
+const { formatCityName } = require('./lib')
 
 function formatDuration(duration) {
   var durationParts = duration.split(':');
@@ -48,6 +49,7 @@ const Flight = mongoose.model('Flight', flightSchema);
 
 async function insertNewFlights(flightDataArray) {
   try {
+    console.log("Start inserting new flights to DB");
     const flights = [];
 
     for (const data of flightDataArray) {
@@ -103,7 +105,7 @@ async function insertNewFlights(flightDataArray) {
         flights.push(savedFlight);
       }
     }
-
+    console.log("Finished inserting new flights to DB");
     return flights;
   } catch (error) {
     throw new Error('Error finding or creating flights: ' + error.message);
@@ -210,13 +212,13 @@ function buildFindQuery(dep, totalPassangers, fullDate=null, monthDate=null, des
     
     
     const query = {
-      "departure.city": dep,
+      "departure.city": formatCityName(dep),
       "departure.dateTime": { $gte: fullDate ? new Date(fullDate) :  new Date(monthDate), $lte: oneMonthAhead },
       "flight.status": { $ne: "done"}
     }
 
     if (des) {
-      query["arrival.city"] = des;
+      query["arrival.city"] = formatCityName(des);
     }
     
     return query
