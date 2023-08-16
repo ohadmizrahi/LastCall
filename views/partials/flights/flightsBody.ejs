@@ -21,9 +21,12 @@
 </div>
 
 <% if (!body.flights) { %>
-  <div class="no-flights-container">
-    <p>No Flights Found</p>
-  </div>
+  <div id="no-flights-modal" class="no-flights-container">
+    <h4>Flight Not Found!</h4>
+    <p>It seems we couldn't find any flights matching your criteria.</p>
+    <p>We're here to help! Adjust your search parameters or check back later as we constantly update our flight listings.</p>
+    <p>Thank you for choosing us for your travel needs.</p>
+</div>
 <% } else { %>
   <div class="flights-container">
 <% body.flights.forEach((flight) => { %>
