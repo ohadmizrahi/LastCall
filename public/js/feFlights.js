@@ -94,8 +94,6 @@ $(document).ready(function () {
 
 var flightJsonData;
 function ChooseFlight(flightData) {
-
-  console.log(flightData);
   flightJsonData = JSON.parse(flightData);
   flightJsonData.totalPrice = CalculatePrice(1, flightJsonData.go.price, flightJsonData.return.price);
   insertFlightDetails(flightJsonData.go, flightJsonData.return, flightJsonData.totalPrice);
@@ -103,16 +101,10 @@ function ChooseFlight(flightData) {
   $('#details-sidebar').addClass('active');
 }
 
-function CalculatePrice(numberOfMembers, goPrice, returnPrice) {
-  var totalPrice = goPrice + (returnPrice ? returnPrice : 0);
-  totalPrice *= numberOfMembers;
-  return totalPrice;
-}
 
 
 function insertFlightDetails(goFlight, returnFlight, totalPrice) {
-console.log("insertFlightDetails");
-console.log(goFlight, returnFlight);
+
   insertSingleFlightDetails('#go-flight-details', goFlight);
 
   if (returnFlight) {
@@ -122,6 +114,8 @@ console.log(goFlight, returnFlight);
     $('#return-flight-details').hide();
   }
   if (totalPrice) {
+    let pricePerPerson = totalPrice / passengerCount;  // Price per person
+    $('#total-price-per-person').text(pricePerPerson.toFixed(2) + '$');
     $('#total-price').text(totalPrice.toFixed(2) + '$');
   }
 }

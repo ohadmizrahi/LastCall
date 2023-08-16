@@ -2,34 +2,65 @@
     localStorage.setItem('flightData', JSON.stringify(flightJsonData));
     window.location.href = '/order?flightData=' + JSON.stringify(flightJsonData);
   });
-  
-  $(document).ready(function() {
-    var flightData = JSON.parse(localStorage.getItem('flightData'));
-    
-    $('#flightNumber').text(flightData.flight.iata);
-    $('#flightDate').text(flightData.flight.date);
-    $('#airlineName').text(flightData.flight.airlineName);
-    $('#source').text(flightData.flight.source);
-    $('#departureAirport').text(flightData.flight.departureAirport);
-    $('#departureTerminal').text(flightData.flight.departureTerminal);
-    $('#departureCountry').text(flightData.flight.departureCountry);
-    $('#destination').text(flightData.flight.destination);
-    $('#arrivalAirport').text(flightData.flight.arrivalAirport);
-    $('#arrivalTerminal').text(flightData.flight.arrivalTerminal);
-    $('#arrivalCountry').text(flightData.flight.arrivalCountry);
-    $('#price').text(flightData.flight.price);
-  });
-  
 
-  $(document).ready(function() {
-    $('#order-form').submit(function(e) {
-      e.preventDefault(); // Prevent the form from actually submitting
-      $('#confirmation-modal').show(); // Show the modal
+  function initializeModalHandlers() {
+    $(document).ready(function() {
+        $('#order-form').submit(function(e) {
+            e.preventDefault(); // Prevent the form from actually submitting
+            $('#confirmation-modal').show(); // Show the modal
+        });
+        $('#go-home-btn').click(function() {
+            $('#confirmation-modal').hide(); // Hide the modal
+            window.location.href = '/home'; // Redirect to the home page (update as needed)
+        });
     });
-  
-    $('#go-home-btn').click(function() {
-      $('#confirmation-modal').hide(); // Hide the modal
-      window.location.href = '/home'; // Redirect to the home page (update as needed)
-    });
-  });
-  
+}
+
+initializeModalHandlers();
+
+let passengerCount = 1; // Start with 1 since one form is already present
+
+function addPassengerForm() {
+    const $container = $('#passengerForms');
+    const $firstForm = $container.find('form').first();
+    const $clonedForm = $firstForm.clone();
+    $clonedForm.find('input').val('');
+    $container.append($clonedForm);
+    passengerCount++;
+
+    if (passengerCount > 1) {
+        $('#removePassengerBtn').show();
+    }
+    ChooseFlight(JSON.stringify(flightJsonData));
+
+}
+
+function removePassengerForm() {
+    if (passengerCount > 1) {
+        $('#passengerForms').find('form').last().remove();
+        passengerCount--;
+    }
+
+    if (passengerCount === 1) {
+        $('#removePassengerBtn').hide();
+    }
+    ChooseFlight(JSON.stringify(flightJsonData));
+
+}
+
+function CalculatePrice(numberOfMembers, goPrice, returnPrice) {
+  let totalPrice = goPrice + (returnPrice ? returnPrice : 0);
+  totalPrice *= passengerCount;
+  return totalPrice;
+}
+
+function updateTotalPrice() {
+  let totalPrice = (goPrice + (returnPrice ? returnPrice : 0)) * passengerCount;
+  document.getElementById('totalPrice').textContent = "Total Price: $" + totalPrice;
+}
+
+updateTotalPrice();
+
+$(document).ready(function() {
+  updateTotalPrice();
+});

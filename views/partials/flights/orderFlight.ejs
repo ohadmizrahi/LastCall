@@ -1,10 +1,14 @@
 <h1 class="text-center">Order Your Flight</h1>
 <p class="text-center">Here you can complete your flight booking.</p>
-<button id="showFlightDetailsBtn" onclick="ChooseFlight('<%=JSON.stringify(body.flights) %>')">Show Flight Details</button>
+<div class="text-center mb-4">
+    <button id="showFlightDetailsBtn" onclick="ChooseFlight('<%=JSON.stringify(body.flights) %>')">Show Flight Details</button>
+</div>
 <div class="container">
-    <div class="row">
+    <div class="row justify-content-center">
         <div class="col-md-1 d-flex flex-column"></div>
         <div class="col-md-6">
+            <div id="passengerForms">
+
             <form action="/submit_order" method="post" id="order-form" onsubmit="showConfirmation()">
                 <div class="form-group row">
                   <label for="first-name" class="col-sm-4 col-form-label text-left">First Name:</label>
@@ -46,32 +50,41 @@
                       </select>
                   </div>
               </div>
-              <div class="form-group row">
-                <label for="card-number" class="col-sm-4 col-form-label text-left">Card Number:</label>
-                <div class="col-sm-8">
-                    <input type="text" id="card-number" name="card-number" required pattern="\d{16}" maxlength="16" class="form-control" placeholder="0000 0000 0000 0000">
+            </div>
+            <button type="button" onclick="addPassengerForm()" class="btn btn-secondary">Another Passenger</button>
+            <button type="button" onclick="removePassengerForm()" class="btn btn-danger" id="removePassengerBtn" style="display:none;">Remove Passenger</button>            
+            <br><br><br>
+            <div class="card-section">
+                <div class="form-group row">
+                    <label for="card-number" class="col-sm-4 col-form-label text-left">Card Number:</label>
+                    <div class="col-sm-8">
+                        <input type="text" id="card-number" name="card-number" required pattern="\d{16}" maxlength="16" class="form-control" placeholder="0000 0000 0000 0000">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="expiration-date" class="col-sm-4 col-form-label text-left">Expiration Date (MM/YY):</label>
+                    <div class="col-sm-8">
+                        <input type="text" id="expiration-date" name="expiration-date" required pattern="(0[1-9]|1[0-2])\/\d{2}" class="form-control" placeholder="MM/YY">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="name-on-card" class="col-sm-4 col-form-label text-left">Name on Card:</label>
+                    <div class="col-sm-8">
+                        <input type="text" id="name-on-card" name="name-on-card" required class="form-control" placeholder="Or Solomon">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="cvv" class="col-sm-4 col-form-label text-left">CVV:</label>
+                    <div class="col-sm-8">
+                        <input type="text" id="cvv" name="cvv" required pattern="\d{3,4}" maxlength="4" class="form-control" placeholder="123">
+                    </div>
                 </div>
             </div>
-            <div class="form-group row">
-                <label for="expiration-date" class="col-sm-4 col-form-label text-left">Expiration Date (MM/YY):</label>
-                <div class="col-sm-8">
-                    <input type="text" id="expiration-date" name="expiration-date" required pattern="(0[1-9]|1[0-2])\/\d{2}" class="form-control" placeholder="MM/YY">
-                </div>
+            
+            <div class="order-summary">
+                <button type="submit" class="btn btn-primary">Confirm Order</button>
             </div>
-            <div class="form-group row">
-                <label for="name-on-card" class="col-sm-4 col-form-label text-left">Name on Card:</label>
-                <div class="col-sm-8">
-                    <input type="text" id="name-on-card" name="name-on-card" required class="form-control" placeholder="Or Solomon">
-                </div>
-            </div>
-            <div class="form-group row">
-                <label for="cvv" class="col-sm-4 col-form-label text-left">CVV:</label>
-                <div class="col-sm-8">
-                    <input type="text" id="cvv" name="cvv" required pattern="\d{3,4}" maxlength="4" class="form-control" placeholder="123">
-                </div>
-            </div>
-            <button type="submit" class="btn btn-primary">Confirm Order</button>
-        </form>
+            </form>
       </div>
     </div>
 </div>
@@ -85,4 +98,4 @@
     </div>
 </div>
 
-<%- include('./bodies/flightRightSideBar', {flight: body.flights}) %>
+<%- include('flightRightSideBar', {flight: body.flights}) %>

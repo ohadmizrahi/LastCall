@@ -44,7 +44,6 @@ p.text-center {
   left: 50%;
   transform: translate(-50%, -50%);
   background-color: #fff;
-  padding: 40px; /* Increased padding */
   border-radius: 10px; /* Rounded corners */
   text-align: center;
   width: 50%; /* Set the width to 50% of the viewport */
@@ -78,4 +77,48 @@ p.text-center {
   margin-bottom: 20px; /* Space below the text */
   font-weight: bold; /* Bold text */
 
+}
+.centered-content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.card-section {
+  background-color: #a7b6c28b;  /* You can choose any color you like */
+  padding: 20px;  /* Optional: Add some padding for better appearance */
+  border-radius: 10px;  /* Optional: Round the corners for a smoother look */
+  margin-bottom: 10px;
+}
+
+.text-center.mb-4 {
+  padding-top: 20px;
+  padding-bottom: 20px;
+  border-radius: 5px; /* Rounded corners */
+}
+
+#showFlightDetailsBtn {
+  font-size: 16px; /* Adjust the font size */
+  background-color: #007bff; /* Bootstrap primary color, you can change as per your needs */
+  border: none; /* Remove border */
+  padding: 10px 20px; /* Padding around the button */
+  border-radius: 5px; /* Rounded corners for the button */
+  transition: background-color 0.3s; /* Smooth transition effect for hover */
+  font-weight: bold; /* Make the text bold */
+  color: #fff;
+}
+
+#showFlightDetailsBtn:hover {
+  background-color: #0056b3;
+  cursor: pointer;
+}
+
+.order-summary {
+  display: flex;
+  align-items: center;
+  gap: 10px; /* space between the price and the button */
+}
+
+#totalPrice {
+  font-size: 18px;
+  font-weight: bold;
 }
