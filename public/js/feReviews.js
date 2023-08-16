@@ -27,19 +27,19 @@ function matchRank(selectedRank, reviewRank) {
 
 function applyFilters() {
     const selectedRank = $('#rank-filter').val();
-    const selectedDestination = $('#destination-input-filter').val();
-
+    const selectedDestination = capitalizeFirstLetter($('#destination-input-filter').val());
     $('.review').each(function() {
         const reviewRank = parseFloat($(this).find('.review-rank').text().split(':')[1].trim());
         const reviewDestination = $(this).find('.review-dest').text().trim();
-
-        if (matchRank(selectedRank, reviewRank) && (selectedDestination === 'All' || selectedDestination === reviewDestination)) {
+        const destinationMatch = selectedDestination === 'All' || reviewDestination.startsWith(selectedDestination);
+        if (matchRank(selectedRank, reviewRank) && destinationMatch) {
             $(this).slideDown(); // For slide-down effect
         } else {
             $(this).slideUp(); // For fade-out effect
         }
     });
 }
+
 
 
 
@@ -162,14 +162,20 @@ function reviewDestinationValidation(destInput) {
 function buildDestinationOptions() {
     const validDestinationsElement = $("#validDestinations");
     const dataListElement = $(".destination-options")
+    dataListElement.append($(`<option value="All">All</option>`));
     if (validDestinationsElement.length > 0) {
         const validDestinations = JSON.parse(validDestinationsElement.attr("data-destinations"));
         validDestinations.forEach(destination => {
             dataListElement.append($(`<option value="${destination}">`))
         });
     }
-
 }
+
+
+function capitalizeFirstLetter(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
+}
+
 applyFilters();
 
 sortReviews(); // for default desc sort
