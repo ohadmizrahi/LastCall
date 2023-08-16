@@ -70,7 +70,7 @@ $(document).ready(function () {
 var flightJsonData;
 function ChooseFlight(flightData) {
   flightJsonData = JSON.parse(flightData);
-  flightJsonData.totalPrice = CalculatePrice(1, flightJsonData.go.price, flightJsonData.return.price);
+  flightJsonData.totalPrice = CalculatePrice(1, flightJsonData.go.price, flightJsonData.return ? flightJsonData.return.price : 0);
   insertFlightDetails(flightJsonData.go, flightJsonData.return, flightJsonData.totalPrice);
 
   $('#details-sidebar').addClass('active');
