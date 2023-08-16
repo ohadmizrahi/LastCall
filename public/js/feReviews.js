@@ -47,7 +47,9 @@ function applyFilters() {
 function sortReviews() {
     const sortingOption = $('#date-sort').val();
     const reviewsContainer = $('#reviews-container');
-    const reviews = reviewsContainer.children('.review');
+    const reviews = reviewsContainer.children('.col-md-10').find('.review');
+    reviews.closest('.col-md-10').fadeOut('slow', function() {
+
     switch (sortingOption) {
         case 'latest':
             reviews.sort(function (a, b) {
@@ -65,23 +67,31 @@ function sortReviews() {
             break;
         case 'highest':
             reviews.sort(function (a, b) {
-                const rankA = parseFloat($(a).find('.review-rank').text());
-                const rankB = parseFloat($(b).find('.review-rank').text());
+                const rankA = parseFloat($(a).find('.review-rank').text().split(":")[1].trim());
+                const rankB = parseFloat($(b).find('.review-rank').text().split(":")[1].trim());
                 return rankB - rankA;
             });
             break;
         case 'lowest':
             reviews.sort(function (a, b) {
-                const rankA = parseFloat($(a).find('.review-rank').text());
-                const rankB = parseFloat($(b).find('.review-rank').text());
+                const rankA = parseFloat($(a).find('.review-rank').text().split(":")[1].trim());
+                const rankB = parseFloat($(b).find('.review-rank').text().split(":")[1].trim());
                 return rankA - rankB;
             });
             break;
         default:
             return;
     }
-    reviewsContainer.append(reviews);
+
+    reviews.each(function() {
+        reviewsContainer.append($(this).closest('.col-md-10'));
+    });
+
+    // End animation: fade in all reviews in their sorted order.
+    reviews.closest('.col-md-10').fadeIn('slow');
+});
 }
+
 
 function openModal() {
     $("#add-review-modal").show();
