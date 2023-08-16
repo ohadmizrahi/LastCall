@@ -26,31 +26,21 @@ function matchRank(selectedRank, reviewRank) {
 }
 
 function applyFilters() {
-    $('#reviews-wrapper').hide(1000, () => {
+    const selectedRank = $('#rank-filter').val();
+    const selectedDestination = $('#destination-input-filter').val();
 
-        const selectedDestination = $('#destination-input-filter').val().toLowerCase();
-        const selectedRank = $('#rank-filter').val();
-        const reviewsData = $("#reviews-data");
+    $('.review').each(function() {
+        const reviewRank = parseFloat($(this).find('.review-rank').text().split(':')[1].trim());
+        const reviewDestination = $(this).find('.review-dest').text().trim();
 
-        let reviewsArray;
-        if (reviewsData.length > 0) {
-            reviewsArray = JSON.parse(reviewsData.attr("data-reviews"));
+        if (matchRank(selectedRank, reviewRank) && (selectedDestination === 'All' || selectedDestination === reviewDestination)) {
+            $(this).slideDown(); // For slide-down effect
+        } else {
+            $(this).slideUp(); // For fade-out effect
         }
-
-        const filteredReviews = reviewsArray.filter(review => {
-            const destinationMatches = selectedDestination === 'all' || review.destination.toLowerCase() === selectedDestination;
-            const rankMatches = matchRank(selectedRank, parseFloat(review.rank));
-
-            return destinationMatches && rankMatches;
-        });
-
-        const reviewsContainer = $("#reviews-container")
-        reviewsContainer.empty()
-
     });
-
-    $('#reviews-wrapper').show(300);
 }
+
 
 
 
@@ -170,6 +160,7 @@ function buildDestinationOptions() {
     }
 
 }
+applyFilters();
 
 sortReviews(); // for default desc sort
 newReview();

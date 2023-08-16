@@ -92,20 +92,27 @@ $(document).ready(function () {
   });
 });
 
+var flightJsonData;
 function ChooseFlight(flightData) {
 
   console.log(flightData);
-  var flightJsonData = JSON.parse(flightData);
-  flightJsonData.totalPrice = flightJsonData.go.price + (flightJsonData.return ? flightJsonData.return.price : 0);
+  flightJsonData = JSON.parse(flightData);
+  flightJsonData.totalPrice = CalculatePrice(1, flightJsonData.go.price, flightJsonData.return.price);
   insertFlightDetails(flightJsonData.go, flightJsonData.return, flightJsonData.totalPrice);
-
 
   $('#details-sidebar').addClass('active');
 }
 
+function CalculatePrice(numberOfMembers, goPrice, returnPrice) {
+  var totalPrice = goPrice + (returnPrice ? returnPrice : 0);
+  totalPrice *= numberOfMembers;
+  return totalPrice;
+}
+
 
 function insertFlightDetails(goFlight, returnFlight, totalPrice) {
-
+console.log("insertFlightDetails");
+console.log(goFlight, returnFlight);
   insertSingleFlightDetails('#go-flight-details', goFlight);
 
   if (returnFlight) {
@@ -114,7 +121,9 @@ function insertFlightDetails(goFlight, returnFlight, totalPrice) {
   } else {
     $('#return-flight-details').hide();
   }
-  $('#total-price').text(totalPrice.toFixed(2) + '$');
+  if (totalPrice) {
+    $('#total-price').text(totalPrice.toFixed(2) + '$');
+  }
 }
 
 function insertSingleFlightDetails(containerId, flight) {
