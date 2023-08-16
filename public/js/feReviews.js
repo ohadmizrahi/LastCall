@@ -27,13 +27,12 @@ function matchRank(selectedRank, reviewRank) {
 
 function applyFilters() {
     const selectedRank = $('#rank-filter').val();
-    const selectedDestination = $('#destination-input-filter').val();
-
+    const selectedDestination = capitalizeFirstLetter($('#destination-input-filter').val());
     $('.review').each(function() {
         const reviewRank = parseFloat($(this).find('.review-rank').text().split(':')[1].trim());
         const reviewDestination = $(this).find('.review-dest').text().trim();
-
-        if (matchRank(selectedRank, reviewRank) && (selectedDestination === 'All' || selectedDestination === reviewDestination)) {
+        const destinationMatch = selectedDestination === 'All' || reviewDestination.startsWith(selectedDestination);
+        if (matchRank(selectedRank, reviewRank) && destinationMatch) {
             $(this).slideDown(); // For slide-down effect
         } else {
             $(this).slideUp(); // For fade-out effect
@@ -44,10 +43,13 @@ function applyFilters() {
 
 
 
+
 function sortReviews() {
     const sortingOption = $('#date-sort').val();
     const reviewsContainer = $('#reviews-container');
-    const reviews = reviewsContainer.children('.review');
+    const reviews = reviewsContainer.children('.col-md-10').find('.review');
+    reviews.closest('.col-md-10').fadeOut('slow', function() {
+
     switch (sortingOption) {
         case 'latest':
             reviews.sort(function (a, b) {
@@ -65,23 +67,31 @@ function sortReviews() {
             break;
         case 'highest':
             reviews.sort(function (a, b) {
-                const rankA = parseFloat($(a).find('.review-rank').text());
-                const rankB = parseFloat($(b).find('.review-rank').text());
+                const rankA = parseFloat($(a).find('.review-rank').text().split(":")[1].trim());
+                const rankB = parseFloat($(b).find('.review-rank').text().split(":")[1].trim());
                 return rankB - rankA;
             });
             break;
         case 'lowest':
             reviews.sort(function (a, b) {
-                const rankA = parseFloat($(a).find('.review-rank').text());
-                const rankB = parseFloat($(b).find('.review-rank').text());
+                const rankA = parseFloat($(a).find('.review-rank').text().split(":")[1].trim());
+                const rankB = parseFloat($(b).find('.review-rank').text().split(":")[1].trim());
                 return rankA - rankB;
             });
             break;
         default:
             return;
     }
-    reviewsContainer.append(reviews);
+
+    reviews.each(function() {
+        reviewsContainer.append($(this).closest('.col-md-10'));
+    });
+
+    // End animation: fade in all reviews in their sorted order.
+    reviews.closest('.col-md-10').fadeIn('slow');
+});
 }
+
 
 function openModal() {
     $("#add-review-modal").show();
@@ -152,16 +162,32 @@ function reviewDestinationValidation(destInput) {
 function buildDestinationOptions() {
     const validDestinationsElement = $("#validDestinations");
     const dataListElement = $(".destination-options")
+    dataListElement.append($(`<option value="All">All</option>`));
     if (validDestinationsElement.length > 0) {
         const validDestinations = JSON.parse(validDestinationsElement.attr("data-destinations"));
         validDestinations.forEach(destination => {
             dataListElement.append($(`<option value="${destination}">`))
         });
     }
-
 }
-applyFilters();
 
+
+function capitalizeFirstLetter(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
+}
+
+function initDestinationReviewsFilter() {
+    // Check if the hidden input exists
+    if ($('#destination-name').length) {
+        // Set the destination filter's value using the hidden input's value
+        $('#destination-input-filter').val($('#destination-name').val());
+        // Apply filters to show the relevant reviews
+        applyFilters();
+    }
+}
+
+applyFilters();
+$(document).ready(initDestinationReviewsFilter);
 sortReviews(); // for default desc sort
 newReview();
 buildDestinationOptions()

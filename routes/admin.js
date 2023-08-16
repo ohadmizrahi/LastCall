@@ -14,7 +14,7 @@ router.get("/admin", async (req, res) => {
         res.render("index",
             {
                 body: { main: "partials/admin/admin" },
-                header: { main: "partials/headers/header", auth: "authDiv/afterAuth", pageTitle: "Admin" }
+                header: { main: "partials/headers/main", auth: "authDiv/afterAuth", pageTitle: "Admin" }
             })
     } else {
         res.redirect("/home");
@@ -40,7 +40,7 @@ router.get("/admin/add_sale", async (req, res) => {
         res.render("index",
             {
                 body: { main: "partials/admin/newSale", validDestinations: validDestinations },
-                header: { main: "partials/headers/header", auth: "authDiv/afterAuth", pageTitle: "Admin" }
+                header: { main: "partials/headers/main", auth: "authDiv/afterAuth", pageTitle: "Admin" }
             })
     } else {
         res.redirect("/home");
@@ -53,7 +53,7 @@ router.get("/admin/new_flights", async (req, res) => {
         res.render("index",
             {
                 body: { main: "partials/admin/newFlight" },
-                header: { main: "partials/headers/header", auth: "authDiv/afterAuth", pageTitle: "Admin" }
+                header: { main: "partials/headers/main", auth: "authDiv/afterAuth", pageTitle: "Admin" }
             })
     } else {
         res.redirect("/home");

@@ -247,4 +247,24 @@
   }
   
 
-  
+  #no-flights-modal {
+    width: 50%; 
+    margin: 0 auto;
+    position: absolute;
+    top: 80%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 40px;
+}
+#no-flights-modal h4 {
+  font-size: 30px;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 20px;
+  text-align: center; 
+}
+#no-flights-modal p {
+    font-size: 24px;
+    text-align: center; 
+    color: #333;
+}
