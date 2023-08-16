@@ -177,7 +177,6 @@ async function findGoFlights(limit, query = null) {
 
 async function findReturnFlights(goFlights, returnDate) {
   const flightsArray = [];
-
   for (const goFlight of goFlights) {
 
     let newReturnDate;
@@ -192,7 +191,9 @@ async function findReturnFlights(goFlights, returnDate) {
     const query = buildFindQuery(goFlight.arrival.city, 1, newReturnDate, null, goFlight.departure.city);
 
     const returnFlights = await Flight.findOne(query)
-
+    if (returnFlights && returnFlights.flight && returnFlights.flight.duration) {
+      returnFlights.flight.duration = formatDuration(returnFlights.flight.duration);
+    }
     flightsArray.push({ go: goFlight, return: returnFlights });
   }
   return flightsArray;

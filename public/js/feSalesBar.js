@@ -31,3 +31,18 @@ function toggleSales(action) {
     showMoreBtn.style.display = 'inline';
   }
 }
+
+
+function updateShowMoreButtonVisibility() {
+  const hiddenDealsCount = $('.hidden-deal').length;
+  const $showMoreBtn = $('#show-more-btn');
+
+  if (hiddenDealsCount > 0) {
+    $showMoreBtn.show();
+  } else {
+    $showMoreBtn.hide();
+  }
+}
+
+// Call the function when the document is ready
+$(document).ready(updateShowMoreButtonVisibility);
