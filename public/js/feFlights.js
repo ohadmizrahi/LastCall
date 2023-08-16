@@ -12,12 +12,15 @@ function generateNewFlights() {
       return response.json();
     })
     .then(flights => {
-      console.log("Request for new flights done");
-      console.log("Insert new flights to DB");
-      console.log(flights);
+      if (flights > 0) {
+      alert("Getting new flights from suppliers done uccessfully")
+      } else {
+        alert("Getting new flights from suppliiers failed: TRY AGAIN")
+      }
     })
     .catch(error => {
       console.error('Error:', error);
+      alert("Getting new flights from suppliiers failed: TRY AGAIN")
     });
 }
 
