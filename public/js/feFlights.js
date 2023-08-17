@@ -135,3 +135,58 @@ function toTitleCase(str) {
 }
 
 searchFlights()
+
+
+ //left side bar filters
+
+$(document).ready(function initializeSliders() {
+  function setupSlider(sliderId, displayId, min, max, formatter) {
+      const slider = document.getElementById(sliderId);
+      const display = document.getElementById(displayId);
+      
+      slider.innerHTML = `<div class="slider-thumb" style="left: 0;"></div>
+                          <div class="slider-thumb" style="right: 0;"></div>`;
+      
+      const [thumbLeft, thumbRight] = slider.children;
+
+      let leftValue = min;
+      let rightValue = max;
+
+      thumbLeft.onmousedown = function(event) {
+          document.onmousemove = function(e) {
+              let newLeft = e.clientX - slider.getBoundingClientRect().left;
+              let rightEdge = thumbRight.getBoundingClientRect().left - slider.getBoundingClientRect().left;
+              if (newLeft < 0) newLeft = 0;
+              if (newLeft > rightEdge) newLeft = rightEdge;
+              thumbLeft.style.left = newLeft + 'px';
+              leftValue = Math.round(newLeft / slider.offsetWidth * (max - min) + min);
+              display.textContent = formatter(leftValue, rightValue);
+          };
+          document.onmouseup = function() {
+              document.onmousemove = document.onmouseup = null;
+          };
+          return false;
+      };
+
+      thumbRight.onmousedown = function(event) {
+          document.onmousemove = function(e) {
+              let newRight = slider.getBoundingClientRect().right - e.clientX;
+              let leftEdge = slider.offsetWidth - thumbLeft.getBoundingClientRect().right + slider.getBoundingClientRect().left;
+              if (newRight < 0) newRight = 0;
+              if (newRight > leftEdge) newRight = leftEdge;
+              thumbRight.style.right = newRight + 'px';
+              rightValue = Math.round(max - newRight / slider.offsetWidth * (max - min));
+              display.textContent = formatter(leftValue, rightValue);
+          };
+          document.onmouseup = function() {
+              document.onmousemove = document.onmouseup = null;
+          };
+          return false;
+      };
+  }
+
+  setupSlider("price-slider", "price-range-display", 100, 5000, (left, right) => `$${left} - $${right}`);
+  setupSlider("outbound-time-slider", "outbound-time-display", 0, 23, (left, right) => `${left}:00 - ${right}:59`);
+  setupSlider("return-time-slider", "return-time-display", 0, 23, (left, right) => `${left}:00 - ${right}:59`);
+
+});
