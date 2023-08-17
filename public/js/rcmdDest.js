@@ -57,7 +57,7 @@ async function chatOnSubmit() {
             maxBudget: maxBudget,
             uniqueDestinations: uniqueDestinations
         }
-
+        console.log("-------------------");
         const recomandation = await getRecomandedDestination(data);
         $("#after-chat-buttons").show();
 

@@ -1,41 +1,7 @@
-const mongoose = require("mongoose");
+const Sale = require("./saleModel")
 const moment = require('moment');
-const findOrCreate = require('mongoose-findorcreate');
-const { getDestImg } = require('./destinations.js')
 
-
-const saleSchema = new mongoose.Schema({
-  destination: {
-    type: String,
-    required: true
-  },
-  departureDate: {
-    type: Date,
-    required: true
-  },
-  returnDate: {
-    type: Date,
-    required: true
-  },
-  dealPrice: {
-    type: Number,
-    required: false
-  },
-  numberOfDays: {
-    type: Number,
-    required: true
-  },
-  img: {
-    type: String,
-    required: true
-  },
-  timeStamp: {
-    type: Date,
-    default: new Date()
-  },
-});
-
-const Sale = mongoose.model('Sale', saleSchema);
+const { getDestImg } = require('../destination/destinationService.js')
 
 async function insertSale(sale) {
   try {
@@ -96,9 +62,5 @@ async function getAllSales() {
 }
 
 
-
-
-
-saleSchema.plugin(findOrCreate);
 module.exports.getAllSales = getAllSales;
 module.exports.insertSale = insertSale;

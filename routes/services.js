@@ -1,12 +1,10 @@
 const { Router } = require('express');
 const bodyParser = require("body-parser");
-const session = require('express-session');
-const { findReviews, newReview } = require('../models/reviews')
-const { getAllSales } = require('../models/sale')
-const { getPopularDestinations, updateDestinationsPopularity, generateTourismData, getRecomandationFromGPT } = require('../models/destinations')
-const { buildFindQuery, findFlights } = require('../models/flights')
-const { findCityByCountry } = require('../models/airports')
-const { getAllDestinations } = require('../models/airports')
+const { findReviews, insertNewReview } = require('../models/review/reviewsService')
+const { getAllSales } = require('../models/sale/saleService')
+const { getPopularDestinations, updateDestinationsPopularity, generateTourismData, getRecomandationFromGPT } = require('../models/destination/destinationService')
+const { buildFindQuery, findFlights } = require('../models/flight/flightService')
+const { findCityByCountry, getAllDestinations } = require('../models/airport/airportService')
 
 const router = Router();
 
@@ -20,7 +18,7 @@ router.get("/dest", async (req, res) => {
         res.render("index",
             {
                 body: { main: "partials/destinations/destinationBody", destinations: destinations },
-                header: { main: "partials/headers/main", auth: "authDiv/afterAuth", pageTitle: "Destinations"},
+                header: { main: "partials/headers/main", auth: "authDiv/afterAuth", pageTitle: "Destinations" },
                 sales: { main: "../generalPartials/salesBar", data: salesData }
             })
     } else {
@@ -38,7 +36,7 @@ router.get("/dest/:name", async (req, res) => {
         const reviews = await findReviews();
         const validDestinations = await getAllDestinations()
         console.log("loading");
-        
+
         res.render("index",
             {
                 body: { main: "partials/destinations/destinationPage", destination: destination, reviews: reviews, validDestinations: validDestinations },
@@ -50,6 +48,15 @@ router.get("/dest/:name", async (req, res) => {
         res.redirect("/login");
     }
 })
+
+router.post("/dest/:name", async (req, res) => {
+    const destination = req.body;
+
+    const updatedDestination = await updateDestinationsPopularity(destination)
+    req.session.destination = updatedDestination;
+
+    res.redirect(`/dest/${updatedDestination.name}`);
+});
 
 router.get("/generate_chart_data", async (req, res) => {
     const destination = req.session.destination;
@@ -65,20 +72,12 @@ router.post("/dest/get_recomandation", async (req, res) => {
             res.cookie("gptRecommendation", recomandation)
             res.json(messageList);
         })
-    // .catch(error => {
-    //     console.error("Error getting recommendation:", error);
-    //     res.status(500).json({ error: "Error getting recommendation" });
-    // });
+        .catch(error => {
+            console.error("Error getting recommendation:", error);
+            res.status(500).json({ error: "Error getting recommendation" });
+        });
 });
 
-router.post("/dest/:name", async (req, res) => {
-    const destination = req.body;
-
-    const updatedDestination = await updateDestinationsPopularity(destination)
-    req.session.destination = updatedDestination;
-
-    res.redirect(`/dest/${updatedDestination.name}`);
-});
 
 router.get("/flights", async (req, res) => {
     if (req.isAuthenticated()) {
@@ -127,7 +126,7 @@ router.post("/search_flights", async (req, res) => {
 
 
         const limit = 5
-        const query = buildFindQuery(departure, travelers, departureDate, null, destination)
+        const query = buildFindQuery(departure, travelers, departureDate, destination)
         const flights = await findFlights(limit, query)
         req.session.searchFlights = flights;
         await updateDestinationsPopularity({ name: destination })
@@ -159,7 +158,7 @@ router.get("/reviews", async (req, res) => {
 
 })
 router.post("/add_review", async (req, res) => {
-    await newReview(req.body)
+    await insertNewReview(req.body)
     res.json({ success: true });
 
 })

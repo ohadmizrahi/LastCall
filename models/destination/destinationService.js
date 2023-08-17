@@ -1,40 +1,8 @@
+const Destination = require("./destinationModel")
 require('dotenv').config()
-const mongoose = require('mongoose');
 const axios = require("axios");
-const askGPT = require("./chat.js")
+const askGPT = require("../chat.js")
 
-const destinationSchema = new mongoose.Schema({
-    name: {
-        type: String,
-        required: true
-    },
-    country: {
-        type: String,
-        required: true
-    },
-    bestMonth: {
-        type: String,
-        required: true
-    },
-    avgRank: {
-        type: String,
-        required: true
-    },
-    img: {
-        type: String,
-        required: true
-    },
-    description: {
-        type: String,
-        required: true
-    },
-    searches: {
-        type: Number,
-        default: 0
-    }
-});
-
-const Destination = mongoose.model('Destination', destinationSchema);
 
 async function findDestinations(query = null) {
     try {
@@ -57,6 +25,7 @@ async function findDestinations(query = null) {
 
 async function updateDestination(destName, fieldToUpdate, newValue) {
     try {
+        console.log(`Start updating ${destName}`);
         const filter = { name: destName };
         let update;
 
@@ -96,7 +65,7 @@ async function insertNewDestinations(destinationsDataArray) {
                 bestMonth: bestMonth,
                 avgRank: avgRank,
                 img: img,
-                description: description 
+                description: description
             } = data;
 
             const searches = data.searches ? data.searches : 0;
@@ -142,7 +111,6 @@ async function getPopularDestinations() {
 
 async function updateDestinationsPopularity(destination) {
 
-    console.log(`Start updating ${destination.name}`);
     const newDestination = await updateDestination(destination.name, "searches", "+1");
 
     if (newDestination) {
@@ -155,7 +123,7 @@ async function updateDestinationsPopularity(destination) {
             destination.avgRank = Number((Math.random() * (10 - 5) + 5).toFixed(1))
         }
         if (!destination.description) {
-            const destData = await getDataOverDestFromChat(destination.name)
+            const destData = await destinationDataFromChat(destination.name)
             destination.country = destData.country
             destination.description = destData.description
             destination.bestMonth = destData.bestMonth
@@ -172,27 +140,28 @@ async function getDestImg(destinationName) {
     const apiKey = process.env.UNSPLASH_KEY;
 
     try {
+        console.log(`Look for representitive image for ${destinationName}`);
         const response = await axios.get(`https://api.unsplash.com/search/photos?query=${destinationName}&client_id=${apiKey}`);;
-        const imageUrl = response.data.results[0]?.urls?.regular || '/images/placeholder.jpg';
+        const imageUrl = response.data.results[0]?.urls?.regular
         return imageUrl
     } catch (error) {
         console.error('Error fetching image:', error);
     }
 }
 
-async function generateTourismData(dest) {
+async function generateTourismData(destination) {
     const months = [
         "January", "February", "March", "April", "May", "June",
         "July", "August", "September", "October", "November", "December"
     ];
 
     const tourismData = [];
-
+    console.log(`Generating tourism data for${destination}`);
     months.forEach((month) => {
 
         const tourists = Math.floor(Math.random() * 1000) + 500;
 
-        if (month === dest.bestMonth) {
+        if (month === destination.bestMonth) {
             tourismData.push({ month, tourists: 1450 });
         } else {
             tourismData.push({ month, tourists: Math.floor(tourists * 0.75) });
@@ -212,21 +181,19 @@ async function getRecomandationFromGPT(data) {
     Please take into account flights, hotels and attractions prices when choosing the destination
     Please verify yourself if the destination is unique or not
     Please return answer build as a json with: 
-    First parameter called name holdin the Destination name, please make sure it always a city name.
+    First parameter called name holding the Destination name, please make sure it always a city name.
     Second parameter called country holding the country of the selected destination.
     Third parameter called bestMonth holding the recomended month to visit this destination, verify its a calender month. 
     and Last parameter called description holding the Description over the destionation.`
 
     const recomandationString = await askGPT(prompt);
     const recomandation = JSON.parse(recomandationString);
-    console.log(recomandation);
-
 
     return recomandation
 
 }
 
-async function getDataOverDestFromChat(destName) {
+async function destinationDataFromChat(destName) {
     const prompt = `
     Please return answer build as a json with: 
     First parameter called country holding the country of the selected destination.
@@ -236,7 +203,6 @@ async function getDataOverDestFromChat(destName) {
     `
     const destDataString = await askGPT(prompt);
     const destData = JSON.parse(destDataString);
-    console.log(destData);
 
     return destData
 
@@ -250,4 +216,4 @@ module.exports.getDestImg = getDestImg
 module.exports.generateTourismData = generateTourismData
 module.exports.getRecomandationFromGPT = getRecomandationFromGPT
 module.exports.findDestinations = findDestinations
-module.exports.getDataOverDestFromChat = getDataOverDestFromChat
+module.exports.destinationDataFromChat = destinationDataFromChat

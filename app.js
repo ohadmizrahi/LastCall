@@ -11,7 +11,7 @@ const menuRoute = require('./routes/services')
 const orderRoute = require('./routes/orderFlight')
 const admin = require('./routes/admin')
 
-const { getAllSales } = require('./models/sale')
+const { getAllSales } = require('./models/sale/saleService')
 
 const app = express();
 

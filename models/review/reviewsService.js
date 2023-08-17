@@ -1,34 +1,4 @@
-const mongoose = require('mongoose');
-
-
-const reviewSchema = new mongoose.Schema({
-    author: {
-        type: String,
-        required: true
-    },
-    date: {
-        type: String,
-        required: true
-    },
-    destination: {
-        type: String,
-        required: true
-    },
-    rank: {
-        type: String,
-        required: true
-    },
-    happyContent: {
-        type: String,
-        required: true
-    },
-    badContent: {
-        type: String,
-        required: true
-    }
-});
-
-const Review = mongoose.model('Review', reviewSchema);
+const Review = require("./reviewModel")
 
 async function findReviews(query = null) {
     try {
@@ -52,15 +22,10 @@ async function findReviews(query = null) {
     }
 }
 
-async function newReview(review) {
-    review.destination = review.destination.charAt(0).toUpperCase() + review.destination.slice(1);
-    await insertNewReview(review)
-}
-
-
 async function insertNewReview(review) {
     try {
         console.log("Start inserting new review");
+        review.destination = review.destination.charAt(0).toUpperCase() + review.destination.slice(1);
 
         const {
             author: author,
@@ -99,4 +64,4 @@ async function insertNewReview(review) {
 }
 
 module.exports.findReviews = findReviews
-module.exports.newReview = newReview
+module.exports.insertNewReview = insertNewReview

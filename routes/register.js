@@ -1,7 +1,7 @@
 const { Router } = require('express');
 const bodyParser = require("body-parser");
 const passport = require("passport");
-const User = require('../models/user')
+const { insertNewUser, newStrategy, findUserByID } = require("../models/user/userService")
 
 const router = Router();
 
@@ -9,16 +9,14 @@ router.use(bodyParser.urlencoded({
   extended: true
 }));
 
-passport.use(User.createStrategy());
+passport.use(newStrategy);
 
 passport.serializeUser(function (user, done) {
   done(null, user.id);
 });
 
 passport.deserializeUser(function (id, done) {
-  User.findById(id, function (err, user) {
-    done(err, user);
-  });
+  findUserByID(id, done)
 });
 
 router.get("/register", function (req, res) {
@@ -37,22 +35,14 @@ router.post("/register", function (req, res) {
     console.log("The password does not meet the complexity requirements.");
     return res.redirect("/register");
   }
+  const success = insertNewUser(req.body.username, req.body.fname, req.body.lname, req.body.email, req.body.country, password)
+  if (success) {
+    res.redirect("/login")
+  } else {
+    res.redirect("/register");
+  }
 
-  User.register({
-    username: req.body.username,
-    fName: req.body.fname,
-    lName: req.body.lname,
-    email: req.body.email,
-    country: req.body.country
-  }, password, function (err, user) {
 
-    if (err) {
-      console.error(err);
-      return res.redirect("/register");
-    } else {
-      return res.redirect("/login")
-    }
-  });
 });
 
 

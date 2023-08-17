@@ -1,34 +1,29 @@
-#salehead {
-  text-align: center;
-  font-weight: bold
+#sales-container {
+  margin-bottom: 50px;
 }
-
 #sales {
   display: flex;
   justify-content: center;  
-  flex-wrap: wrap; /* This will ensure items are arranged in a row and wrapped */
+  flex-wrap: wrap;
 }
 
 .sale-item {
   display: flex;
   flex-direction: column;
-  align-items: center; /* Center children horizontally */
-  justify-content: center; /* Center children vertically */
+  align-items: center;
+  justify-content: center;
   margin: 20px;
-  width: calc(18% - 40px); /* 20% width minus margin */
+  width: calc(18% - 40px);
   text-align: center;
 }
 
 .sale-img {
-  width: 250px; /* Adjust to the desired size */
-  height: 250px; /* Same as the width to make it square */
+  width: 250px;
+  height: 250px;
   object-fit: cover;
   border-radius: 50%;
   box-shadow: 0px 0px 10px rgba(0,0,0,1);
 }
-
-
-
 
 .sale-destination {
   padding: 10px;
@@ -51,29 +46,33 @@
   transform: scale(1.05);
 }
 
-
-#salehead {
+#sale-head {
+  font-weight: bold;
   text-align: center;
-  overflow: hidden; /* hide the part of animated text that goes outside this div */
+  overflow: hidden;
   white-space: nowrap;
   font-size: 2em;
-  position: relative; /* added to position the line correctly */
-  padding-top: 30px; /* padding at the top to make space for the line */
+  position: relative;
+  padding-top: 50px;
   margin-top: 30px;
 }
 
-#salehead::before {
-  content: ""; /* empty content to create a line */
-  display: block; /* display as a block element */
-  width: 80%; /* full width of the container */
-  height: 1px; /* thickness of the line */
-  background-color: rgb(202, 144, 35); /* color of the line */
-  position: absolute; /* absolute position within #salehead */
-  top: 0; /* at the top of the container */
-  left: 50%; /* center the element horizontally */
-  margin-left: -40%;
+#sale-head-desc {
+  margin-top: 20px;
+  margin-bottom: 0;
 }
 
+#sale-head::before {
+  content: "";
+  display: block;
+  width: 80%;
+  height: 1px;
+  background-color: rgb(202, 144, 35);
+  position: absolute;
+  top: 0;
+  left: 50%;
+  margin-left: -40%;
+}
 
 #show-more-btn {
   padding: 10px 20px;
@@ -82,8 +81,8 @@
   border: none;
   cursor: pointer;
   transition: background-color 0.3s ease;
-  width: 150px; /* Fixed width */
-  text-align: center; /* Center the text */
+  width: 150px;
+  text-align: center;
   margin-bottom: 10px;
   border-radius: 5px;
 }
@@ -91,7 +90,6 @@
 #show-more-btn:hover {
   background-color: #202020;
 }
-
 
 .hidden-deal {
   display: none;
@@ -104,8 +102,8 @@
   border: none;
   cursor: pointer;
   transition: background-color 0.3s ease;
-  width: 150px; /* Fixed width */
-  text-align: center; /* Center the text */
+  width: 150px;
+  text-align: center;
   margin-bottom: 10px;
   border-radius: 5px;
 }
