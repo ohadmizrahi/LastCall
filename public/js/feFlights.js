@@ -143,7 +143,7 @@ $(document).ready(function initializeSliders() {
   function setupSlider(sliderId, displayId, min, max, formatter) {
       const slider = document.getElementById(sliderId);
       const display = document.getElementById(displayId);
-      
+      if (slider && display) {
       slider.innerHTML = `<div class="slider-thumb" style="left: 0;"></div>
                           <div class="slider-thumb" style="right: 0;"></div>`;
       
@@ -182,7 +182,11 @@ $(document).ready(function initializeSliders() {
               document.onmousemove = document.onmouseup = null;
           };
           return false;
+          
       };
+    } else {
+      console.warn(`Elements with IDs ${sliderId} or ${displayId} not found.`);
+  }
   }
 
   setupSlider("price-slider", "price-range-display", 100, 5000, (left, right) => `$${left} - $${right}`);
