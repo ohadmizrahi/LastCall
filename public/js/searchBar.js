@@ -6,8 +6,12 @@ function setDefaultValuesToSearchBar() {
     const departureDateElement = $("#departureDate");
     const returnDateElement = $("#returnDate");
 
-    destinationElement.val(dataToSearch.destName);
-
+    if (dataToSearch && dataToSearch.destName) {
+        destinationElement.val(dataToSearch.destName);
+    } else {
+        console.warn("Destination name not found in dataToSearch object.");
+    }
+    
     if (dataToSearch.departureDate) {
         const departureDate = new Date(dataToSearch.departureDate);
         departureDateElement.val(departureDate.toLocaleDateString('en-CA'));
