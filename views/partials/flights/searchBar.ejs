@@ -1,15 +1,10 @@
 <div class="search-bar">
-<div class="checkbox-field">
-    <input type="checkbox" id="roundTrip" name="roundTrip" checked>
-    <label for="roundTrip">Round Trip</label>
-</div>
-
   <form id="flight-search-form">
-    <div class="form-field">
-      
+    <div class="form-field departure-field">
       <label for="departure">Departure:</label>
       <input type="text" id="departure" name="departure" required placeholder="Enter departure location" value="<%= defaultDep %>">
-    </div>
+  </div>
+  
 
     <div class="form-field">
       <label for="destination">Destination:</label>
@@ -26,10 +21,11 @@
       <input type="date" id="returnDate" name="returnDate">
     </div>
 
-    <div class="form-field">
+    <div class="form-field travelers-field">
       <label for="travelers">Number of Travelers:</label>
       <input type="number" id="travelers" name="travelers" min="1" required placeholder="Enter number of travelers">
-    </div>
+  </div>
+  
 
     <button class="search-flight-submit" type="submit">Search Flights</button>
   </form>

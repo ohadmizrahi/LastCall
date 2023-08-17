@@ -133,6 +133,12 @@ async function writingMessage(messageToWrite) {
 function Writer(message, isDestination=false) {
     const typeDelay = 30;
     const recommendedDestination = $('#recommendedDestination');
+    
+    if (recommendedDestination.length === 0) {
+        console.warn('Element with ID "recommendedDestination" not found.');
+        return;
+    }
+    
     const messageElement = $('<div>').addClass('typing-message')
     if (isDestination) {
         messageElement.attr('id', 'typing-destination');
@@ -149,8 +155,10 @@ function Writer(message, isDestination=false) {
             clearInterval(typingInterval);
         }
     }, typeDelay);
+    
     recommendedDestination.scrollTop(recommendedDestination[0].scrollHeight);
 }
+
 
 function restrictTopInerest() {
     var maxCheckboxLimit = 3;

@@ -1,4 +1,3 @@
-
 function setDefaultValuesToSearchBar() {
     const dataToSearchString = sessionStorage.getItem("dataToSearch");
     const dataToSearch = JSON.parse(dataToSearchString);
@@ -6,8 +5,17 @@ function setDefaultValuesToSearchBar() {
     const departureDateElement = $("#departureDate");
     const returnDateElement = $("#returnDate");
 
-    destinationElement.val(dataToSearch.destName);
+    if (!dataToSearch) {
+        console.warn("dataToSearch object is not available:", dataToSearchString);
+        return; // Exit the function early if dataToSearch is null or undefined
+    }
 
+    if (dataToSearch.destName) {
+        destinationElement.val(dataToSearch.destName);
+    } else {
+        console.warn("Destination name not found in dataToSearch object.");
+    }
+    
     if (dataToSearch.departureDate) {
         const departureDate = new Date(dataToSearch.departureDate);
         departureDateElement.val(departureDate.toLocaleDateString('en-CA'));
@@ -20,7 +28,5 @@ function setDefaultValuesToSearchBar() {
 
     sessionStorage.removeItem("dataToSearch");
 }
-
-
 
 setDefaultValuesToSearchBar()

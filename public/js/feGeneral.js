@@ -6,17 +6,23 @@ function loadScreen() {
 };
 
 function checkIfAdmin() {
-    fetch('/is_admin')
-      .then(response => response.json())
-      .then(data => {
-        if (data.isAdmin == "true") {
-          $("#header-nav-bar").append('<a class="btn btn-primary my-nav-link" href="/admin">Admin</a>');
-        }
-      })
-      .catch(error => {
-        console.error('Error checking admin status:', error);
-      });
+  fetch('/is_admin')
+    .then(response => {
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      return response.json();
+    })
+    .then(data => {
+      if (data.isAdmin == "true") {
+        $("#header-nav-bar").append('<a class="btn btn-primary my-nav-link" href="/admin">Admin</a>');
+      }
+    })
+    .catch(error => {
+      console.error('Error checking admin status:', error);
+    });
 }
+
 
 function buildDestinationOptions() {
   const validDestinationsElement = $("#validDestinations");

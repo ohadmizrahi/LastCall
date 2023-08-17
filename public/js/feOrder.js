@@ -53,13 +53,17 @@ function CalculatePrice(numberOfMembers, goPrice, returnPrice) {
   totalPrice *= passengerCount;
   return totalPrice;
 }
-
+let goPrice = 0;
+let returnPrice = 0;
 function updateTotalPrice() {
-  let totalPrice = (goPrice + (returnPrice ? returnPrice : 0)) * passengerCount;
-  document.getElementById('totalPrice').textContent = "Total Price: $" + totalPrice;
+    let totalPrice = CalculatePrice(passengerCount, goPrice, returnPrice);
+    let elem = document.getElementById('totalPrice');
+    if (elem) {
+      elem.textContent = "Total Price: $" + totalPrice;
+    } else {
+      console.warn("Element with ID 'totalPrice' not found.");
+    }
 }
-
-updateTotalPrice();
 
 $(document).ready(function() {
   updateTotalPrice();
