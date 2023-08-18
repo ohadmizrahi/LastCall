@@ -64,7 +64,7 @@ router.get("/generate_chart_data", async (req, res) => {
     res.json(tourismData);
 })
 
-router.post("/dest/get_recomandation", async (req, res) => {
+router.post("/get_recomandation", async (req, res) => {
     const data = req.body;
     getRecomandationFromGPT(data)
         .then(recomandation => {

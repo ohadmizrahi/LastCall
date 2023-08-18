@@ -1,5 +1,5 @@
 const { faker } = require('@faker-js/faker');
-const { findAirportByCode, findAirportByCity } = require('../airport/airportModel')
+const { findAirportByCode, findAirportByCity } = require('../airport/airportService')
 const { add, parseISO } = require('date-fns');
 const { formatCityName } = require('../lib')
 

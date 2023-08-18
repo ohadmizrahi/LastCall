@@ -24,23 +24,25 @@ function findUserByID(id, done) {
 
 function insertNewUser(username, fName, lName, email, country, password) {
   console.log("Inserting new user ...");
-  User.register({
-    username: username,
-    fName: fName,
-    lName: lName,
-    email: email,
-    country: country
-  }, password, function (err, user) {
-
-    if (err) {
-      console.error(err);
-      return false
-    } else {
-      return true
-    }
+  return new Promise((resolve, reject) => {
+    User.register({
+      username: username,
+      fName: fName,
+      lName: lName,
+      email: email,
+      country: country
+    }, password, function (err, user) {
+      if (err) {
+        console.error(err);
+        reject(err);
+      } else {
+        resolve(user);
+      }
+    });
   });
-
 }
+
+
 
 
 

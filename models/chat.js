@@ -14,7 +14,6 @@ const askGPT = async (question) => {
 
   try {
     console.log("Asking Chat ...");
-    console.log(question);
     const chatCompletion = await openai.createChatCompletion({
       model: "gpt-3.5-turbo",
       messages: messages,

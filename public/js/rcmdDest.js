@@ -86,7 +86,7 @@ function resetForm(form) {
 }
 
 async function getRecomandedDestination(data) {
-    return fetch("/dest/get_recomandation", {
+    return fetch("/get_recomandation", {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
