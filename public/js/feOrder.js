@@ -21,12 +21,14 @@ initializeModalHandlers();
 let passengerCount = 1; // Start with 1 since one form is already present
 
 function addPassengerForm() {
-    const $container = $('#passengerForms');
-    const $firstForm = $container.find('form').first();
-    const $clonedForm = $firstForm.clone();
-    $clonedForm.find('input').val('');
-    $container.append($clonedForm);
+    const container = $('#passengerForms');
+    const firstForm = container.find('.passanger').first();
+    const clonedForm = firstForm.clone();
+    clonedForm.find('input').val('');
     passengerCount++;
+    clonedForm.find('h3').text(`Passenger ${passengerCount}`);
+    container.append(clonedForm);
+    
 
     if (passengerCount > 1) {
         $('#removePassengerBtn').show();
@@ -37,7 +39,7 @@ function addPassengerForm() {
 
 function removePassengerForm() {
     if (passengerCount > 1) {
-        $('#passengerForms').find('form').last().remove();
+        $('#passengerForms').find('.passanger').last().remove();
         passengerCount--;
     }
 
@@ -48,7 +50,7 @@ function removePassengerForm() {
 
 }
 
-function CalculatePrice( goPrice, returnPrice) {
+function CalculatePrice(goPrice, returnPrice) {
   let totalPrice = goPrice + (returnPrice ? returnPrice : 0);
   totalPrice *= passengerCount;
   return totalPrice;
@@ -56,7 +58,7 @@ function CalculatePrice( goPrice, returnPrice) {
 let goPrice = 0;
 let returnPrice = 0;
 function updateTotalPrice() {
-    let totalPrice = CalculatePrice(passengerCount, goPrice, returnPrice);
+    let totalPrice = CalculatePrice(goPrice, returnPrice);
     let elem = document.getElementById('totalPrice');
     if (elem) {
       elem.textContent = "Total Price: $" + totalPrice;
