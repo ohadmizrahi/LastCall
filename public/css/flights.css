@@ -125,9 +125,10 @@
 
   .flights-combination {
     margin: 10px 0; /* Space between flight combinations */
+
 }
 
-  
+
   .bordered-flight-container {
     display: flex; /* Enables flexbox layout */
     flex-direction: column; /* Stacks children vertically */
@@ -191,8 +192,8 @@
 
 
   .flights-page {
-    overflow-x: hidden;
-  }
+    position: relative; /* This will act as a reference for the side images */
+    overflow-x: hidden;  }
   
   #no-flights-modal-container {
     display: none; /* Initially hidden */
@@ -244,3 +245,5 @@
 .no-flights-modal-important-message {
   font-weight: bold;
 }
+
+

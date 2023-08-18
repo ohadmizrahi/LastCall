@@ -1,112 +1,90 @@
-.order-form {
-  padding: 15px; /* Padding inside the border */
-  border-radius: 10px; /* Rounded corners */
-  background-color: #a7b6c28b; /* Background color */
+.text-center-head {
+  margin-bottom: 30px;  /* Adjust this value as needed */
+}
+
+#passenger-details-form, .passenger-form {
+  width: 45%;
+  background-color: #bbd5d4;
+  padding: 20px;
+  border-radius: 10px;
   margin-bottom: 20px;
+  box-sizing: border-box;
+  margin-left: auto;
+  margin-right: auto;
 }
 
-#flight-details {
-  padding: 15px; /* Padding inside the border */
-  border-radius: 10px; /* Rounded corners */
-  background-color: #a7b6c28b; /* Background color */
+#add-form-btn {
+  margin-right: 10px;  /* Adjust this value as per your requirement */
+}
+
+#forms-container {
+  display: flex;
+  flex-wrap: wrap;  /* This allows items to wrap onto the next line */
+}
+
+.passenger-form:nth-child(n) {
+  margin-right: 15px;
+}
+.passenger-form h3 {
+  font-weight: bold;  /* Make the text bold */
+  text-align: center; /* Center the text */
+}
+
+.credit-form {
+  width: 30%;
+  background-color: #91afdc; /* Light grey background */
+  padding: 20px;
+  border-radius: 10px; 
   margin-bottom: 20px;
+  margin: 20px auto;  /* This will center the form */
+  box-sizing: border-box;
 }
 
-h1.text-center {
-  font-weight: bold; /* Bold text */
+.credit-form h3 {
+  margin-bottom: 20px;
+  font-weight: bold;  /* This makes the text bold */
+  text-align: center;
+
 }
 
-p.text-center {
-  font-size: 18px; /* Larger font size */
-}
-button[type="submit"] {
-  width: 100%;
+.credit-form .form-control {
+  border: 1px solid #CCC; /* Light grey border */
+  padding: 10px;
+  font-size: 14px;
 }
 
-.label-text {
-  font-weight: bold;
+.credit-form label {
+  font-weight: 500;
+  margin-bottom: 5px;
+  font-weight: bold;  /* This makes the text bold */
+
+}
+.btn-container {
+  display: flex;
+  justify-content: center; /* Horizontally center the content */
 }
 
 .confirmation-modal {
-  display: none;
-  position: fixed;
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
   left: 0;
   top: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
-  z-index: 1000;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
 }
 
 .confirmation-content {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background-color: #fff;
-  border-radius: 10px; /* Rounded corners */
+  background-color: #fefefe;
+  margin: 15% auto; /* 15% from the top and centered */
+  padding: 20px;
+  border: 1px solid #888;
+  width: 50%; /* Could be more or less, depending on screen size */
   text-align: center;
-  width: 50%; /* Set the width to 50% of the viewport */
-  max-width: 600px; /* Maximum width */
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); /* Shadow effect */
 }
 
-.confirmation-content p {
-  font-size: 20px; /* Larger font size */
-  font-weight: bold; /* Bold text */
-  margin-bottom: 20px; /* Space below the text */
-}
-
-#go-home-btn {
-  padding: 10px 20px;
-  font-size: 16px;
-  background-color: rgb(234, 160, 23);
-  color: #fff;
-  border: none;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-#go-home-btn:hover {
-  background-color: #ff8c00; /* Background color on hover */
-}
-
-.confirmation-content h1 {
-  font-size: 40px; /* Font size */
-  color: rgb(234, 160, 23); /* Text color */
-  margin-bottom: 20px; /* Space below the text */
-  font-weight: bold; /* Bold text */
-
-}
-
-.passanger {
-  margin-right: 5%;
-}
-
-.centered-content {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-.card-section {
-  padding: 0 20px 20px 20px;  /* Optional: Add some padding for better appearance */
-  border-radius: 10px;  /* Optional: Round the corners for a smoother look */
-  margin-bottom: 10px;
-}
-
-.text-center.mb-4 {
-  padding-top: 20px;
-  padding-bottom: 20px;
-  border-radius: 5px; /* Rounded corners */
-}
-
-.order-summary {
-  display: flex;
-  align-items: center;
-  gap: 10px; /* space between the price and the button */
-}
-
-#totalPrice {
-  font-size: 18px;
-  font-weight: bold;
+.btn-primary {
+  margin-top: 10px;
 }
