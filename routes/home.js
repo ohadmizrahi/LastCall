@@ -1,7 +1,6 @@
 const { Router } = require('express');
 const bodyParser = require("body-parser");
-const session = require('express-session');
-const { getAllSales } = require('../models/sale')
+const { getAllSales } = require('../models/sale/saleService')
 const router = Router();
 router.use(bodyParser.urlencoded({ extended: true }));
 

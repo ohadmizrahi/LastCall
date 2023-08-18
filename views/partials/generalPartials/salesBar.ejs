@@ -1,25 +1,33 @@
 <div id="sales-container">
-  <div id="salehead">
-    <span class="animated-text">Sales !!!</span>
+  <div class="text-center">
+    <h3 id="sale-head">Sales</h3>
+    <p id="sale-head-desc">Take Off with Savings: Explore LastCall Exclusive Flight Deals!</p>
   </div>
   <div id="sales" class="row">
-    <% sales.data.forEach((sale, index) => { %>
-      <div class="sale-item to-flights<% if (index >= 5) { %> hidden-deal <% } %>" data-toFlight="<%= JSON.stringify(sale) %>">
+    <% sales.data.forEach((sale, index)=> { %>
+      <div class="sale-item to-flights<% if (index >= 5) { %> hidden-deal <% } %>"
+        data-toFlight="<%= JSON.stringify(sale) %>">
         <div class="sale-destination">
-          <h4><%= sale.destination %></h4>
+          <h4>
+            <%= sale.destination %>
+          </h4>
         </div>
         <img src="<%= sale.img %>" class="sale-img">
         <div class="sale-content">
-          <p>Departure Date: <%= sale.departureDate %></p>
-          <p>Return Date: <%= sale.returnDate %></p>
+          <p>Departure Date: <%= sale.departureDate %>
+          </p>
+          <p>Return Date: <%= sale.returnDate %>
+          </p>
           <p>Start From: <%= sale.dealPrice %>$</p>
         </div>
       </div>
-    <% }); %>
+      <% }); %>
   </div>
   <div class="text-center">
-    <button id="show-more-btn" class="toggle-btn" onclick="toggleSales('more')" style="display: none;">Show More</button>
-    <button id="show-less-btn" class="toggle-btn" onclick="toggleSales('less')" style="display: none;">Show Less</button>
+    <button id="show-more-btn" class="toggle-btn" onclick="toggleSales('more')" style="display: none;">Show
+      More</button>
+    <button id="show-less-btn" class="toggle-btn" onclick="toggleSales('less')" style="display: none;">Show
+      Less</button>
   </div>
-  
+
 </div>

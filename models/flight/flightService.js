@@ -1,6 +1,6 @@
-const mongoose = require('mongoose');
+const Flight = require("./flightModel")
 const cron = require('node-cron');
-const { formatCityName } = require('./lib')
+const { formatCityName } = require('../lib')
 
 function formatDuration(duration) {
   var durationParts = duration.split(':');
@@ -8,44 +8,6 @@ function formatDuration(duration) {
   var minutes = durationParts[1];
   return hours + 'h ' + minutes + 'm';
 }
-
-const flightSchema = new mongoose.Schema({
-  flight: {
-    status: { type: String, required: true },
-    number: { type: String, required: true },
-    iata: { type: String, required: true },
-    airplane: { type: String, required: true },
-    duration: { type: String, required: true }
-  },
-  departure: {
-    country: { type: String },
-    city: { type: String },
-    airport: { type: String },
-    terminal: { type: String },
-    iata: { type: String },
-    dateTime: { type: Date, required: true }
-  },
-  arrival: {
-    country: { type: String },
-    city: { type: String },
-    airport: { type: String },
-    terminal: { type: String },
-    iata: { type: String },
-    dateTime: { type: Date, required: true }
-  },
-  airline: {
-    name: { type: String },
-    iata: { type: String }
-  },
-  price: {
-    type: Number,
-    required: true,
-    min: 50,
-    max: 1500,
-  },
-});
-
-const Flight = mongoose.model('Flight', flightSchema);
 
 async function insertNewFlights(flightDataArray) {
   try {
@@ -75,7 +37,7 @@ async function insertNewFlights(flightDataArray) {
             status: status,
             number: number,
             iata: iata,
-            airplane: airplane, 
+            airplane: airplane,
             duration: duration
           },
           departure: {
@@ -112,7 +74,7 @@ async function insertNewFlights(flightDataArray) {
   }
 }
 
-async function updateOldFlightStatus() {
+async function deleteOldFlights() {
   const currentDate = new Date().getTime();
   const query = {
     $and: [
@@ -158,24 +120,25 @@ async function findFlights(limit, query = null, arrDate = null) {
 async function findGoFlights(limit, query = null) {
   let goFlights;
   if (query) {
+    console.log("Looking for Go Flights");
     goFlights = await Flight.find(query).limit(limit)
   } else {
+    console.log("Get All flights");
     goFlights = await Flight.aggregate([
       { $match: { "flight.status": { $ne: "done" } } },
       { $sample: { size: limit } }
     ]);
   }
-  
-  // Format the duration for each retrieved flight
   goFlights = goFlights.map(flight => {
     flight.flight.duration = formatDuration(flight.flight.duration);
     return flight;
   });
-  
+
   return goFlights;
 }
 
 async function findReturnFlights(goFlights, returnDate) {
+  console.log("Looking for Return Flights");
   const flightsArray = [];
   for (const goFlight of goFlights) {
 
@@ -183,11 +146,11 @@ async function findReturnFlights(goFlights, returnDate) {
 
     if (returnDate) {
       newReturnDate = new Date(returnDate);
-    } else { 
+    } else {
       newReturnDate = new Date(goFlight.arrival.dateTime);
     }
     newReturnDate.setDate(newReturnDate.getDate() + 2);
-    
+
     const query = buildFindQuery(goFlight.arrival.city, 1, newReturnDate, null, goFlight.departure.city);
 
     const returnFlights = await Flight.findOne(query)
@@ -201,27 +164,25 @@ async function findReturnFlights(goFlights, returnDate) {
 
 
 
-function buildFindQuery(dep, totalPassangers, fullDate=null, monthDate=null, des=null) {
-  if (!(dep && ((fullDate && !monthDate) || (monthDate && !fullDate)) && totalPassangers)) {
-    throw new Error("All of the parameters (dep, date or month, totalPassengers) must be provided.");
+function buildFindQuery(dep, totalPassangers, fullDate = null, des = null) {
+  if (!(dep && fullDate && totalPassangers)) {
+    throw new Error("All of the parameters (dep, date, totalPassengers) must be provided.");
   } else {
-    
-    // Add month validation
 
-    let oneMonthAhead = new Date(fullDate ? fullDate : monthDate)
+    let oneMonthAhead = new Date(fullDate)
     oneMonthAhead.setMonth(oneMonthAhead.getMonth() + 12);
-    
-    
+
+
     const query = {
       "departure.city": formatCityName(dep),
-      "departure.dateTime": { $gte: fullDate ? new Date(fullDate) :  new Date(monthDate), $lte: oneMonthAhead },
-      "flight.status": { $ne: "done"}
+      "departure.dateTime": { $gte: new Date(fullDate), $lte: oneMonthAhead },
+      "flight.status": { $ne: "done" }
     }
 
     if (des) {
       query["arrival.city"] = formatCityName(des);
     }
-    
+
     return query
   }
 }
@@ -236,7 +197,7 @@ function buildFindQuery(dep, totalPassangers, fullDate=null, monthDate=null, des
 module.exports.insertNewFlights = insertNewFlights;
 module.exports.buildFindQuery = buildFindQuery;
 module.exports.findFlights = findFlights;
-module.exports.updateOldFlightStatus = updateOldFlightStatus;
+module.exports.updateOldFlightStatus = deleteOldFlights;
 module.exports.formatDuration = formatDuration;
 
 

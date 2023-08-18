@@ -13,10 +13,12 @@ const askGPT = async (question) => {
   let messages = [{ role: 'system', content: question }];
 
   try {
+    console.log("Asking Chat ...");
     const chatCompletion = await openai.createChatCompletion({
       model: "gpt-3.5-turbo",
       messages: messages,
     });
+    console.log("Chat response successfully");
     return (chatCompletion.data.choices[0].message.content);
  
   } catch (error) {

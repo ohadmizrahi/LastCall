@@ -1,10 +1,9 @@
 const { Router } = require('express');
 const bodyParser = require("body-parser");
-const session = require('express-session');
-const { insertSale } = require('../models/sale')
-const { generateFlights } = require('../models/flightsGenerator')
-const { insertNewFlights } = require('../models/flights')
-const { getAllDestinations } = require('../models/airports')
+const { insertSale } = require('../models/sale/saleService')
+const { generateFlights } = require('../models/flight/flightsGenerator')
+const { insertNewFlights } = require('../models/flight/flightService')
+const { getAllDestinations } = require('../models/airport/airportService')
 
 const router = Router();
 
@@ -38,6 +37,20 @@ router.get("/is_admin", async (req, res) => {
     }
 })
 
+router.get("/admin/add_sale", async (req, res) => {
+    if (req.isAuthenticated() && req.user.isAdmin) {
+        const validDestinations = await getAllDestinations()
+        res.render("index",
+            {
+                body: { main: "partials/admin/newSale", validDestinations: validDestinations },
+                header: { main: "partials/headers/main", auth: "authDiv/afterAuth", pageTitle: "Admin" }
+            })
+    } else {
+        res.redirect("/home");
+    }
+
+})
+
 router.post("/admin/add_sale", async (req, res) => {
     const status = await insertSale(req.body)
     if (status == 0) {
@@ -57,20 +70,6 @@ router.post("/admin/add_sale", async (req, res) => {
         }
     }
     res.redirect("/admin")
-})
-
-router.get("/admin/add_sale", async (req, res) => {
-    if (req.isAuthenticated() && req.user.isAdmin) {
-        const validDestinations = await getAllDestinations()
-        res.render("index",
-            {
-                body: { main: "partials/admin/newSale", validDestinations: validDestinations },
-                header: { main: "partials/headers/main", auth: "authDiv/afterAuth", pageTitle: "Admin" }
-            })
-    } else {
-        res.redirect("/home");
-    }
-
 })
 
 router.get("/admin/new_flights", async (req, res) => {

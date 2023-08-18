@@ -1,7 +1,7 @@
 const { Router } = require('express');
 const bodyParser = require("body-parser");
 const passport = require("passport");
-const User = require('../models/user')
+const { findOrCreateUser, newStrategy, findUserByID } = require("../models/user/userService")
 const session = require('express-session');
 
 const router = Router();
@@ -17,20 +17,14 @@ router.use(session({
 router.use(passport.initialize());
 router.use(passport.session());
 
-passport.use(User.createStrategy());
+passport.use(newStrategy());
 
 passport.serializeUser(function (user, done) {
   done(null, user.id);
 });
 
 passport.deserializeUser(function (id, done) {
-  User.findById(id)
-    .then((user) => {
-      done(null, user);
-    })
-    .catch((err) => {
-      done(err, null);
-    });
+  findUserByID(id, done)
 });
 
 router.get("/login", (req, res) => {
@@ -41,10 +35,8 @@ router.get("/login", (req, res) => {
 })
 
 router.post("/login", function (req, res) {
-  const user = new User({
-    username: req.body.username,
-    password: req.body.password
-  });
+
+  const user = findOrCreateUser(req.body.username, req.body.password)
 
   req.login(user, function (err) {
     if (err) {
