@@ -14,7 +14,7 @@ function checkIfAdmin() {
       return response.json();
     })
     .then(data => {
-      if (data.isAdmin == "true") {
+      if (data.authLevel == "admin") {
         $("#header-nav-bar").append('<a class="btn btn-primary my-nav-link" href="/admin">Admin</a>');
       }
     })

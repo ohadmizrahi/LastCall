@@ -1,0 +1,38 @@
+<div class="col-12 col-md-8 offset-md-2 col-lg-6 offset-lg-3">
+    <div class="card">
+        <div class="card-body">
+            <form id="manage-auth-form" action="/admin/auth" method="POST">
+                <h1>Manage Authorizations</h1>
+                <div class="border-top my-3"></div>
+                <div class="form-group">
+                    <label for="username">Username</label>
+                    <input type="text" class="form-control" name="username" placeholder="User to Update or Delete" required>
+                </div>
+                <div class="form-group">
+                    <label>Choose Action</label>
+                    <select class="form-control" name="action" required>
+                        <option value="" selected disabled>Select an action</option>
+                        <option value="update">Update Authorization Level</option>
+                        <option value="delete">Delete User</option>
+                    </select>
+                </div>
+                <div class="form-group" id="new-auth-level-group" style="display: none;">
+                    <label for="new-auth-level">Select Authorization Level</label>
+                    <select class="form-control" name="newAuthLevel">
+                        <option value="" selected disabled>Authorization Level</option>
+                        <option value="admin">Admin</option>
+                        <option value="supplier">Supplier</option>
+                        <option value="user">User</option>
+                    </select>
+                </div>
+                <div class="form-group" id="confirmation-group" style="display: none;">
+                    <p>Are you sure you want to delete this user?</p>
+                    <button type="button" class="btn btn-danger" id="confirmDelete">Confirm Delete</button>
+                    <button type="button" class="btn btn-secondary" id="cancelDelete">Cancel</button>
+                </div>
+                <div class="border-top my-3"></div>
+                <button type="submit" class="btn btn-dark btn-lg btn-block">Submit</button>
+            </form>
+        </div>
+    </div>
+</div>
