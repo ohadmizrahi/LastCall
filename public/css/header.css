@@ -13,10 +13,7 @@
   height: 100px;
 }
 
-@font-face {
-  font-family: 'Your Chosen Font';
-  src: url('your-font-file.ttf') format('truetype');
-}
+
 
 #dynamic-title {
   text-align: center;
