@@ -3,26 +3,6 @@
 <div id="search-bar">
   <%- include("searchBar", { defaultDep: body.defaultDep }) %>
 </div>
-<!-- <button class="generate-btn" onclick="generateNewFlights()">Generate New Flights</button> -->
-<div class="sidebar">
-  <h3>Flight Filters</h3>
-  <h5>Price Range</h5>
-<div id="price-slider" class="double-slider">
-    <div class="slider-scale"></div>
-</div>
-<span id="price-range-display">$100 - $5000</span>
-<h5>Departure Times</h5>
-<div id="outbound-time-slider" class="double-slider">
-    <div class="slider-scale"></div>
-</div>
-<span id="outbound-time-display">0:00 - 23:59</span>
-<h5>Return Time</h5>
-<div id="return-time-slider" class="double-slider">
-    <div class="slider-scale"></div>
-</div>
-<span id="return-time-display">0:00 - 23:59</span>
-</div>
-
 <% if (!body.flights) { %>
   <div id="no-flights-modal" class="no-flights-container">
     <h4>Flight Not Found!</h4>

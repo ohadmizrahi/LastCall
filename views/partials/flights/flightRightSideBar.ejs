@@ -23,5 +23,7 @@
     <h4>Total Price: <span id="total-price"></span></h4>
 
   </div>
-  <button id="continue-btn" class="continue-btn">Continue</button>
+  <% if (typeof showContinueButton === 'undefined' || showContinueButton) { %>
+    <button id="continue-btn" class="continue-btn">Continue</button>
+<% } %>
 </div>

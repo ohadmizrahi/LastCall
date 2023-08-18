@@ -48,7 +48,7 @@ function removePassengerForm() {
 
 }
 
-function CalculatePrice(numberOfMembers, goPrice, returnPrice) {
+function CalculatePrice( goPrice, returnPrice) {
   let totalPrice = goPrice + (returnPrice ? returnPrice : 0);
   totalPrice *= passengerCount;
   return totalPrice;
