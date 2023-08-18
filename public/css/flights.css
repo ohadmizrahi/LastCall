@@ -15,17 +15,11 @@
     background-color: #ff8c00 ;
 }
 
-.flights-container {
-  display: flex;
-  flex-direction: column; /* Makes the cards stack vertically */
-  align-items: center; /* Aligns children to the center horizontally */
-}
 
 @import url('https://fonts.googleapis.com/css?family=Fjalla+One');
 *{
   margin:0;
   padding:0;
-  box-sizing:border-box;
   font-family: 'Fjalla One', sans-serif;
 }
 *:focus {
@@ -131,7 +125,6 @@
 
   .flights-combination {
     margin: 10px 0; /* Space between flight combinations */
-    max-width: 1000px; /* Example width, adjust as needed */
 }
 
   
@@ -199,28 +192,55 @@
 
   .flights-page {
     overflow-x: hidden;
-  
   }
   
-  #no-flights-modal {
-    width: 50%; 
-    margin: 0 auto;
-    position: absolute;
-    top: 80%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    padding: 40px;
-}
-#no-flights-modal h4 {
-  font-size: 30px;
-  font-weight: bold;
-  color: #333;
-  margin-bottom: 20px;
-  text-align: center; 
-}
-#no-flights-modal p {
-    font-size: 24px;
-    text-align: center; 
-    color: #333;
+  #no-flights-modal-container {
+    display: none; /* Initially hidden */
+    position: fixed; /* Fixed position */
+    top: 0;
+    left: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    background-color: rgba(0,0,0,0.5); /* Black background with opacity */
+    z-index: 1; /* Positioned on top */
+    text-align: center;
+    font-weight: bold;
 }
 
+#no-flights-modal {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 10px;
+    width: 70%; /* Adjust as needed */
+    max-width: 500px; /* Adjust as needed */
+}
+
+.close-btn {
+    position: absolute;
+    right: 10px;
+    top: 5px;
+    color: #aaa;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.close-btn:hover {
+    color: black;
+}
+
+.no-flights-modal-header {
+  /* Styling for the header (like the "Flight Not Found!" text) */
+  font-size: 24px; /* Adjust size as needed */
+  margin-bottom: 20px; /* Space below the header */
+}
+
+/* Optional: If you want to make only specific parts bold, not everything */
+.no-flights-modal-header, 
+.no-flights-modal-important-message {
+  font-weight: bold;
+}
