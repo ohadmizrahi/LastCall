@@ -1,100 +1,116 @@
-<h1 class="text-center">Order Your Flight</h1>
+<h1 class="text-center mt-5">Order Your Flight</h1>
 <p class="text-center">Here you can complete your flight booking.</p>
 <div class="text-center mb-4">
-    <button id="showFlightDetailsBtn" onclick="ChooseFlight('<%=JSON.stringify(body.flights) %>')">Show Flight Details</button>
+    <button class="btn btn-lg btn-dark" onclick="ChooseFlight('<%=JSON.stringify(body.flights) %>')">Show Flight
+        Details</button>
 </div>
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-1 d-flex flex-column"></div>
-        <div class="col-md-6">
-            <div id="passengerForms">
-
-            <form action="/submit_order" method="post" id="order-form" onsubmit="showConfirmation()">
-                <div class="form-group row">
-                  <label for="first-name" class="col-sm-4 col-form-label text-left">First Name:</label>
-                  <div class="col-sm-8">
-                      <input type="text" id="name" name="name" required class="form-control">
-                  </div>
-              </div>
-              <div class="form-group row">
-                <label for="last-name" class="col-sm-4 col-form-label text-left">Last Name:</label>
-                <div class="col-sm-8">
-                    <input type="text" id="name" name="name" required class="form-control">
+<div class="container mb-5">
+    <form action="/submit_order" method="post" onsubmit="showConfirmation()">
+        <div class="row">
+            <div id="passengerForms" class="row row-cols-3">
+                <div class="passanger order-form col">
+                    <h3>Passanger 1</h3>
+                    <div class="form-group row">
+                        <label for="first-name" class="col-sm-4 col-form-label text-left">First Name:</label>
+                        <div class="col-sm-8">
+                            <input type="text" id="name" name="name" required class="form-control">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="last-name" class="col-sm-4 col-form-label text-left">Last Name:</label>
+                        <div class="col-sm-8">
+                            <input type="text" id="name" name="name" required class="form-control">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="email" class="col-sm-4 col-form-label text-left">Email Address:</label>
+                        <div class="col-sm-8">
+                            <input type="email" id="email" name="email" required class="form-control">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="phone" class="col-sm-4 col-form-label text-left">Phone Number:</label>
+                        <div class="col-sm-8">
+                            <input type="tel" id="phone" name="phone" required class="form-control">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="passport" class="col-sm-4 col-form-label text-left">Passport Number:</label>
+                        <div class="col-sm-8">
+                            <input type="text" id="passport" name="passport" required class="form-control">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="seat" class="col-sm-4 col-form-label text-left">Seat Preference:</label>
+                        <div class="col-sm-8">
+                            <select id="seat" name="seat" class="form-control">
+                                <option value="window">Window</option>
+                                <option value="aisle">Aisle</option>
+                                <option value="middle">Middle</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="border-top my-3"></div>
                 </div>
             </div>
-              <div class="form-group row">
-                  <label for="email" class="col-sm-4 col-form-label text-left">Email Address:</label>
-                  <div class="col-sm-8">
-                      <input type="email" id="email" name="email" required class="form-control">
-                  </div>
-              </div>
-              <div class="form-group row">
-                  <label for="phone" class="col-sm-4 col-form-label text-left">Phone Number:</label>
-                  <div class="col-sm-8">
-                      <input type="tel" id="phone" name="phone" required class="form-control">
-                  </div>
-              </div>
-              <div class="form-group row">
-                  <label for="passport" class="col-sm-4 col-form-label text-left">Passport Number:</label>
-                  <div class="col-sm-8">
-                      <input type="text" id="passport" name="passport" required class="form-control">
-                  </div>
-              </div>
-              <div class="form-group row">
-                  <label for="seat" class="col-sm-4 col-form-label text-left">Seat Preference:</label>
-                  <div class="col-sm-8">
-                      <select id="seat" name="seat" class="form-control">
-                          <option value="window">Window</option>
-                          <option value="aisle">Aisle</option>
-                          <option value="middle">Middle</option>
-                      </select>
-                  </div>
-              </div>
+        </div>
+            <div class="row">
+                <button type="button" onclick="addPassengerForm()" class="btn btn-success col-md-4">Add
+                    Passenger</button>
+                <div class="col-sm-1"></div>
+                <button type="button" onclick="removePassengerForm()" class="btn btn-danger col-md-4"
+                    id="removePassengerBtn" style="display:none;">Remove Passenger</button>
             </div>
-            <button type="button" onclick="addPassengerForm()" class="btn btn-secondary">Another Passenger</button>
-            <button type="button" onclick="removePassengerForm()" class="btn btn-danger" id="removePassengerBtn" style="display:none;">Remove Passenger</button>            
-            <br><br><br>
-            <div class="card-section">
+        
+        <div class="border-top my-3"></div>
+
+        <div class="card-section row">
+            <div class="order-form">
                 <div class="form-group row">
                     <label for="card-number" class="col-sm-4 col-form-label text-left">Card Number:</label>
                     <div class="col-sm-8">
-                        <input type="text" id="card-number" name="card-number" required pattern="\d{16}" maxlength="16" class="form-control" placeholder="0000 0000 0000 0000">
+                        <input type="text" id="card-number" name="card-number" required pattern="\d{16}" maxlength="16"
+                            class="form-control" placeholder="0000 0000 0000 0000">
                     </div>
                 </div>
                 <div class="form-group row">
-                    <label for="expiration-date" class="col-sm-4 col-form-label text-left">Expiration Date (MM/YY):</label>
+                    <label for="expiration-date" class="col-sm-4 col-form-label text-left">Expiration Date
+                        (MM/YY):</label>
                     <div class="col-sm-8">
-                        <input type="text" id="expiration-date" name="expiration-date" required pattern="(0[1-9]|1[0-2])\/\d{2}" class="form-control" placeholder="MM/YY">
+                        <input type="text" id="expiration-date" name="expiration-date" required
+                            pattern="(0[1-9]|1[0-2])\/\d{2}" class="form-control" placeholder="MM/YY">
                     </div>
                 </div>
                 <div class="form-group row">
                     <label for="name-on-card" class="col-sm-4 col-form-label text-left">Name on Card:</label>
                     <div class="col-sm-8">
-                        <input type="text" id="name-on-card" name="name-on-card" required class="form-control" placeholder="Or Solomon">
+                        <input type="text" id="name-on-card" name="name-on-card" required class="form-control"
+                            placeholder="Or Solomon">
                     </div>
                 </div>
                 <div class="form-group row">
                     <label for="cvv" class="col-sm-4 col-form-label text-left">CVV:</label>
                     <div class="col-sm-8">
-                        <input type="text" id="cvv" name="cvv" required pattern="\d{3,4}" maxlength="4" class="form-control" placeholder="123">
+                        <input type="text" id="cvv" name="cvv" required pattern="\d{3,4}" maxlength="4"
+                            class="form-control" placeholder="123">
                     </div>
                 </div>
             </div>
-            
-            <div class="order-summary">
-                <button type="submit" class="btn btn-primary">Confirm Order</button>
+            <div class="border-top my-3"></div>
+            <div class="order-summary row">
+                <button type="submit" class="btn btn-lg btn-dark">Confirm Order</button>
             </div>
-            </form>
-      </div>
-    </div>
+        </div>
+</div>
+</form>
 </div>
 <div id="confirmation-modal" class="confirmation-modal">
     <div class="confirmation-content">
-      <h1>Congratulations!</h1>
-      <p>Your payment has been confirmed.</p>
-      <p>The flight ticket will be sent to your email in the next few minutes.</p>
-      <p>Have a pleasant flight from the Last Call team!</p>
-      <button id="go-home-btn" class="btn btn-primary">Go Home</button>
+        <h1>Congratulations!</h1>
+        <p>Your payment has been confirmed.</p>
+        <p>The flight ticket will be sent to your email in the next few minutes.</p>
+        <p>Have a pleasant flight from the Last Call team!</p>
+        <button id="go-home-btn" class="btn btn-primary">Go Home</button>
     </div>
 </div>
 
