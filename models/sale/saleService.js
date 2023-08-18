@@ -26,7 +26,7 @@ async function insertSale(sale) {
     });
 
     if (!existingSale) {
-      
+
       const newSale = new Sale({
         destination: destination,
         departureDate: departureDate,
@@ -48,6 +48,26 @@ async function insertSale(sale) {
   }
 }
 
+async function deleteSale(filters) {
+  try {
+    const { destination: destination, departureDate: departureDate, returnDate: returnDate } = filters
+    console.log("Deleting Sale");
+    const result = await Sale.deleteOne({
+      departureDate: new Date(departureDate),
+      returnDate: new Date(returnDate),
+      destination: destination
+    });
+    if (result.deletedCount < 1) {
+      return 1
+    } else {
+      return 0
+    }
+  } catch (error) {
+    console.error(error);
+    return 2
+  }
+}
+
 async function getAllSales() {
   console.log("Getting all sales ...");
   const sales = await Sale.find();
@@ -64,3 +84,4 @@ async function getAllSales() {
 
 module.exports.getAllSales = getAllSales;
 module.exports.insertSale = insertSale;
+module.exports.deleteSale = deleteSale

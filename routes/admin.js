@@ -1,9 +1,10 @@
 const { Router } = require('express');
 const bodyParser = require("body-parser");
-const { insertSale } = require('../models/sale/saleService')
+const { insertSale, deleteSale } = require('../models/sale/saleService')
 const { generateFlights } = require('../models/flight/flightsGenerator')
 const { insertNewFlights } = require('../models/flight/flightService')
 const { getAllDestinations } = require('../models/airport/airportService')
+const { deleteUser, updateUser } = require('../models/user/userService')
 
 const router = Router();
 
@@ -11,7 +12,7 @@ const router = Router();
 router.use(bodyParser.urlencoded({ extended: true }));
 
 router.get("/admin", async (req, res) => {
-    if (req.isAuthenticated() && req.user.isAdmin) {
+    if (req.isAuthenticated() && req.user.authLevel == "admin") {
         let alertData;
         if (req.session.alertData) {
             alertData = req.session.alertData
@@ -31,14 +32,58 @@ router.get("/admin", async (req, res) => {
 
 router.get("/is_admin", async (req, res) => {
     if (req.isAuthenticated()) {
-        res.json({ isAdmin: req.cookies.isAdmin });
+        res.json({ authLevel: req.cookies.authLevel });
     } else {
         res.redirect("/login");
     }
 })
 
+
+router.get("/admin/sale", async (req, res) => {
+    if (req.isAuthenticated() && req.user.authLevel == "admin") {
+
+        res.render("index",
+            {
+                body: { main: "partials/admin/adminSale" },
+                header: { main: "partials/headers/main", auth: "authDiv/afterAuth", pageTitle: "Admin" }
+            })
+    } else {
+        res.redirect("/home");
+    }
+
+})
+
+router.get("/admin/flights", async (req, res) => {
+    if (req.isAuthenticated() && req.user.authLevel == "admin") {
+
+        res.render("index",
+            {
+                body: { main: "partials/admin/adminFlight" },
+                header: { main: "partials/headers/main", auth: "authDiv/afterAuth", pageTitle: "Admin" }
+            })
+    } else {
+        res.redirect("/home");
+    }
+
+})
+
+router.get("/admin/auth", async (req, res) => {
+    if (req.isAuthenticated() && req.user.authLevel == "admin") {
+
+        res.render("index",
+            {
+                body: { main: "partials/admin/adminAuth" },
+                header: { main: "partials/headers/main", auth: "authDiv/afterAuth", pageTitle: "Admin" }
+            })
+    } else {
+        res.redirect("/home");
+    }
+
+})
+
+
 router.get("/admin/add_sale", async (req, res) => {
-    if (req.isAuthenticated() && req.user.isAdmin) {
+    if (req.isAuthenticated() && req.user.authLevel == "admin") {
         const validDestinations = await getAllDestinations()
         res.render("index",
             {
@@ -72,18 +117,40 @@ router.post("/admin/add_sale", async (req, res) => {
     res.redirect("/admin")
 })
 
-router.get("/admin/new_flights", async (req, res) => {
-    if (req.isAuthenticated() && req.user.isAdmin) {
-
+router.get("/admin/delete_sale", async (req, res) => {
+    if (req.isAuthenticated() && req.user.authLevel == "admin") {
+        const validDestinations = await getAllDestinations()
         res.render("index",
             {
-                body: { main: "partials/admin/newFlight" },
+                body: { main: "partials/admin/deleteSale", validDestinations: validDestinations },
                 header: { main: "partials/headers/main", auth: "authDiv/afterAuth", pageTitle: "Admin" }
             })
     } else {
         res.redirect("/home");
     }
 
+})
+
+router.post("/admin/delete_sale", async (req, res) => {
+    console.log(req.body);
+    const status = await deleteSale(req.body)
+    if (status == 0) {
+        req.session.alertData = {
+            header: "Delete Sale",
+            content: `Done Successfully`
+        }
+    } else if (status == 1) {
+        req.session.alertData = {
+            header: "Delete Sale Failed",
+            content: `Sale Not Found`
+        }
+    } else {
+        req.session.alertData = {
+            header: "Delete Sale Failed",
+            content: `Error occur when deleting, please TRY AGAIN`
+        }
+    }
+    res.redirect("/admin")
 })
 
 router.get("/admin/generate_new_flights", async (req, res) => {
@@ -117,7 +184,7 @@ router.get("/admin/generate_new_flights", async (req, res) => {
 })
 
 router.get("/admin/add_flight", async (req, res) => {
-    if (req.isAuthenticated() && req.user.isAdmin) {
+    if (req.isAuthenticated() && req.user.authLevel == "admin") {
         const validDestinations = await getAllDestinations()
 
         res.render("index",
@@ -148,7 +215,7 @@ router.post("/admin/add_flight", async (req, res) => {
                 header: "Add One Way Flight Done Successfully",
                 content: `flight to ${flights[0].arrival.city} added to DB`
             }
-            
+
         } else if (flights.length == 2) {
             req.session.alertData = {
                 header: "Add Route Flight Done Successfully",
@@ -163,7 +230,44 @@ router.post("/admin/add_flight", async (req, res) => {
             content: `Error occured, please try again`
         }
         console.error('Error:', error);
-    }})
+    }
+})
+
+router.post("/admin/auth", async (req, res) => {
+    const { username: username, action: action } = req.body
+    let status;
+    if (!action) {
+        status = 2
+    }
+    else if (action == "delete") {
+        status = await deleteUser(username)
+    } else {
+        status = await updateUser(username, "authLevel", req.body.newAuthLevel)
+    }
+    if (status == 0) {
+        req.session.alertData = {
+            header: action == "delete" ? "Delete User" : "Update User",
+            content: `Done Successfully`
+        }
+    } else if (status == 1) {
+        req.session.alertData = {
+            header: action == "delete" ? "Delete User Failed" : "Update User Failed",
+            content: `User Not Found`
+        }
+    } else if (status == 2) {
+        req.session.alertData = {
+            header: "Modify Admin User",
+            content: `It not possible to Modify Admin While no other admin exist`
+        }
+    } else {
+        req.session.alertData = {
+            header: action == "delete" ? "Delete User Failed" : "Update User Failed",
+            content: `Error occur when deleting, please TRY AGAIN`
+        }
+    }
+    res.redirect("/admin")
+})
+
 
 
 module.exports = router;
