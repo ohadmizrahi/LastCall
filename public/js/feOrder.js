@@ -66,7 +66,7 @@ function addPassengerForm() {
   const clonedForm = lastForm.clone();
   clonedForm.find('input, select').val('');
   passengerCount++;
-  clonedForm.find('h4').text('Passenger ' + passengerCount);
+  clonedForm.find('h3').text('Passenger ' + passengerCount);
   clonedForm.attr('id', 'passenger-details-form-' + passengerCount);
   formsContainer.append(clonedForm);
   if (passengerCount > 1) {

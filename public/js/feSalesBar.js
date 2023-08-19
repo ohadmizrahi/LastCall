@@ -32,7 +32,6 @@ function toggleSales(action) {
   }
 }
 
-
 function updateShowMoreButtonVisibility() {
   const hiddenDealsCount = $('.hidden-deal').length;
   const $showMoreBtn = $('#show-more-btn');

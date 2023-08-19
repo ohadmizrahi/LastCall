@@ -17,7 +17,7 @@
   font-weight: bold;
   margin-bottom: 15px;
   color: #333;
-  border-bottom: 2px solid #007bff;
+  border-bottom: 2px solid rgb(234, 160, 23);
   padding-bottom: 10px;
   text-align: center;
 }
@@ -31,7 +31,7 @@
 
 #custom-alert-ok {
   padding: 8px 15px;
-  background: linear-gradient(90deg, #007bff, #0056b3);
+  background: linear-gradient(90deg, rgb(234, 160, 23), #ff8c00);
   color: white;
   border: none;
   cursor: pointer;
@@ -40,6 +40,6 @@
 }
 
 #custom-alert-ok:hover {
-  background: linear-gradient(90deg, #0056b3, #007bff);
+  background: linear-gradient(90deg, #ff8c00,rgb(234, 160, 23));
   transform: scale(1.05);
 }
