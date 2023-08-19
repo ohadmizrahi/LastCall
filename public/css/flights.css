@@ -15,62 +15,11 @@
     background-color: #ff8c00 ;
 }
 
-.flights-container {
-    display: flex;
-    flex-direction: column; /* Makes the cards stack vertically */
-}
 
-
-.sidebar {
-    width: 200px;
-    padding: 15px;
-    border-right: 2px solid #ddd;
-    border-left: 2px solid #ddd;
-    float: left;
-    margin-top: 80px;
-    margin-left : 30px;
-}
-
-.flights-container {
-    margin-left: 220px;
-}
-
-.sidebar h5 {
-    font-weight: bold;
-    margin-bottom: 10px;
-    border-top: 1px solid #ccc; /* Adds a border */
-    padding-bottom: 5px;
-}
-
-.sidebar h3 {
-    font-weight: bold;
-    margin-bottom: 20px;
-}
-
-.sidebar label {
-    display: block;
-    margin: 5px 0;
-    font-size: 14px;
-}
-
-.sidebar input[type="checkbox"] {
-    margin-right: 5px;
-}
-
-.sidebar input[type="range"] {
-    width: 100%;
-}
-
-.sidebar span {
-    display: block;
-    font-size: 12px;
-    color: #666;
-}
 @import url('https://fonts.googleapis.com/css?family=Fjalla+One');
 *{
   margin:0;
   padding:0;
-  box-sizing:border-box;
   font-family: 'Fjalla One', sans-serif;
 }
 *:focus {
@@ -176,8 +125,10 @@
 
   .flights-combination {
     margin: 10px 0; /* Space between flight combinations */
-  }
-  
+
+}
+
+
   .bordered-flight-container {
     display: flex; /* Enables flexbox layout */
     flex-direction: column; /* Stacks children vertically */
@@ -186,8 +137,9 @@
     padding: 5px; /* Padding inside the border */
     border-radius: 10px; /* Rounded corners */
     width: 1000px;
-    margin-left: 100px;
     position: relative; /* Enables absolute positioning for children */
+    margin: auto; /* Centers the block element */
+
   }
   
   
@@ -237,61 +189,61 @@
     font-size: 30px; /* Font size */
     margin: 0; /* No margin */
   }
-  #sales-containers {
-    margin-left: -190px; /* Adjust this value as needed */
-  }
+
 
   .flights-page {
-    overflow-x: hidden;
+    position: relative; /* This will act as a reference for the side images */
+    overflow-x: hidden;  }
   
-  }
-  
+  #no-flights-modal-container {
+    display: none; /* Initially hidden */
+    position: fixed; /* Fixed position */
+    top: 0;
+    left: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    background-color: rgba(0,0,0,0.5); /* Black background with opacity */
+    z-index: 1; /* Positioned on top */
+    text-align: center;
+    font-weight: bold;
+}
 
-  #no-flights-modal {
-    width: 50%; 
-    margin: 0 auto;
+#no-flights-modal {
     position: absolute;
-    top: 80%;
+    top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    padding: 40px;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 10px;
+    width: 70%; /* Adjust as needed */
+    max-width: 500px; /* Adjust as needed */
 }
-#no-flights-modal h4 {
-  font-size: 30px;
+
+.close-btn {
+    position: absolute;
+    right: 10px;
+    top: 5px;
+    color: #aaa;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.close-btn:hover {
+    color: black;
+}
+
+.no-flights-modal-header {
+  /* Styling for the header (like the "Flight Not Found!" text) */
+  font-size: 24px; /* Adjust size as needed */
+  margin-bottom: 20px; /* Space below the header */
+}
+
+/* Optional: If you want to make only specific parts bold, not everything */
+.no-flights-modal-header, 
+.no-flights-modal-important-message {
   font-weight: bold;
-  color: #333;
-  margin-bottom: 20px;
-  text-align: center; 
-}
-#no-flights-modal p {
-    font-size: 24px;
-    text-align: center; 
-    color: #333;
 }
 
-.double-slider {
-  position: relative;
-  width: 100%;
-  height: 20px;
-  background: #ddd;
-  border-radius: 10px;
-}
 
-.slider-thumb {
-  position: absolute;
-  width: 20px;
-  height: 20px;
-  background: #7070ff;
-  border-radius: 50%;
-  cursor: pointer;
-  top: 50%;
-  transform: translateY(-50%);
-}
-
-.slider-scale {
-  position: absolute;
-  height: 2px;
-  width: 100%;
-  top: 50%;
-  transform: translateY(-50%);
-}

@@ -31,40 +31,23 @@ function searchFlights() {
   });
 }
 
+$(document).ready(function() {
 
-$(document).ready(function () {
-  $('#outbound-time').on('input', function () {
-    var value = $(this).val();
-    var displayValue = value == 23 ? '24:59' : value + ':59';
-    $('#outbound-time-display').text('0:00 - ' + displayValue);
+  function hideNoFlightsModal() {
+      $('#no-flights-modal-container').hide();
+  }
+
+  function showNoFlightsModal() {
+      $('#no-flights-modal-container').show();
+  }
+
+  // Close the modal when the close button is clicked
+  $('.close-btn').click(function() {
+      hideNoFlightsModal();
   });
 
-  $('#return-time').on('input', function () {
-    var value = $(this).val();
-    var displayValue = value == 23 ? '24:59' : value + ':59';
-    $('#return-time-display').text('0:00 - ' + displayValue);
-  });
+  showNoFlightsModal();
 
-  $('#flight-duration').on('input', function () {
-    var value = $(this).val();
-    $('#flight-duration-display').text(value + ' hours - ' + (parseFloat(value) + 0.5) + ' hours');
-  });
-
-  $('#price-range').on('input', function () {
-    var value = $(this).val();
-    $('#price-range-display').text('$100 - $' + value);
-  });
-
-  // Close the sidebar when the close button is clicked
-  $('#close-sidebar').click(function () {
-    $('#details-sidebar').removeClass('active');
-  });
-
-  // Handle the form submission (replace with your logic)
-  $('#details-form').submit(function (e) {
-    e.preventDefault();
-    // Process the form data here
-  });
 });
 
 var flightJsonData;
@@ -75,8 +58,6 @@ function ChooseFlight(flightData) {
 
   $('#details-sidebar').addClass('active');
 }
-
-
 
 function insertFlightDetails(goFlight, returnFlight, totalPrice) {
 
@@ -120,6 +101,11 @@ function insertSingleFlightDetails(containerId, flight) {
   $(containerId + ' #arrivalTime').text(arrivalTime);
 }
 
+$(document).ready(function() {
+  $("#close-sidebar").click(function() {
+      $("#details-sidebar").removeClass("active");
+  });
+});
 
 function formatDateTime (dateTime) {
   var date = new Date(dateTime);
@@ -135,62 +121,3 @@ function toTitleCase(str) {
 }
 
 searchFlights()
-
-
- //left side bar filters
-
-$(document).ready(function initializeSliders() {
-  function setupSlider(sliderId, displayId, min, max, formatter) {
-      const slider = document.getElementById(sliderId);
-      const display = document.getElementById(displayId);
-      if (slider && display) {
-      slider.innerHTML = `<div class="slider-thumb" style="left: 0;"></div>
-                          <div class="slider-thumb" style="right: 0;"></div>`;
-      
-      const [thumbLeft, thumbRight] = slider.children;
-
-      let leftValue = min;
-      let rightValue = max;
-
-      thumbLeft.onmousedown = function(event) {
-          document.onmousemove = function(e) {
-              let newLeft = e.clientX - slider.getBoundingClientRect().left;
-              let rightEdge = thumbRight.getBoundingClientRect().left - slider.getBoundingClientRect().left;
-              if (newLeft < 0) newLeft = 0;
-              if (newLeft > rightEdge) newLeft = rightEdge;
-              thumbLeft.style.left = newLeft + 'px';
-              leftValue = Math.round(newLeft / slider.offsetWidth * (max - min) + min);
-              display.textContent = formatter(leftValue, rightValue);
-          };
-          document.onmouseup = function() {
-              document.onmousemove = document.onmouseup = null;
-          };
-          return false;
-      };
-
-      thumbRight.onmousedown = function(event) {
-          document.onmousemove = function(e) {
-              let newRight = slider.getBoundingClientRect().right - e.clientX;
-              let leftEdge = slider.offsetWidth - thumbLeft.getBoundingClientRect().right + slider.getBoundingClientRect().left;
-              if (newRight < 0) newRight = 0;
-              if (newRight > leftEdge) newRight = leftEdge;
-              thumbRight.style.right = newRight + 'px';
-              rightValue = Math.round(max - newRight / slider.offsetWidth * (max - min));
-              display.textContent = formatter(leftValue, rightValue);
-          };
-          document.onmouseup = function() {
-              document.onmousemove = document.onmouseup = null;
-          };
-          return false;
-          
-      };
-    } else {
-      console.warn(`Elements with IDs ${sliderId} or ${displayId} not found.`);
-  }
-  }
-
-  setupSlider("price-slider", "price-range-display", 100, 5000, (left, right) => `$${left} - $${right}`);
-  setupSlider("outbound-time-slider", "outbound-time-display", 0, 23, (left, right) => `${left}:00 - ${right}:59`);
-  setupSlider("return-time-slider", "return-time-display", 0, 23, (left, right) => `${left}:00 - ${right}:59`);
-
-});

@@ -1,0 +1,22 @@
+.side-image {
+    position: fixed; /* This will position the images relative to the browser window */
+    top: 0; 
+    bottom: 0; 
+    width: 17%; /* This will ensure the div takes the full width */
+    height: 107%; /* This will ensure the div takes the full height */
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: contain;
+    z-index: -1; /
+  }
+  
+  .left-side-image {
+    left: 0;
+    background-image: url('/img/backgroundleft.png');
+  }
+  
+  .right-side-image {
+    right: 0;
+    background-image: url('/img/backgroundright.png');
+  }
+  

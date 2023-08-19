@@ -1,35 +1,18 @@
 <div class="flights-page">
-
 <div id="search-bar">
   <%- include("searchBar", { defaultDep: body.defaultDep }) %>
 </div>
-<!-- <button class="generate-btn" onclick="generateNewFlights()">Generate New Flights</button> -->
-<div class="sidebar">
-  <h3>Flight Filters</h3>
-  <h5>Price Range</h5>
-<div id="price-slider" class="double-slider">
-    <div class="slider-scale"></div>
-</div>
-<span id="price-range-display">$100 - $5000</span>
-<h5>Departure Times</h5>
-<div id="outbound-time-slider" class="double-slider">
-    <div class="slider-scale"></div>
-</div>
-<span id="outbound-time-display">0:00 - 23:59</span>
-<h5>Return Time</h5>
-<div id="return-time-slider" class="double-slider">
-    <div class="slider-scale"></div>
-</div>
-<span id="return-time-display">0:00 - 23:59</span>
+<% if (!body.flights) { %>
+  <div id="no-flights-modal-container" class="modal-container">
+    <div id="no-flights-modal" class="no-flights-container">
+        <h4 class="no-flights-modal-header">Flight Not Found!</h4>
+        <p>It seems we couldn't find any flights matching your criteria.</p>
+        <p class="no-flights-modal-important-message">We're here to help! Adjust your search parameters or check back later as we constantly update our flight listings.</p>
+        <p>Thank you for choosing us for your travel needs.</p>
+        <span class="close-btn">&times;</span>
+    </div>
 </div>
 
-<% if (!body.flights) { %>
-  <div id="no-flights-modal" class="no-flights-container">
-    <h4>Flight Not Found!</h4>
-    <p>It seems we couldn't find any flights matching your criteria.</p>
-    <p>We're here to help! Adjust your search parameters or check back later as we constantly update our flight listings.</p>
-    <p>Thank you for choosing us for your travel needs.</p>
-</div>
 <% } else { %>
   <div class="flights-container">
 <% body.flights.forEach((flight) => { %>
@@ -60,12 +43,8 @@
 <% })} %>
 <%- include('flightRightSideBar.ejs') %>
 </div>
-
-<div id="sales-containers">
-  <%- include(sales.main) %>
 </div>
 
-</div>
-
+<%- include(sales.main) %>
 
 

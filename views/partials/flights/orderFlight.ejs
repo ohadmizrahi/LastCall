@@ -1,12 +1,110 @@
 <h1 class="text-center mt-5">Order Your Flight</h1>
 <p class="text-center">Here you can complete your flight booking.</p>
-<div class="text-center mb-4">
+<div class="text-center text-center-head">
     <button class="btn btn-lg btn-dark" onclick="ChooseFlight('<%=JSON.stringify(body.flights) %>')">Show Flight
         Details</button>
 </div>
-<div class="container mb-5">
+
+
+<div class="container">
+    <div id="forms-container">
+        <form id="passenger-details-form" class="passenger-form">
+            <h3>Passanger 1</h3>
+            <div class="form-group">
+            <label for="first-name">First Name:</label>
+            <input type="text" id="first-name" name="first-name" class="form-control" required>
+        </div>
+
+        <div class="form-group">
+            <label for="last-name">Last Name:</label>
+            <input type="text" id="last-name" name="last-name" class="form-control" required>
+        </div>
+
+        <div class="form-group">
+            <label for="email">Email Address:</label>
+            <input type="email" id="email" name="email" class="form-control" required>
+        </div>
+
+        <div class="form-group">
+            <label for="phone">Phone Number:</label>
+            <input type="tel" id="phone" name="phone" class="form-control" required>
+        </div>
+
+        <div class="form-group">
+            <label for="passport">Passport Number:</label>
+            <input type="text" id="passport" name="passport" class="form-control" required>
+        </div>
+
+        <div class="form-group">
+            <label for="seat">Seat Preference:</label>
+            <select id="seat" name="seat" class="form-control">
+                <option value="window">Window</option>
+                <option value="aisle">Aisle</option>
+                <option value="middle">Middle</option>
+            </select>
+        </div>
+    </form>
+</div>
+
+</div>
+<div class="btn-container">
+    <button id="add-form-btn" class="btn btn-primary mt-3">Add Passenger</button>
+    <button id="removePassengerBtn" class="btn btn-danger mt-3" style="display:none;">Remove Passenger</button>
+</div>
+
+<form id="card-details-form" class="credit-form">
+    <h3>Payment Details</h3>
+    <div class="form-group">
+        <label for="card-number">Card Number:</label>
+        <input type="text" id="card-number" name="card-number" class="form-control" placeholder="0000 0000 0000 0000" required pattern="\d{16}" maxlength="16">
+    </div>
+
+    <div class="form-group">
+        <label for="expiration-date">Expiration Date (MM/YY):</label>
+        <input type="text" id="expiration-date" name="expiration-date" class="form-control" placeholder="MM/YY" required pattern="(0[1-9]|1[0-2])\/\d{2}">
+    </div>
+
+    <div class="form-group">
+        <label for="name-on-card">Name on Card:</label>
+        <input type="text" id="name-on-card" name="name-on-card" class="form-control" placeholder="Or Ohad" required>
+    </div>
+
+    <div class="form-group">
+        <label for="cvv">CVV:</label>
+        <input type="text" id="cvv" name="cvv" class="form-control" required pattern="\d{3,4}" placeholder="123">
+    </div>
+
+    <div class="form-group text-center">
+        <button type="submit" class="btn btn-lg btn-dark">Confirm Order</button>
+    </div>
+</form>
+
+
+<div id="confirmation-modal" class="confirmation-modal">
+    <div class="confirmation-content">
+        <h1>Congratulations!</h1>
+        <p>Your payment has been confirmed.</p>
+        <p>Have a pleasant flight from the Last Call team!</p>
+        <button id="go-home-btn" class="btn btn-primary">Go Home</button>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- <div class="container mb-5">
     <form action="/submit_order" method="post" onsubmit="showConfirmation()">
         <div class="row">
+            <div id="allPassengers" class="container">
             <div id="passengerForms" class="row row-cols-3">
                 <div class="passanger order-form col">
                     <h3>Passanger 1</h3>
@@ -54,6 +152,8 @@
                 </div>
             </div>
         </div>
+    </div>
+
             <div class="row">
                 <button type="button" onclick="addPassengerForm()" class="btn btn-success col-md-4">Add
                     Passenger</button>
@@ -108,10 +208,9 @@
     <div class="confirmation-content">
         <h1>Congratulations!</h1>
         <p>Your payment has been confirmed.</p>
-        <p>The flight ticket will be sent to your email in the next few minutes.</p>
         <p>Have a pleasant flight from the Last Call team!</p>
         <button id="go-home-btn" class="btn btn-primary">Go Home</button>
     </div>
-</div>
+</div> -->
 
 <%- include('flightRightSideBar', {flight: body.flights}) %>
