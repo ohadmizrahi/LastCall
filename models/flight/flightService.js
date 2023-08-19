@@ -150,7 +150,7 @@ async function findReturnFlights(goFlights, returnDate) {
       newReturnDate.setDate(newReturnDate.getDate() + 2);
     }
 
-    const query = buildFindQuery(goFlight.arrival.city, 1, newReturnDate, goFlight.departure.city);
+    const query = buildFindQuery(goFlight.departure.city, 1, newReturnDate, goFlight.arrival.city);
 
     const returnFlights = await Flight.findOne(query)
     if (returnFlights && returnFlights.flight && returnFlights.flight.duration) {
@@ -163,9 +163,9 @@ async function findReturnFlights(goFlights, returnDate) {
 
 
 
-function buildFindQuery(dep, totalPassangers, fullDate, des = null) {
-  if (!(dep && fullDate && totalPassangers)) {
-    console.error("All of the parameters (dep, date, totalPassengers) must be provided.");
+function buildFindQuery(des, totalPassangers, fullDate, dep = null) {
+  if (!(des && fullDate)) {
+    console.error("All of the parameters (des, date) must be provided.");
   } else {
 
     let oneMonthAhead = new Date(fullDate)
@@ -173,13 +173,13 @@ function buildFindQuery(dep, totalPassangers, fullDate, des = null) {
 
 
     const query = {
-      "departure.city": formatCityName(dep),
+      "arrival.city": formatCityName(des),
       "departure.dateTime": { $gte: new Date(fullDate), $lte: oneMonthAhead },
       "flight.status": { $ne: "done" }
     }
 
-    if (des) {
-      query["arrival.city"] = formatCityName(des);
+    if (dep) {
+      query["departure.city"] = formatCityName(dep);
     }
 
     return query
