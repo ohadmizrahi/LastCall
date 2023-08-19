@@ -1,8 +1,7 @@
 <h1 class="text-center mt-5">Order Your Flight</h1>
 <p class="text-center">Here you can complete your flight booking.</p>
 <div class="text-center text-center-head">
-    <button class="btn btn-lg btn-dark" onclick="ChooseFlight('<%=JSON.stringify(body.flights) %>')">Show Flight
-        Details</button>
+    <button class="btn btn-lg btn-dark" onclick="ChooseFlight('<%=JSON.stringify(body.flights) %>')">Show Flight Details</button>
 </div>
 
 
@@ -214,4 +213,4 @@
     </div>
 </div> -->
 
-<%- include('flightRightSideBar', {flight: body.flights}) %>
+<%- include('flightRightSideBar', {flight: body.flights, showContinueButton: false}) %>
