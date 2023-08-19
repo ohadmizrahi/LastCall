@@ -105,9 +105,9 @@ body {
   border-radius: 5px;
   font-weight: bold;
   transition: background-color 0.3s ease;
-  cursor: pointer; /* Add a pointer cursor when hovering over a button */
+  cursor: pointer;
   margin-bottom: 20px;
-  margin-right: 20px;
+  margin-right: 40px;
 }
 
 .btn-primary:hover {
