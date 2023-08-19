@@ -2,7 +2,7 @@
     <h1>Customized Vacation</h1>
     <p>Find Your Perfect Vacation!</p>
     <div class="row custom-row">
-        <div class="col-md-5 dream-vacation-section">
+        <div class="col-md-6 dream-vacation-section">
             <h2 class="text-center font-weight-bold">Dream Vacation</h2>
             <form id="vacationForm" class="mb-6">
                 <div class="row text-center">
@@ -94,20 +94,20 @@
                 </div>
                 <div class="row">
                     <div class="form-group" onclick="toggleGuestsSelection()">
-                        <div class="guests-container">
+                        <div class="guests-container col-md-10">
                             <label for="guests">Number of Guests:</label>
                             <input type="text" class="form-control guests-input" id="guests" placeholder="Open Guests Selection" readonly>
                         </div>
                     </div>
                     <div id="guestsSelection">
-                        <div class="guests-group">
+                        <div class="guests-group col-md-10 ">
                             <%- include("guestsSelection", { guest: "adults" , displayGuestName: "Adults" , min: 1, defaultValue: 1 }) %>
                             <%- include("guestsSelection", { guest: "kids" , displayGuestName: "Kids" , min: 0, defaultValue: 0 }) %>
                         </div>
                     </div>
                 </div>
                 <div class="row">
-                    <div class="form-group">
+                    <div class="form-grou col-md-10">
                         <label for="unique-destinations">Look for Unique Destinations?</label>
                         <select class="form-select unique-destinations-select" id="unique-destinations" required>
                             <option value="" disabled selected>Select an option</option>
@@ -116,14 +116,14 @@
                         </select>
                     </div>
                 </div>
-                <div class="row">
+                <div class="row col-md-10">
                     <button type="submit" class="btn btn-primary btn-lg">Find Vacation</button>
                 </div>
             </form>
          </div>
-         <div class="col-md-2 d-flex flex-column"></div>
+         <div class="col-md-1 d-flex flex-column"></div>
         <div class="col-md-5 d-flex flex-column dream-vacation-section">
-            <h3>Recomandation</h3>
+            <h2 class="centered-bold-text">Recomandation</h2>
             <div id="after-chat-buttons">
                 <button id="to-dest-card" class="btn btn-primary btn-md to-destination-card">Go to Destination Card</button>
                 <button id="to-flights-button" class="btn btn-primary btn-md to-flights">Search Flights</button>

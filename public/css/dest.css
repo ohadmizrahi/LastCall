@@ -256,7 +256,7 @@ body {
 
 
 .unique-destinations-select {
-  width: 91%; /* Adjust the width as needed for the unique destinations select */
+  width: 50%; /* Adjust the width as needed for the unique destinations select */
 }
 .guests-group {
   width: 78%;
@@ -280,3 +280,7 @@ margin-top: 20px;
   text-align: center; /* Center the text horizontally */
 }
 
+.centered-bold-text {
+  text-align: center;
+  font-weight: bold;
+}
