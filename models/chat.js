@@ -18,8 +18,13 @@ const askGPT = async (question) => {
       model: "gpt-3.5-turbo",
       messages: messages,
     });
+    const chatAnswer = chatCompletion.data.choices[0].message.content
+    if (chatAnswer) {
     console.log("Chat response successfully");
-    return (chatCompletion.data.choices[0].message.content);
+    return { answer: chatAnswer, status: 0 };
+    } else {
+      return { status: 1 }
+    }
  
   } catch (error) {
     if (error.response) {
@@ -27,6 +32,7 @@ const askGPT = async (question) => {
     } else {
       console.error(`Error with OpenAI API request: ${error.message}`);
     }
+    return { status: 2 }
   }
 }
  

@@ -136,7 +136,7 @@ function newReview() {
 function capitalizeFirstLetter(string) {
     if (typeof string !== 'string' || !string) {
         console.warn('Invalid input provided to capitalizeFirstLetter function');
-        return ''; // or you can return a default value or throw an error
+        return ''; 
     }
     return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
 }

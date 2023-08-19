@@ -10,7 +10,6 @@ $(".redirect-to").click(function () {
 rediredtToAPI()
 
 function rediredtToFlights() {
-    console.log("rediredtToFlights()");
     $(".to-flights").click(function () {
         const toFlightData = JSON.parse($(this).attr("data-toFlight"));
         dataToSearch = {

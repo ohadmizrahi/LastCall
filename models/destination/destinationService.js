@@ -185,11 +185,17 @@ async function getRecomandationFromGPT(data) {
     Second parameter called country holding the country of the selected destination.
     Third parameter called bestMonth holding the recomended month to visit this destination, verify its a calender month. 
     and Last parameter called description holding the Description over the destionation.`
+    
+    let response;
+    const chatResponse = await askGPT(prompt);
+    if (chatResponse.status == 0) {
+    const recomandation = JSON.parse(chatResponse.answer);
+    response = { status: chatResponse.status, recomandation: recomandation }
+    } else {
+        response = { status: chatResponse.status }
+    }
 
-    const recomandationString = await askGPT(prompt);
-    const recomandation = JSON.parse(recomandationString);
-
-    return recomandation
+    return response
 
 }
 
@@ -201,10 +207,17 @@ async function destinationDataFromChat(destName) {
     and Last parameter called description holding the Description over the destionation.
     The Destination is ${destName}.
     `
-    const destDataString = await askGPT(prompt);
-    const destData = JSON.parse(destDataString);
 
-    return destData
+    let response;
+    const chatResponse = await askGPT(prompt);
+    if (chatResponse.status == 0) {
+    const destData = JSON.parse(chatResponse.answer);
+    response = { status: chatResponse.status, destData: destData }
+    } else {
+        response = { status: chatResponse.status }
+    }
+
+    return response
 
 }
 

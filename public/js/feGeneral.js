@@ -9,6 +9,10 @@ function initializeLoadingScreen() {
   $(window).on('beforeunload', function() {
       $('#loader-wrapper').show();
   });
+
+  $("#auto-new-flights").on('click', function() {
+    $('#loader-wrapper').show();
+});
 }
 
 

@@ -5,6 +5,7 @@ const { generateFlights } = require('../models/flight/flightsGenerator')
 const { insertNewFlights } = require('../models/flight/flightService')
 const { getAllAirportsByField } = require('../models/airport/airportService')
 const { deleteUser, updateUser } = require('../models/user/userService')
+const { faker } = require('@faker-js/faker');
 
 const router = Router();
 
@@ -164,7 +165,8 @@ router.post("/admin/delete_sale", async (req, res) => {
 
 router.get("/admin/generate_new_flights", async (req, res) => {
     try {
-        const flightsData = await generateFlights(1)
+        const numberOfFlights = faker.number.int({min: 10, max: 30})
+        const flightsData = await generateFlights(numberOfFlights)
         if (flightsData) {
 
             const flights = await insertNewFlights(flightsData)

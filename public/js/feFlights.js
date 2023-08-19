@@ -87,4 +87,3 @@ function toTitleCase(str) {
   });
 }
 
-searchFlights()

@@ -57,7 +57,7 @@ async function chatOnSubmit() {
             maxBudget: maxBudget,
             uniqueDestinations: uniqueDestinations
         }
-        console.log("-------------------");
+
         const recomandation = await getRecomandedDestination(data);
         $("#after-chat-buttons").show();
 
@@ -93,13 +93,19 @@ async function getRecomandedDestination(data) {
         },
         body: JSON.stringify(data)
       })
-      .then(response => response.json())
+      .then(response => {
+        if (!response.ok) {
+            throw new Error('Server error: ' + response.status);
+        }
+        return response.json();
+    })
       .then(recommendation => {
         return recommendation;
       })
       .catch(error => {
+            console.log("HIIII");
             console.log(error);
-            throw error;
+            window.location.href = "/dest"
       });
 }
 
