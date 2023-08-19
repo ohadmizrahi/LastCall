@@ -53,7 +53,7 @@ $(document).ready(function() {
 var flightJsonData;
 function ChooseFlight(flightData) {
   flightJsonData = JSON.parse(flightData);
-  flightJsonData.totalPrice = CalculatePrice(1, flightJsonData.go.price, flightJsonData.return ? flightJsonData.return.price : 0);
+  flightJsonData.totalPrice = CalculatePrice( flightJsonData.go.price, flightJsonData.return ? flightJsonData.return.price : 0);
   insertFlightDetails(flightJsonData.go, flightJsonData.return, flightJsonData.totalPrice);
 
   $('#details-sidebar').addClass('active');
@@ -62,7 +62,6 @@ function ChooseFlight(flightData) {
 function insertFlightDetails(goFlight, returnFlight, totalPrice) {
 
   insertSingleFlightDetails('#go-flight-details', goFlight);
-
   if (returnFlight) {
     $('#return-flight-details').show(); 
     insertSingleFlightDetails('#return-flight-details', returnFlight);
