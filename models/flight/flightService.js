@@ -104,11 +104,11 @@ async function deleteOldFlights() {
 
 };
 
-async function findFlights(limit, query = null, arrDate = null) {
+async function findFlights(limit, query = null, returnDate = null) {
   try {
 
     const goFlights = await findGoFlights(limit, query)
-    const flights = await findReturnFlights(goFlights, arrDate)
+    const flights = await findReturnFlights(goFlights, returnDate)
 
     return flights
   }
@@ -133,7 +133,6 @@ async function findGoFlights(limit, query = null) {
     flight.flight.duration = formatDuration(flight.flight.duration);
     return flight;
   });
-
   return goFlights;
 }
 
@@ -148,10 +147,10 @@ async function findReturnFlights(goFlights, returnDate) {
       newReturnDate = new Date(returnDate);
     } else {
       newReturnDate = new Date(goFlight.arrival.dateTime);
+      newReturnDate.setDate(newReturnDate.getDate() + 2);
     }
-    newReturnDate.setDate(newReturnDate.getDate() + 2);
 
-    const query = buildFindQuery(goFlight.arrival.city, 1, newReturnDate, null, goFlight.departure.city);
+    const query = buildFindQuery(goFlight.arrival.city, 1, newReturnDate, goFlight.departure.city);
 
     const returnFlights = await Flight.findOne(query)
     if (returnFlights && returnFlights.flight && returnFlights.flight.duration) {
@@ -164,13 +163,13 @@ async function findReturnFlights(goFlights, returnDate) {
 
 
 
-function buildFindQuery(dep, totalPassangers, fullDate = null, des = null) {
+function buildFindQuery(dep, totalPassangers, fullDate, des = null) {
   if (!(dep && fullDate && totalPassangers)) {
-    throw new Error("All of the parameters (dep, date, totalPassengers) must be provided.");
+    console.error("All of the parameters (dep, date, totalPassengers) must be provided.");
   } else {
 
     let oneMonthAhead = new Date(fullDate)
-    oneMonthAhead.setMonth(oneMonthAhead.getMonth() + 12);
+    oneMonthAhead.setMonth(oneMonthAhead.getMonth() + 1);
 
 
     const query = {

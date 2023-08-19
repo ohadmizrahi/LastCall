@@ -1,7 +1,7 @@
 const { faker } = require('@faker-js/faker');
-const { findAirportByCode, findAirportByCity } = require('../airport/airportService')
+const { findAirportByCode } = require('../airport/airportService')
 const { add, parseISO } = require('date-fns');
-const { formatCityName } = require('../lib')
+const { formatCityName, formatAirportName } = require('../lib')
 
 
 async function generateFlights(numberOfFlights, manualFlight = null) {
@@ -34,23 +34,21 @@ async function generateGoFlight(manualFlight = null) {
 
     if (manualFlight) {
         console.log("Generate manual go flight");
-        const goDepCity = formatCityName(manualFlight.goDepCity)
-        const goArrCity = formatCityName(manualFlight.goArrCity)
 
         airlineCode = manualFlight.goAirlineCode
 
-        const { country: depCountry, code: depAirportCode, name: depAirportName } = await findAirportByCity(manualFlight.goDepCity)
-        departureData.city = goDepCity
+        const { country: depCountry, city: depCity, name: depAirportName } = await findAirportByCode(manualFlight.goDepAirportCode)
+        departureData.city = formatCityName(depCity)
         departureData.country = depCountry
-        departureData.airport = depAirportName
-        departureData.iata = depAirportCode
+        departureData.airport = formatAirportName(depAirportName, true)
+        departureData.iata = manualFlight.goDepAirportCode
         departureData.dateTime = parseISO(manualFlight.goDepDateTime)
 
-        const { country: arrCountry, code: arrAirportCode, name: arrAirportName } = await findAirportByCity(manualFlight.goArrCity)
-        arrivalData.city = goArrCity
+        const { country: arrCountry, city: arrCity, name: arrAirportName } = await findAirportByCode(manualFlight.goArrAirportCode)
+        arrivalData.city = formatCityName(arrCity)
         arrivalData.country = arrCountry
-        arrivalData.airport = arrAirportName
-        arrivalData.iata = arrAirportCode
+        arrivalData.airport = formatAirportName(arrAirportName, true)
+        arrivalData.iata = manualFlight.goArrAirportCode
 
         airlineData.name = manualFlight.goAirlineName
         airlineData.iata = manualFlight.goAirlineCode
@@ -74,16 +72,16 @@ async function generateGoFlight(manualFlight = null) {
         airlineData.name = airline
         airlineData.iata = airlineIata;
 
-        departureData.airport = airportD;
+        departureData.airport = formatAirportName(airportD, false);
         departureData.iata = airportIataD;
         departureData.country = airportCountryD
-        departureData.city = formatCityName(airportCityD)
+        departureData.city = airportCityD ? formatCityName(airportCityD) : airportCountryD
         departureData.dateTime = randomDepDate
 
-        arrivalData.airport = airportA;
+        arrivalData.airport = formatAirportName(airportA, false);
         arrivalData.iata = airportIataA;
         arrivalData.country = airportCountryA
-        arrivalData.city = formatCityName(airportCityA)
+        arrivalData.city = airportCityA ? formatCityName(airportCityA) : airportCountryA
 
         price = faker.finance.amount({ min: 50, max: 1500, dec: 2 })
     }

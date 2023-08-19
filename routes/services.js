@@ -4,11 +4,18 @@ const { findReviews, insertNewReview } = require('../models/review/reviewsServic
 const { getAllSales } = require('../models/sale/saleService')
 const { getPopularDestinations, updateDestinationsPopularity, generateTourismData, getRecomandationFromGPT } = require('../models/destination/destinationService')
 const { buildFindQuery, findFlights } = require('../models/flight/flightService')
-const { findCityByCountry, getAllDestinations } = require('../models/airport/airportService')
+const { findCityByCountry, getAllAirportsByField } = require('../models/airport/airportService')
 
 const router = Router();
 
 router.use(bodyParser.json());
+
+let VALID_DESTINATIONS;
+
+(async () => {
+    VALID_DESTINATIONS = await getAllAirportsByField("city");
+})();
+
 
 router.get("/dest", async (req, res) => {
     if (req.isAuthenticated()) {
@@ -34,12 +41,10 @@ router.get("/dest/:name", async (req, res) => {
         const salesData = await getAllSales()
         const destination = req.session.destination;
         const reviews = await findReviews();
-        const validDestinations = await getAllDestinations()
-        console.log("loading");
 
         res.render("index",
             {
-                body: { main: "partials/destinations/destinationPage", destination: destination, reviews: reviews, validDestinations: validDestinations },
+                body: { main: "partials/destinations/destinationPage", destination: destination, reviews: reviews, validationData: VALID_DESTINATIONS },
                 header: { main: "partials/headers/main", auth: "authDiv/afterAuth", pageTitle: "Destinations" },
                 sales: { main: "../generalPartials/salesBar", data: salesData }
             })
@@ -86,9 +91,15 @@ router.get("/flights", async (req, res) => {
         const userCity = await findCityByCountry(userCountry)
 
         let flights;
+        let alertData;
+
+        if (req.session.alertData) {
+            alertData = req.session.alertData
+        }
 
         if (req.session.searchFlights) {
             flights = req.session.searchFlights
+
         } else {
             const limit = 5
             flights = await findFlights(limit)
@@ -97,12 +108,14 @@ router.get("/flights", async (req, res) => {
             flights = null
         }
         req.session.searchFlights = null
+        req.session.alertData = null;
 
         res.render("index",
             {
-                body: { main: "partials/flights/flightsBody", flights: flights, defaultDep: userCity },
+                body: { main: "partials/flights/flightsBody", flights: flights, defaultDep: userCity, validationData: VALID_DESTINATIONS },
                 header: { main: "partials/headers/main", auth: "authDiv/afterAuth", pageTitle: "Flights" },
-                sales: { main: "../generalPartials/salesBar", data: salesData }
+                sales: { main: "../generalPartials/salesBar", data: salesData },
+                alert: { main: "../alert/main", data: alertData, redirectTo: "/flights" }
             })
 
     } else {
@@ -119,22 +132,32 @@ router.post("/search_flights", async (req, res) => {
             departure: departure,
             destination: destination,
             departureDate: departureDate,
-            arrivelDate: arrivelDate,
+            returnDate: returnDate,
             travelers: travelers
-        } = req.body.searchFields
-
-
+        } = req.body
 
         const limit = 5
         const query = buildFindQuery(departure, travelers, departureDate, destination)
-        const flights = await findFlights(limit, query)
+        const flights = await findFlights(limit, query, returnDate)
+
+        if (flights.length < 1) {
+            req.session.alertData = {
+                header: "Can't Find Flights",
+                content: `We're here to help! Adjust your search parameters or check back later as we constantly update our flight listings.`
+            }
+        }
+
         req.session.searchFlights = flights;
         await updateDestinationsPopularity({ name: destination })
-        res.send({ success: true })
+        res.redirect("/flights")
     }
     catch (error) {
         console.error('Error:', error);
-        res.status(500).json({ error: "Failed to search flights." });
+        req.session.alertData = {
+            header: "Error Finding Flights",
+            content: `Please Try Again`
+        }
+        res.redirect("/flights")
     }
 })
 
@@ -143,13 +166,19 @@ router.get("/reviews", async (req, res) => {
 
     if (req.isAuthenticated()) {
         const reviews = await findReviews()
-        const validDestinations = await getAllDestinations()
         const salesData = await getAllSales()
+
+        let alertData;
+        if (req.session.alertData) {
+            alertData = req.session.alertData
+        }
+        req.session.alertData = null;
         res.render("index",
             {
-                body: { main: "partials/reviews/reviewsBody", reviews: reviews, validDestinations: validDestinations },
+                body: { main: "partials/reviews/reviewsBody", reviews: reviews, validationData: VALID_DESTINATIONS },
                 header: { main: "partials/headers/main", auth: "authDiv/afterAuth", pageTitle: "Reviews" },
-                sales: { main: "../generalPartials/salesBar", data: salesData }
+                sales: { main: "../generalPartials/salesBar", data: salesData },
+                alert: { main: "../alert/main", data: alertData, redirectTo: "/reviews" }
             })
     } else {
         res.cookie("returnTo", "/reviews")
@@ -158,7 +187,30 @@ router.get("/reviews", async (req, res) => {
 
 })
 router.post("/add_review", async (req, res) => {
-    await insertNewReview(req.body)
+    const status = await insertNewReview(req.body)
+
+    if (status == 0) {
+        req.session.alertData = {
+            header: "Add Review",
+            content: `Done Successfully`
+        }
+    } else if (status == 1) {
+        req.session.alertData = {
+            header: "Add Review Failed",
+            content: `Review Alredy Exist`
+        }
+    } else if (status == 2) {
+        req.session.alertData = {
+            header: "Add Review Failed",
+            content: `Invalid Destination`
+        }
+    } else {
+        req.session.alertData = {
+            header: "Add Review Failed",
+            content: `Error occur when adding, please TRY AGAIN`
+        }
+    }
+
     res.json({ success: true });
 
 })

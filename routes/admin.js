@@ -3,10 +3,21 @@ const bodyParser = require("body-parser");
 const { insertSale, deleteSale } = require('../models/sale/saleService')
 const { generateFlights } = require('../models/flight/flightsGenerator')
 const { insertNewFlights } = require('../models/flight/flightService')
-const { getAllDestinations } = require('../models/airport/airportService')
+const { getAllAirportsByField } = require('../models/airport/airportService')
 const { deleteUser, updateUser } = require('../models/user/userService')
 
 const router = Router();
+
+let VALID_DESTINATIONS;
+let VALID_AIRPORTS_CODES;
+
+(async () => {
+    VALID_DESTINATIONS = await getAllAirportsByField("city");
+})();
+
+(async () => {
+    VALID_AIRPORTS_CODES = await getAllAirportsByField("code");
+})();
 
 
 router.use(bodyParser.urlencoded({ extended: true }));
@@ -22,7 +33,7 @@ router.get("/admin", async (req, res) => {
             {
                 body: { main: "partials/admin/admin" },
                 header: { main: "partials/headers/main", auth: "authDiv/afterAuth", pageTitle: "Admin" },
-                alert: { main: "../alert/main", data: alertData }
+                alert: { main: "../alert/main", data: alertData, redirectTo: "/admin" }
             })
     } else {
         res.redirect("/home");
@@ -84,10 +95,9 @@ router.get("/admin/auth", async (req, res) => {
 
 router.get("/admin/add_sale", async (req, res) => {
     if (req.isAuthenticated() && req.user.authLevel == "admin") {
-        const validDestinations = await getAllDestinations()
         res.render("index",
             {
-                body: { main: "partials/admin/newSale", validDestinations: validDestinations },
+                body: { main: "partials/admin/newSale", validationData: VALID_DESTINATIONS },
                 header: { main: "partials/headers/main", auth: "authDiv/afterAuth", pageTitle: "Admin" }
             })
     } else {
@@ -119,10 +129,9 @@ router.post("/admin/add_sale", async (req, res) => {
 
 router.get("/admin/delete_sale", async (req, res) => {
     if (req.isAuthenticated() && req.user.authLevel == "admin") {
-        const validDestinations = await getAllDestinations()
         res.render("index",
             {
-                body: { main: "partials/admin/deleteSale", validDestinations: validDestinations },
+                body: { main: "partials/admin/deleteSale", validationData: VALID_DESTINATIONS },
                 header: { main: "partials/headers/main", auth: "authDiv/afterAuth", pageTitle: "Admin" }
             })
     } else {
@@ -185,41 +194,48 @@ router.get("/admin/generate_new_flights", async (req, res) => {
 
 router.get("/admin/add_flight", async (req, res) => {
     if (req.isAuthenticated() && req.user.authLevel == "admin") {
-        const validDestinations = await getAllDestinations()
 
         res.render("index",
             {
-                body: { main: "partials/admin/addFlightManualy", validDestinations: validDestinations },
+                body: { main: "partials/admin/addFlightManualy", validationData: VALID_AIRPORTS_CODES },
                 header: { main: "partials/headers/main", auth: "authDiv/afterAuth", pageTitle: "Admin" }
             })
     } else {
         res.redirect("/home");
     }
-
 })
 
 router.post("/admin/add_flight", async (req, res) => {
     try {
         let manualFlight = req.body
-        manualFlight.goDepDateTime = new Date(manualFlight.goDepDateTime).toISOString()
-        if (manualFlight.return.returnPrice == "") {
-            delete manualFlight.return
-        } else {
-            manualFlight.return.returnDateTime = new Date(manualFlight.return.returnDateTime).toISOString()
-        }
-        console.log("Creating new flight")
-        const flightData = await generateFlights(1, manualFlight)
-        const flights = await insertNewFlights(flightData)
-        if (flights.length == 1) {
+        if (!(manualFlight.goDepAirportCode || manualFlight.goArrAirportCode)) {
             req.session.alertData = {
-                header: "Add One Way Flight Done Successfully",
-                content: `flight to ${flights[0].arrival.city} added to DB`
+                header: "Add Flight Failed",
+                content: "Invalid Airports IATA Code"
+            }
+        } else {
+
+            manualFlight.goDepDateTime = new Date(manualFlight.goDepDateTime).toISOString()
+            if (manualFlight.return.returnPrice == "") {
+                delete manualFlight.return
+            } else {
+                manualFlight.return.returnDateTime = new Date(manualFlight.return.returnDateTime).toISOString()
             }
 
-        } else if (flights.length == 2) {
-            req.session.alertData = {
-                header: "Add Route Flight Done Successfully",
-                content: `flight to ${flights[0].arrival.city} and back from ${flights[1].arrival.city} added to DB`
+            console.log("Creating new flight")
+            const flightData = await generateFlights(1, manualFlight)
+            const flights = await insertNewFlights(flightData)
+            if (flights.length == 1) {
+                req.session.alertData = {
+                    header: "Add One Way Flight Done Successfully",
+                    content: `flight to ${flights[0].arrival.city} added to DB`
+                }
+
+            } else if (flights.length == 2) {
+                req.session.alertData = {
+                    header: "Add Route Flight Done Successfully",
+                    content: `flight to ${flights[0].arrival.city} and back from ${flights[1].arrival.city} added to DB`
+                }
             }
         }
         res.redirect("/admin")

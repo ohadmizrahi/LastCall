@@ -1,6 +1,9 @@
 function rediredtToAPI() {
 $(".redirect-to").click(function () {
-    const apiURL = $(this).data("api");
+    let apiURL = $(this).data("api");
+    if (!apiURL) {
+        apiURL = "/home"
+    }
     window.location.href = apiURL;
 });
 }

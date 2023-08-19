@@ -28,7 +28,7 @@ function matchRank(selectedRank, reviewRank) {
 function applyFilters() {
     const selectedRank = $('#rank-filter').val();
     const selectedDestination = capitalizeFirstLetter($('#destination-input-filter').val());
-    $('.review').each(function() {
+    $('.review').each(function () {
         const reviewRank = parseFloat($(this).find('.review-rank').text().split(':')[1].trim());
         const reviewDestination = $(this).find('.review-dest').text().trim();
         const destinationMatch = selectedDestination === 'All' || reviewDestination.startsWith(selectedDestination);
@@ -48,48 +48,48 @@ function sortReviews() {
     const sortingOption = $('#date-sort').val();
     const reviewsContainer = $('#reviews-container');
     const reviews = reviewsContainer.children('.col-md-10').find('.review');
-    reviews.closest('.col-md-10').fadeOut('slow', function() {
+    reviews.closest('.col-md-10').fadeOut('slow', function () {
 
-    switch (sortingOption) {
-        case 'latest':
-            reviews.sort(function (a, b) {
-                const dateA = new Date($(a).find('.review-date').text());
-                const dateB = new Date($(b).find('.review-date').text());
-                return dateB - dateA;
-            });
-            break;
-        case 'oldest':
-            reviews.sort(function (a, b) {
-                const dateA = new Date($(a).find('.review-date').text());
-                const dateB = new Date($(b).find('.review-date').text());
-                return dateA - dateB;
-            });
-            break;
-        case 'highest':
-            reviews.sort(function (a, b) {
-                const rankA = parseFloat($(a).find('.review-rank').text().split(":")[1].trim());
-                const rankB = parseFloat($(b).find('.review-rank').text().split(":")[1].trim());
-                return rankB - rankA;
-            });
-            break;
-        case 'lowest':
-            reviews.sort(function (a, b) {
-                const rankA = parseFloat($(a).find('.review-rank').text().split(":")[1].trim());
-                const rankB = parseFloat($(b).find('.review-rank').text().split(":")[1].trim());
-                return rankA - rankB;
-            });
-            break;
-        default:
-            return;
-    }
+        switch (sortingOption) {
+            case 'latest':
+                reviews.sort(function (a, b) {
+                    const dateA = new Date($(a).find('.review-date').text());
+                    const dateB = new Date($(b).find('.review-date').text());
+                    return dateB - dateA;
+                });
+                break;
+            case 'oldest':
+                reviews.sort(function (a, b) {
+                    const dateA = new Date($(a).find('.review-date').text());
+                    const dateB = new Date($(b).find('.review-date').text());
+                    return dateA - dateB;
+                });
+                break;
+            case 'highest':
+                reviews.sort(function (a, b) {
+                    const rankA = parseFloat($(a).find('.review-rank').text().split(":")[1].trim());
+                    const rankB = parseFloat($(b).find('.review-rank').text().split(":")[1].trim());
+                    return rankB - rankA;
+                });
+                break;
+            case 'lowest':
+                reviews.sort(function (a, b) {
+                    const rankA = parseFloat($(a).find('.review-rank').text().split(":")[1].trim());
+                    const rankB = parseFloat($(b).find('.review-rank').text().split(":")[1].trim());
+                    return rankA - rankB;
+                });
+                break;
+            default:
+                return;
+        }
 
-    reviews.each(function() {
-        reviewsContainer.append($(this).closest('.col-md-10'));
+        reviews.each(function () {
+            reviewsContainer.append($(this).closest('.col-md-10'));
+        });
+
+        // End animation: fade in all reviews in their sorted order.
+        reviews.closest('.col-md-10').fadeIn('slow');
     });
-
-    // End animation: fade in all reviews in their sorted order.
-    reviews.closest('.col-md-10').fadeIn('slow');
-});
 }
 
 
@@ -113,63 +113,24 @@ function newReview() {
         newReview.happyContent = $('#happyContent').val();
         newReview.badContent = $('#badContent').val();
 
-        const validDest = reviewDestinationValidation(newReview.destination)
-
-        if (validDest) {
-
-            fetch("/add_review", {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(newReview)
+        fetch("/add_review", {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(newReview)
+        })
+            .then(response => response.json())
+            .then(data => {
+                closeModal();
+                window.location.href = '/reviews';
             })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        closeModal();
-                        window.location.href = '/reviews';
-                    } else {
-                        alert('Failed to add review.');
-                        window.location.href = '/reviews';
-                    }
-                })
-                .catch(error => {
-                    console.log(error);
-                });
+            .catch(error => {
+                console.log(error);
+            });
 
-        } else {
-            $('#destination').val("")
-            alert("Not Valid Destination\n Re-Enter Destination")
-
-        }
     })
 };
-
-function reviewDestinationValidation(destInput) {
-
-    const validDestinationsElement = $("#validDestinations");
-    const validDestinations = JSON.parse(validDestinationsElement.attr("data-destinations"));
-
-    if (destInput && (!validDestinations.includes(destInput))) {
-        return false
-    } else {
-        return true
-    }
-}
-
-
-function buildDestinationOptions() {
-    const validDestinationsElement = $("#validDestinations");
-    const dataListElement = $(".destination-options")
-    dataListElement.append($(`<option value="All">All</option>`));
-    if (validDestinationsElement.length > 0) {
-        const validDestinations = JSON.parse(validDestinationsElement.attr("data-destinations"));
-        validDestinations.forEach(destination => {
-            dataListElement.append($(`<option value="${destination}">`))
-        });
-    }
-}
 
 
 function capitalizeFirstLetter(string) {

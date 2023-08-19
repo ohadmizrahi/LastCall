@@ -1,35 +1,3 @@
-function searchFlights() {
-  $("#flight-search-form").on("submit", (event) => {
-    event.preventDefault();
-    const searchFields = {
-      departure: toTitleCase($("#departure").val()),
-      destination: toTitleCase($("#destination").val()),
-      departureDate: $("#departureDate").val(),
-      arrivalDate: $("#returnDate").val(),
-      travelers: $("#travelers").val()
-    }
-
-    fetch("/search_flights", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({ searchFields })
-    })
-      .then(response => {
-        if (!response.ok) {
-          throw new Error("Search request failed");
-        }
-        return response.json();
-      })
-      .then(status => {
-        window.location.href = "/flights"
-      })
-      .catch(error => {
-        console.error(error);
-      });
-  });
-}
 
 $(document).ready(function() {
 

@@ -25,26 +25,24 @@ function checkIfAdmin() {
 
 
 function buildDestinationOptions() {
-  const validDestinationsElement = $("#validDestinations");
-  const dataListElement = $(".destination-options")
-  if (validDestinationsElement.length > 0) {
-      const validDestinations = JSON.parse(validDestinationsElement.attr("data-destinations"));
-      validDestinations.forEach(destination => {
+  const validationDataElement = $("#validationData");
+  const dataListElement = $(".data-options")
+  if (validationDataElement.length > 0) {
+      const validationData = JSON.parse(validationDataElement.attr("data-validationData"));
+      validationData.forEach(destination => {
           dataListElement.append($(`<option value="${destination}">`))
       });
   }
 
 }
 
-function destinationValidation() {
-  $(".form-with-destination").submit(function (event) {
-      const validDestinationsElement = $("#validDestinations");
-      const validDestinations = JSON.parse(validDestinationsElement.attr("data-destinations"));
-      const destInput = $(".destination-validation")
+function optionsValidation() {
+  $(".form-with-validation").submit(function (event) {
+      const validationDataElement = $("#validationData");
+      const validationData = JSON.parse(validationDataElement.attr("data-validationData"));
+      const destInput = $(".data-validation")
 
-      if (destInput.val() && (!validDestinations.includes(destInput.val()))) {
-          event.preventDefault();
-          alert("Not Valid Destination\n Re-Enter Destination")
+      if (destInput.val() && (!validationData.includes(destInput.val()))) {
           destInput.val("")
       }
   });
@@ -53,5 +51,5 @@ function destinationValidation() {
 
 loadScreen()
 buildDestinationOptions()
-destinationValidation()
+optionsValidation()
 checkIfAdmin()

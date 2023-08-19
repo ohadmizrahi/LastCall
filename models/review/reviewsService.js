@@ -25,7 +25,11 @@ async function findReviews(query = null) {
 async function insertNewReview(review) {
     try {
         console.log("Start inserting new review");
-        review.destination = review.destination.charAt(0).toUpperCase() + review.destination.slice(1);
+        if (review.destination) {
+            review.destination = review.destination.charAt(0).toUpperCase() + review.destination.slice(1);
+        } else {
+            return 2
+        }
 
         const {
             author: author,
@@ -54,12 +58,14 @@ async function insertNewReview(review) {
             })
 
             await newReview.save();
+            return 0
         } else {
             console.log("Review already exist");
+            return 1
         }
 
     } catch (error) {
-        throw new Error('Error finding or creating reviews: ' + error.message);
+        return 3
     }
 }
 

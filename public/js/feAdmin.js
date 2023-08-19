@@ -68,4 +68,3 @@ function manageAuthSelection() {
 
 manageAuthSelection()
 showHideReturnFlight()
-destinationValidation()

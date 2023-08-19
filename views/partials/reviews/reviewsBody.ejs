@@ -1,12 +1,13 @@
 <div class="reviews-page">
-
+    <% if (alert.data) { %>
+        <%- include(alert.main, { alertData: alert.data, redirectTo: alert.redirectTo }) %>
+      <% } else { %>
     <div class="review-filter-bar">
-        <div id="validDestinations" data-destinations="<%= JSON.stringify(body.validDestinations) %>"></div>
+        <div id="validationData" data-validationData="<%= JSON.stringify(body.validationData) %>"></div>
         <h3>Filters</h3>
         <label for="dest-filter"> Destination</label>
-        <input type="text" id="destination-input-filter" value="All" oninput="applyFilters()" onclick="resetInput(this)">
-        <datalist class="destination-options" id="destination-options-filter">
-        </datalist>
+        <input type="text" id="destination-input-filter" value="All" oninput="applyFilters()" onclick="resetInput(this)" list="data-options-new">
+        <datalist class="data-options" id="data-options-new"></datalist>
         <label for="rank-filter"> Rank</label>
         <select name="rank" id="rank-filter" onchange="applyFilters()">
             <option value="all">All</option>
@@ -22,10 +23,10 @@
             <div class="modal-content">
                 <span class="close-btn" onclick="closeModal()" id="close-modal-btn">&times;</span>
                 <h2>Add New Review</h2>
-                <form id="review-form" class="form-with-destination">
+                <form id="review-form" class="form-with-validation">
                     <label for="destination">Destination:</label>
-                    <input type="text" id="destination" class="destination-validation" list="destination-options-new" placeholder="Filter destinations">
-                    <datalist class="destination-options" id="destination-options-new">
+                    <input type="text" id="destination" class="data-validation" list="data-options-new" placeholder="Filter destinations">
+                    <datalist class="data-options" id="data-options-new">
                     </datalist>
                     <label for="rank">Rank:</label>
                     <input type="number" id="rank" name="rank" step="0.5" min="1" max="10" required>
@@ -64,5 +65,6 @@
         <% } %>
     </div>
     </div>
+    <% } %>
     <%- include(sales.main) %>
 </div>

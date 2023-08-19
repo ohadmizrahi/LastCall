@@ -73,16 +73,21 @@ async function findAirportByCity(city) {
   }
 }
 
-async function getAllDestinations() {
+async function getAllAirportsByField(field) {
   try {
     console.log("Getting destinations for validation ...");
-    const airports = await Airport.find({}, 'city');
-    const cities = airports.map(airport => airport.city);
-    return cities;
+    const airports = await Airport.find({}, [field]);
+    const mappedAirports = airports.map(airport => airport[field]);
+    return mappedAirports;
   } catch (error) {
     console.error('Error finding airports by city:', error.message);
     throw error;
   }
+}
+
+async function getDestinationsForValidation() {
+  const destinations = await getAllAirportsByField();
+  return destinations;
 }
 
 
@@ -110,4 +115,5 @@ module.exports.insertNewAirports = insertNewAirports;
 module.exports.findAirportByCode = findAirportByCode;
 module.exports.findCityByCountry = findCityByCountry
 module.exports.findAirportByCity = findAirportByCity
-module.exports.getAllDestinations = getAllDestinations
+module.exports.getAllAirportsByField = getAllAirportsByField
+module.exports.getDestinationsForValidation = getDestinationsForValidation
