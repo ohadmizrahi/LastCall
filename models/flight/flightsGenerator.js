@@ -1,19 +1,19 @@
 const { faker } = require('@faker-js/faker');
-const { findAirportByCode } = require('../airport/airportService')
+const { findAirportByCode, findAirportByCity } = require('../airport/airportService')
 const { add, parseISO } = require('date-fns');
 const { formatCityName, formatAirportName } = require('../lib')
 
 
-async function generateFlights(numberOfFlights, manualFlight = null) {
+async function generateFlights(numberOfFlights, extFlight = null) {
     const flights = [];
     console.log("Start Generating new flights")
     for (let count = 0; count < numberOfFlights; count++) {
 
-        const newGoFlight = await generateGoFlight(manualFlight)
+        const newGoFlight = await generateGoFlight(extFlight)
         flights.push(newGoFlight)
 
-        if (!manualFlight || manualFlight.return) {
-            const returnFlight = generateMatchReturnFlight(newGoFlight, manualFlight)
+        if (!extFlight || (extFlight.manualFlight && extFlight.manualFlight.return) || extFlight.saleFlight) {
+            const returnFlight = generateMatchReturnFlight(newGoFlight, extFlight)
             flights.push(returnFlight)
         }
     }
@@ -22,7 +22,7 @@ async function generateFlights(numberOfFlights, manualFlight = null) {
 
 }
 
-async function generateGoFlight(manualFlight = null) {
+async function generateGoFlight(extFlight = null) {
     let newGoFlight = {}
 
     let flightData = {}
@@ -32,7 +32,8 @@ async function generateGoFlight(manualFlight = null) {
     let price;
     let airlineCode;
 
-    if (manualFlight) {
+    if (extFlight && Object.keys(extFlight.manualFlight).length > 0) {
+        let manualFlight = extFlight.manualFlight
         console.log("Generate manual go flight");
 
         airlineCode = manualFlight.goAirlineCode
@@ -42,7 +43,7 @@ async function generateGoFlight(manualFlight = null) {
         departureData.country = depCountry
         departureData.airport = formatAirportName(depAirportName, true)
         departureData.iata = manualFlight.goDepAirportCode
-        departureData.dateTime = parseISO(manualFlight.goDepDateTime)
+        departureData.dateTime = formatDate(manualFlight.goDepDateTime)
 
         const { country: arrCountry, city: arrCity, name: arrAirportName } = await findAirportByCode(manualFlight.goArrAirportCode)
         arrivalData.city = formatCityName(arrCity)
@@ -55,6 +56,32 @@ async function generateGoFlight(manualFlight = null) {
 
         price = manualFlight.goPrice
 
+
+    } else if (extFlight && extFlight.saleFlight) {
+        console.log("Generate sale go flight");
+        
+        let saleFlight = extFlight.saleFlight
+        const { name: airline, iataCode: airlineIata } = faker.airline.airline();
+        const { name: airportD, iataCode: airportIataD } = faker.airline.airport();
+        const { code: arrAirortCode, name: arrAirportName, country: arrAirortCountry } = await findAirportByCity(saleFlight.destination)
+        const { country: airportCountryD, city: airportCityD } = await findAirportByCode(airportIataD)
+
+        airlineCode = airlineIata
+        airlineData.name = airline
+        airlineData.iata = airlineIata;
+
+        arrivalData.city = saleFlight.destination
+        arrivalData.country = arrAirortCountry
+        arrivalData.airport = formatAirportName(arrAirportName, true)
+        arrivalData.iata = arrAirortCode
+
+        departureData.city = airportCityD ? formatCityName(airportCityD) : airportCountryD
+        departureData.country = airportCountryD
+        departureData.iata = airportIataD;
+        departureData.airport = formatAirportName(airportD, false);
+        departureData.dateTime = formatDate(saleFlight.departureDate)
+
+        price = saleFlight.price / 2
 
     } else {
         console.log("Generate random go flight");
@@ -109,7 +136,7 @@ async function generateGoFlight(manualFlight = null) {
 
 
 }
-function generateMatchReturnFlight(goFlightData, manualFlight = null) {
+function generateMatchReturnFlight(goFlightData, extFlight = null) {
     const newReturnFlight = {
         flight: { ...goFlightData.flight },
         departure: { ...goFlightData.arrival },
@@ -122,16 +149,30 @@ function generateMatchReturnFlight(goFlightData, manualFlight = null) {
     newReturnFlight.departure = { ...goFlightData.arrival };
     newReturnFlight.arrival = { ...goFlightData.departure };
 
-    if (manualFlight) {
+    if (extFlight && Object.keys(extFlight.manualFlight).length > 0) {
+        let manualFlight = extFlight.manualFlight
         console.log("Generate manual return flight");
         airlineCode = manualFlight.return.returnAirlineCode
 
         newReturnFlight.airline.name = manualFlight.return.returnAirlineName
         newReturnFlight.airline.iata = manualFlight.return.returnAirlineCode
-        newReturnFlight.departure.dateTime = parseISO(manualFlight.return.returnDateTime)
+        newReturnFlight.departure.dateTime = formatDate(manualFlight.return.returnDateTime)
 
         newReturnFlight.price = manualFlight.return.returnPrice
 
+    } else if (extFlight && extFlight.saleFlight) {
+        console.log("Generate sale return flight");
+
+        let saleFlight = extFlight.saleFlight
+        const { name: airline, iataCode: airlineIata } = faker.airline.airline();
+        airlineCode = airlineIata
+
+        newReturnFlight.departure.dateTime = formatDate(saleFlight.returnDate)
+
+        newReturnFlight.airline.name = airline
+        newReturnFlight.airline.iata = airlineIata;
+
+        newReturnFlight.price = saleFlight.price / 2
     } else {
         console.log("Generate random return flight");
         const { name: airline, iataCode: airlineIata } = faker.airline.airline();
@@ -178,6 +219,13 @@ function addRandomTimeToDate(depDate) {
         hours: randomHours,
         minutes: randomMinutes
     };
+}
+
+function formatDate(date) {
+    const dateType = new Date(date)
+    const formattedDate = dateType.setDate(dateType.getDate() + 1) 
+    return formattedDate
+    
 }
 
 

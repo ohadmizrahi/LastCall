@@ -1,32 +1,36 @@
 function setDefaultValuesToSearchBar() {
-    const dataToSearchString = sessionStorage.getItem("dataToSearch");
-    const dataToSearch = JSON.parse(dataToSearchString);
+    const searchBarValuesString = sessionStorage.getItem("searchBarValues");
+    const searchBarValues = JSON.parse(searchBarValuesString);
     const destinationElement = $("#destination");
+    const departureElement = $("#departure");
     const departureDateElement = $("#departureDate");
     const returnDateElement = $("#returnDate");
 
-    if (!dataToSearch) {
-        console.warn("dataToSearch object is not available:", dataToSearchString);
-        return; // Exit the function early if dataToSearch is null or undefined
+    if (!searchBarValues) {
+        console.warn("searchBarValues object is not available:", searchBarValuesString);
+        return; // Exit the function early if searchBarValues is null or undefined
     }
 
-    if (dataToSearch.destName) {
-        destinationElement.val(dataToSearch.destName);
+    if (searchBarValues.destName) {
+        destinationElement.val(searchBarValues.destName);
     } else {
-        console.warn("Destination name not found in dataToSearch object.");
+        console.warn("Destination name not found in searchBarValues object.");
     }
     
-    if (dataToSearch.departureDate) {
-        const departureDate = new Date(dataToSearch.departureDate);
+    if (searchBarValues.departureDate) {
+        const departureDate = new Date(searchBarValues.departureDate);
         departureDateElement.val(departureDate.toLocaleDateString('en-CA'));
     }
 
-    if (dataToSearch.returnDate) {
-        const returnDate = new Date(dataToSearch.returnDate);
+    if (searchBarValues.returnDate) {
+        const returnDate = new Date(searchBarValues.returnDate);
         returnDateElement.val(returnDate.toLocaleDateString('en-CA'));
     }
+    if (searchBarValues.depName) {
+        departureElement.val(searchBarValues.depName)
+    }
 
-    sessionStorage.removeItem("dataToSearch");
+    sessionStorage.removeItem("searchBarValues");
 }
 
 setDefaultValuesToSearchBar()

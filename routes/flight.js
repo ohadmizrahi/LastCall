@@ -1,5 +1,6 @@
 const { Router } = require('express');
 const bodyParser = require("body-parser");
+const { parse, format } = require('date-fns');
 const { getAllSales } = require('../models/sale/saleService')
 const { updateDestinationsPopularity } = require('../models/destination/destinationService')
 const { buildFindQuery, findFlights } = require('../models/flight/flightService')
@@ -61,16 +62,24 @@ router.get("/flights", async (req, res) => {
 
 router.post("/search_flights", async (req, res) => {
     try {
-        const {
+        let {
             departure: departure,
             destination: destination,
             departureDate: departureDate,
             returnDate: returnDate,
             travelers: travelers
         } = req.body
-
+        console.log(req.body);
         const limit = 5
-        const query = buildFindQuery(departure, travelers, departureDate, destination)
+        let noRange = false
+        if (req.body.manual) {
+            departureDate = format(parse(departureDate, 'dd/MM/yyyy', new Date()), 'yyyy-MM-dd')
+            returnDate = format(parse(returnDate, 'dd/MM/yyyy', new Date()), 'yyyy-MM-dd')
+            noRange = true
+        }
+
+        const query = buildFindQuery(destination, departureDate, departure, noRange)
+        console.log(query);
         const flights = await findFlights(limit, query, returnDate)
 
         if (flights.length < 1) {
@@ -82,7 +91,12 @@ router.post("/search_flights", async (req, res) => {
 
         req.session.searchFlights = flights;
         await updateDestinationsPopularity({ name: destination })
-        res.redirect("/flights")
+
+        if (departure) {
+            res.redirect("/flights")
+        } else {
+            res.json({ success: true })
+        }
     }
     catch (error) {
         console.error('Error:', error);
@@ -96,13 +110,13 @@ router.post("/search_flights", async (req, res) => {
 
 router.get("/order", (req, res) => {
     if (req.isAuthenticated()) {
-    res.render("index",
-    {
-    body: { main: "partials/flights/orderFlight", flights: JSON.parse(req.query.flightData) },
-    header: { main: "partials/headers/main", auth: "authDiv/afterAuth", pageTitle: "Order" }
-    })
-    }else {
-    res.redirect("/login")
+        res.render("index",
+            {
+                body: { main: "partials/flights/orderFlight", flights: JSON.parse(req.query.flightData) },
+                header: { main: "partials/headers/main", auth: "authDiv/afterAuth", pageTitle: "Order" }
+            })
+    } else {
+        res.redirect("/login")
     };
 
 });

@@ -108,7 +108,26 @@ router.get("/admin/add_sale", async (req, res) => {
 })
 
 router.post("/admin/add_sale", async (req, res) => {
-    const status = await insertSale(req.body)
+    const sale = req.body
+    let status;
+    console.log(req.body);
+    let saleFlight = { destination: sale.destination, departureDate: sale.departureDate, returnDate: sale.returnDate, price: sale.dealPrice };
+    const numberOfFlights = faker.number.int({ min: 4, max: 10 })
+    const flightsData = await generateFlights(numberOfFlights, { manualFlight: {}, saleFlight: saleFlight })
+    console.log(flightsData);
+
+    if (flightsData) {
+        const flights = await insertNewFlights(flightsData)
+        if (flights.length < 1) {
+            status = 2
+        } else {
+            status = await insertSale(sale)
+        }
+    } else {
+        status = 2
+    }
+
+    
     if (status == 0) {
         req.session.alertData = {
             header: "Add Sale",
@@ -165,7 +184,7 @@ router.post("/admin/delete_sale", async (req, res) => {
 
 router.get("/admin/generate_new_flights", async (req, res) => {
     try {
-        const numberOfFlights = faker.number.int({min: 10, max: 30})
+        const numberOfFlights = faker.number.int({ min: 10, max: 30 })
         const flightsData = await generateFlights(numberOfFlights)
         if (flightsData) {
 
@@ -216,16 +235,16 @@ router.post("/admin/add_flight", async (req, res) => {
                 content: "Invalid Airports IATA Code"
             }
         } else {
-
-            manualFlight.goDepDateTime = new Date(manualFlight.goDepDateTime).toISOString()
+            manualFlight.goDepDateTime = new Date(manualFlight.goDepDateTime).toLocaleDateString('en-GB')
             if (manualFlight.return.returnPrice == "") {
                 delete manualFlight.return
             } else {
-                manualFlight.return.returnDateTime = new Date(manualFlight.return.returnDateTime).toISOString()
+                manualFlight.return.returnDateTime = new Date(manualFlight.return.returnDateTime).toLocaleDateString('en-GB')
             }
 
             console.log("Creating new flight")
-            const flightData = await generateFlights(1, manualFlight)
+            const flightData = await generateFlights(1, { manualFlight: manualFlight })
+            console.log(flightData);
             const flights = await insertNewFlights(flightData)
             if (flights.length == 1) {
                 req.session.alertData = {
