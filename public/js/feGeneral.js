@@ -1,9 +1,21 @@
 
-function loadScreen() {
-  $(window).on('load', function () {
-    $('#loader-wrapper').css('display', 'none');
-  })
-};
+function initializeLoadingScreen() {
+  // Display the loader on every button click or link navigation
+  $('button, a').on('click', function() {
+      $('#loader-wrapper').show();
+  });
+
+  // Hide the loader when the current page fully loads
+  $(window).on('load', function() {
+      $('#loader-wrapper').hide();
+  });
+  
+  // Display the loader when the page is about to unload (i.e., when navigating away)
+  $(window).on('beforeunload', function() {
+      $('#loader-wrapper').show();
+  });
+}
+
 
 function checkIfAdmin() {
   fetch('/is_admin')
@@ -51,7 +63,7 @@ function destinationValidation() {
 
 }
 
-loadScreen()
+initializeLoadingScreen()
 buildDestinationOptions()
 destinationValidation()
 checkIfAdmin()

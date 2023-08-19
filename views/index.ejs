@@ -29,18 +29,19 @@
 
 </head>
 <body>
+ 
   <%- include("partials/generalPartials/load") %>
   <div id="header">
     <%- include(header.main) %>
   </div>
   <div id="body">
-    <div class="side-image left-side-image"></div>
-    <div class="side-image right-side-image"></div>
     <%- include(body.main) %>
   </div>
   <div id="footer">
     <%- include("partials/footer/main") %>
   </div>
+  <%- include("partials/generalPartials/background") %>
+
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/js/bootstrap.bundle.min.js"></script>
