@@ -76,8 +76,8 @@ function insertFlightDetails(goFlight, returnFlight, totalPrice) {
 }
 
 function insertSingleFlightDetails(containerId, flight) {
-  var departureTime = new Date(flight.departure.dateTime).toUTCString().split(' ')[4].slice(0, 5);
-  var arrivalTime = new Date(flight.arrival.dateTime).toUTCString().split(' ')[4].slice(0, 5); // Extract arrival time
+  var departureTime = new Date(flight.departure.dateTime).toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
+  var arrivalTime = new Date(flight.arrival.dateTime).toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
   var departureDate = formatDateTime(flight.departure.dateTime);
   var arrivalDate = formatDateTime(flight.arrival.dateTime);
   $(containerId + ' #flightNumber').text(flight.flight.iata);
