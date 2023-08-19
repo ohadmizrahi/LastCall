@@ -4,10 +4,35 @@
   justify-content: space-between; /* Spread cards evenly in a row */
   justify-content: center;
 }
+
 .popular-destinations-title {
-  text-align: center;
   font-weight: bold;
-  margin-top: 20px
+  text-align: center;
+  overflow: hidden;
+  white-space: nowrap;
+  font-size: 2em;
+  position: relative;
+  padding-top: 50px;
+  margin-top: 30px;
+}
+.popular-destinations-title::before {
+  content: "";
+  display: block;
+  width: 80%;
+  height: 1px;
+  background-color: rgb(202, 144, 35);
+  position: absolute;
+  top: 0;
+  left: 50%;
+  margin-left: -40%;
+}
+.centered-content {
+  display: flex;
+  justify-content: center;  /* Horizontally center */
+  align-items: center;      /* Vertically center */
+  height: 100%;             /* Take full height of parent */
+  text-align: center;       /* Center text within the <p> element */
+  margin-top: 20px;
 }
 
 .destination-card {
@@ -243,4 +268,15 @@ body {
   width: 100%; /* This will make the label take the full width of its container */
 }
 
+.row.custom-row {
+  margin-top: 20px;  /* Adjust this value as needed */
+}
+.container h1 {
+  font-weight: bold; /* Make the text bold */
+  text-align: center; /* Center the text horizontally */
+margin-top: 20px;
+}
+.container p {
+  text-align: center; /* Center the text horizontally */
+}
 
