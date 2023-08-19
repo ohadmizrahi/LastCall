@@ -5,12 +5,11 @@ const { getDestImg } = require('../destination/destinationService.js')
 
 async function insertSale(sale) {
   try {
-    console.log(sale);
     console.log("Start inserting sale");
     let {
       destination: destination,
-      departureDateTime: departureDate,
-      returnDateTime: returnDate,
+      departureDate: departureDate,
+      returnDate: returnDate,
       dealPrice: dealPrice,
       numberOfDays: numberOfDays,
       img: img
@@ -36,7 +35,7 @@ async function insertSale(sale) {
         numberOfDays: numberOfDays,
         img: img
       });
-      console.log(newSale);
+
       await newSale.save();
       console.log("Sale inserted");
       return 0

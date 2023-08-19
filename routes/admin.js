@@ -108,48 +108,24 @@ router.get("/admin/add_sale", async (req, res) => {
 })
 
 router.post("/admin/add_sale", async (req, res) => {
-
-    let sale = req.body
-    console.log(sale);
-    let status;
-    if (!sale.destination) {
+    const status = await insertSale(req.body)
+    if (status == 0) {
         req.session.alertData = {
-            header: "Add Sale Failed",
-            content: "Invalid Destination"
+            header: "Add Sale",
+            content: `Done Successfully`
+        }
+    } else if (status == 1) {
+        req.session.alertData = {
+            header: "Add Sale",
+            content: `Sale Already Exist`
         }
     } else {
-        let saleFlight = {return: {}};
-        saleFlight.goDepDateTime = new Date(sale.departureDateTime).toISOString()
-        saleFlight.return.returnDateTime = new Date(sale.returnDateTime).toISOString()
-        saleFlight.goArrCityName = sale.destination
-        saleFlight.price = sale.dealPrice
-
-        const numberOfFlights = faker.number.int({ min: 4, max: 10 })
-        const flights = await generateFlights(numberOfFlights, { manualFlight: {}, saleFlight: saleFlight })
-        if (flights.length < 1) {
-            status = 2
-        } else {
-            status = await insertSale(sale)
+        req.session.alertData = {
+            header: "Add Sale Failed",
+            content: `Error occur when adding sale, please TRY AGAIN`
         }
-
-        if (status == 0) {
-            req.session.alertData = {
-                header: "Add Sale",
-                content: `Done Successfully`
-            }
-        } else if (status == 1) {
-            req.session.alertData = {
-                header: "Add Sale",
-                content: `Sale Already Exist`
-            }
-        } else {
-            req.session.alertData = {
-                header: "Add Sale Failed",
-                content: `Error occur when adding sale, please TRY AGAIN`
-            }
-        }
-        res.redirect("/admin")
     }
+    res.redirect("/admin")
 })
 
 router.get("/admin/delete_sale", async (req, res) => {
@@ -189,7 +165,7 @@ router.post("/admin/delete_sale", async (req, res) => {
 
 router.get("/admin/generate_new_flights", async (req, res) => {
     try {
-        const numberOfFlights = faker.number.int({ min: 10, max: 30 })
+        const numberOfFlights = faker.number.int({min: 10, max: 30})
         const flightsData = await generateFlights(numberOfFlights)
         if (flightsData) {
 
@@ -240,6 +216,7 @@ router.post("/admin/add_flight", async (req, res) => {
                 content: "Invalid Airports IATA Code"
             }
         } else {
+
             manualFlight.goDepDateTime = new Date(manualFlight.goDepDateTime).toISOString()
             if (manualFlight.return.returnPrice == "") {
                 delete manualFlight.return
@@ -248,7 +225,7 @@ router.post("/admin/add_flight", async (req, res) => {
             }
 
             console.log("Creating new flight")
-            const flightData = await generateFlights(1, { manualFlight: manualFlight, saleFlight: {} })
+            const flightData = await generateFlights(1, manualFlight)
             const flights = await insertNewFlights(flightData)
             if (flights.length == 1) {
                 req.session.alertData = {

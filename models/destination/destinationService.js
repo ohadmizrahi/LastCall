@@ -123,8 +123,7 @@ async function updateDestinationsPopularity(destination) {
             destination.avgRank = Number((Math.random() * (10 - 5) + 5).toFixed(1))
         }
         if (!destination.description) {
-            const { destData } = await destinationDataFromChat(destination.name)
-            console.log();
+            const destData = await destinationDataFromChat(destination.name)
             destination.country = destData.country
             destination.description = destData.description
             destination.bestMonth = destData.bestMonth

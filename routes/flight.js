@@ -70,7 +70,7 @@ router.post("/search_flights", async (req, res) => {
         } = req.body
 
         const limit = 5
-        const query = buildFindQuery(destination, travelers, departureDate, departure)
+        const query = buildFindQuery(departure, travelers, departureDate, destination)
         const flights = await findFlights(limit, query, returnDate)
 
         if (flights.length < 1) {

@@ -10,20 +10,20 @@ function setDefaultValuesToSearchBar() {
         return; // Exit the function early if dataToSearch is null or undefined
     }
 
-    if (dataToSearch.destination) {
-        destinationElement.val(dataToSearch.destination);
+    if (dataToSearch.destName) {
+        destinationElement.val(dataToSearch.destName);
     } else {
         console.warn("Destination name not found in dataToSearch object.");
     }
     
     if (dataToSearch.departureDate) {
         const departureDate = new Date(dataToSearch.departureDate);
-        departureDateElement.val(new Date(departureDate));
+        departureDateElement.val(departureDate.toLocaleDateString('en-CA'));
     }
 
     if (dataToSearch.returnDate) {
         const returnDate = new Date(dataToSearch.returnDate);
-        returnDateElement.val(new Date(returnDate));
+        returnDateElement.val(returnDate.toLocaleDateString('en-CA'));
     }
 
     sessionStorage.removeItem("dataToSearch");
