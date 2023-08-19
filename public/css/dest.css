@@ -101,16 +101,17 @@ body {
 }
 
 .btn-primary {
-  background-color: #007BFF;
-  border-color: #007BFF;
+  background-color: rgb(67, 67, 252);
   border-radius: 5px;
   font-weight: bold;
   transition: background-color 0.3s ease;
-  cursor: pointer; /* Add a pointer cursor when hovering over a button */
+  cursor: pointer;
+  margin-bottom: 20px;
+  margin-right: 40px;
 }
 
 .btn-primary:hover {
-  background-color: #0056b3;
+  background-color: rgb(19, 19, 208);
 }
 
 #tourismChart {
@@ -276,11 +277,12 @@ body {
   text-align: center; /* Center the text horizontally */
 margin-top: 20px;
 }
-.container p {
-  text-align: center; /* Center the text horizontally */
-}
 
 .centered-bold-text {
   text-align: center;
   font-weight: bold;
 }
+.perfect-vacation-text {
+  align-items: center;     /* centers vertically */
+}
+
