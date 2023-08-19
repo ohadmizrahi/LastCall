@@ -184,7 +184,7 @@
     right: 30px; /* Distance from the right */
   }
 
-  .total-label, .total-price {
+  .total-label, .total-price-per-person {
     font-weight: bold; /* Bold text */
     font-size: 30px; /* Font size */
     margin: 0; /* No margin */
