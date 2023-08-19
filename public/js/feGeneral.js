@@ -1,10 +1,5 @@
 
 function initializeLoadingScreen() {
-  // Display the loader on every button click or link navigation
-  $('button, a').on('click', function() {
-      $('#loader-wrapper').show();
-  });
-
   // Hide the loader when the current page fully loads
   $(window).on('load', function() {
       $('#loader-wrapper').hide();
