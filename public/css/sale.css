@@ -76,8 +76,8 @@
 
 #show-more-btn {
   padding: 10px 20px;
-  background-color: #363333e9;
-  color: white;
+  background-color: rgb(234, 160, 23);
+  color: rgb(0, 0, 0);
   border: none;
   cursor: pointer;
   transition: background-color 0.3s ease;
@@ -88,7 +88,7 @@
 }
 
 #show-more-btn:hover {
-  background-color: #202020;
+  background-color: #ff8c00;
 }
 
 .hidden-deal {
@@ -97,8 +97,8 @@
 
 .toggle-btn {
   padding: 10px 20px;
-  background-color: #363333e9;
-  color: white;
+  background-color: rgb(234, 160, 23);
+  color: rgb(0, 0, 0);
   border: none;
   cursor: pointer;
   transition: background-color 0.3s ease;
@@ -109,5 +109,5 @@
 }
 
 .toggle-btn:hover {
-  background-color: #202020;
+  background-color: #ff8c00;
 }
