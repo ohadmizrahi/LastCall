@@ -114,7 +114,7 @@ async function generateGoFlight(extFlight = null) {
         arrivalData.country = airportCountryA
         arrivalData.city = airportCityA ? formatCityName(airportCityA) : airportCountryA
 
-        price = faker.finance.amount({ min: 50, max: 1500, dec: 2 })
+        price = faker.finance.amount({ min: 50, max: 700, dec: 2 })
     }
 
     flightData.status = "schedule"
@@ -187,7 +187,7 @@ function generateMatchReturnFlight(goFlightData, extFlight = null) {
         let newDepDate = new Date(newReturnFlight.departure.dateTime)
         newReturnFlight.departure.dateTime = new Date(newDepDate.setDate(newDepDate.getDate() + faker.number.int({ min: 2, max: 30 })))
 
-        newReturnFlight.price = faker.finance.amount({ min: 50, max: 1500, dec: 2 })
+        newReturnFlight.price = faker.finance.amount({ min: 50, max: 700, dec: 2 })
     }
 
 
