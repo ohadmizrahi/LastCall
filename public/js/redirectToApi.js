@@ -19,8 +19,8 @@ function rediredtToFlights() {
             returnDate: toFlightData.returnDate || null
         }
         if (toFlightData.departureDate && toFlightData.returnDate) {
-            searchBarValues.depName = "SALE"
             const searchQueryValues = {
+                departure: "Tel Aviv",
                 destination: toFlightData.destination,
                 departureDate: toFlightData.departureDate,
                 returnDate: toFlightData.returnDate, 

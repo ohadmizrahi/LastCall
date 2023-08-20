@@ -9,7 +9,7 @@ $(document).ready(function() {
       $('#no-flights-modal-container').show();
   }
 
-  // Close the modal when the close button is clicked
+
   $('.close-btn').click(function() {
       hideNoFlightsModal();
   });
@@ -37,17 +37,18 @@ function insertFlightDetails(goFlight, returnFlight, totalPrice) {
     $('#return-flight-details').hide();
   }
   if (totalPrice) {
-    let pricePerPerson = totalPrice / passengerCount;  // Price per person
+    let pricePerPerson = totalPrice / passengerCount;
     $('#total-price-per-person').text(pricePerPerson.toFixed(2) + '$');
     $('#total-price').text(totalPrice.toFixed(2) + '$');
   }
 }
 
 function insertSingleFlightDetails(containerId, flight) {
-  var departureTime = formatTime(flight.departure.dateTime);
-  var arrivalTime = formatTime(flight.arrival.dateTime);
-  var departureDate = formatDate(flight.departure.dateTime);
-  var arrivalDate = formatDate(flight.arrival.dateTime);
+  let departureDate = formatDate(flight.departure.dateTime);
+  let arrivalDate = formatDate(flight.arrival.dateTime);
+  let departureTime = formatTime(flight.departure.dateTime);
+  let arrivalTime = formatTime(flight.arrival.dateTime);
+
   $(containerId + ' #flightNumber').text(flight.flight.iata);
   $(containerId + ' #departureDate').text(departureDate);
   $(containerId + ' #departureTime').text(departureTime);
@@ -69,13 +70,14 @@ function insertSingleFlightDetails(containerId, flight) {
 }
 
 $(document).ready(function() {
-  $("#close-sidebar").click(function() {
+  $("#close-sidebar").on("click", function() {
       $("#details-sidebar").removeClass("active");
   });
 });
 
 function formatDate(date) {
   let dateObject = new Date(date);
+  dateObject.setMinutes(dateObject.getMinutes() - 180)
   return dateObject.getDate().toString().padStart(2, '0') + '/' +
          (dateObject.getMonth() + 1).toString().padStart(2, '0') + '/' +
          dateObject.getFullYear();
@@ -84,7 +86,7 @@ function formatDate(date) {
 
 function formatTime(dateTime) {
 let dateTimeObject = new Date(dateTime)
-
+dateTimeObject.setMinutes(dateTimeObject.getMinutes() - 180)
 let hours = dateTimeObject.getHours().toString().padStart(2, '0'); // Pad with leading zero if needed
 let minutes = dateTimeObject.getMinutes().toString().padStart(2, '0'); // Pad with leading zero if needed
 

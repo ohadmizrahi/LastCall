@@ -57,6 +57,7 @@ router.post("/login", function (req, res) {
           return res.redirect("/login");
         }
         res.cookie('name', (user.fName + " " + user.lName).toLowerCase().replace(/(?:^|\s)\w/g, function(match) {return match.toUpperCase();}));
+        res.cookie('userEmail', user.email)
         res.cookie('userCountry', user.country.toLowerCase().replace(/(?:^|\s)\w/g, function(match) {return match.toUpperCase();}));
         res.cookie('authLevel', user.authLevel)
         const returnTo = req.cookies.returnTo || "/home"

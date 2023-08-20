@@ -63,11 +63,12 @@ async function generateGoFlight(extFlight = null) {
     } else if (extFlight && extFlight.saleFlight) {
         console.log("Generate sale go flight");
         let saleFlight = extFlight.saleFlight
+
+        const constDepAirportCode = "TLV"
         
         const { name: airline, iataCode: airlineIata } = faker.airline.airline();
-        const { name: airportD, iataCode: airportIataD } = faker.airline.airport();
         const { code: arrAirortCode, name: arrAirportName, country: arrAirortCountry } = await findAirportByCity(saleFlight.destination)
-        const { country: airportCountryD, city: airportCityD } = await findAirportByCode(airportIataD)
+        const { city: depAirortCity, name: depAirportName, country: depAirortCountry } = await findAirportByCode(constDepAirportCode)
 
         airlineCode = airlineIata
         airlineData.name = airline
@@ -78,15 +79,11 @@ async function generateGoFlight(extFlight = null) {
         arrivalData.airport = formatAirportName(arrAirportName, true)
         arrivalData.iata = arrAirortCode
 
-        departureData.city = airportCityD ? formatCityName(airportCityD) : airportCountryD
-        departureData.country = airportCountryD
-        departureData.iata = airportIataD;
-        departureData.airport = formatAirportName(airportD, false);
-        console.log("Test Date");
-        console.log(saleFlight.departureDate);
+        departureData.city = depAirortCity ? formatCityName(depAirortCity) : depAirortCountry
+        departureData.country = depAirortCountry
+        departureData.iata = constDepAirportCode;
+        departureData.airport = formatAirportName(depAirportName, true);
         departureData.dateTime = formatDate(saleFlight.departureDate)
-        console.log(departureData.dateTime.getTimezoneOffset())
-        console.log(departureData.dateTime);
 
         price = saleFlight.price / 2
 
@@ -117,7 +114,7 @@ async function generateGoFlight(extFlight = null) {
         arrivalData.country = airportCountryA
         arrivalData.city = airportCityA ? formatCityName(airportCityA) : airportCountryA
 
-        price = faker.finance.amount({ min: 50, max: 1500, dec: 2 })
+        price = faker.finance.amount({ min: 50, max: 700, dec: 2 })
     }
 
     flightData.status = "schedule"
@@ -138,7 +135,6 @@ async function generateGoFlight(extFlight = null) {
     newGoFlight.arrival = arrivalData
     newGoFlight.airline = airlineData
     newGoFlight.price = parseFloat(price)
-
     return newGoFlight
 
 
@@ -191,7 +187,7 @@ function generateMatchReturnFlight(goFlightData, extFlight = null) {
         let newDepDate = new Date(newReturnFlight.departure.dateTime)
         newReturnFlight.departure.dateTime = new Date(newDepDate.setDate(newDepDate.getDate() + faker.number.int({ min: 2, max: 30 })))
 
-        newReturnFlight.price = faker.finance.amount({ min: 50, max: 1500, dec: 2 })
+        newReturnFlight.price = faker.finance.amount({ min: 50, max: 700, dec: 2 })
     }
 
 
