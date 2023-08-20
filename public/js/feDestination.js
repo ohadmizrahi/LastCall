@@ -46,7 +46,7 @@ async function createTourismChart() {
             const tourists = tourismData.map(data => data.tourists);
 
             const ctx = $('#tourismChart');
-            const myChart = new Chart(ctx, {
+            new Chart(ctx, {
                 type: 'bar',
                 data: {
                     labels: months,
@@ -68,14 +68,14 @@ async function createTourismChart() {
                         },
                         x: {
                             ticks: {
-                                color: '#ffffff' // and this here
+                                color: '#ffffff' 
                             }
                         }
                     },
                     plugins: {
                         legend: {
                             labels: {
-                                color: '#ffffff', // and this here
+                                color: '#ffffff', 
                             }
                         }
                     }

@@ -104,11 +104,11 @@ async function deleteOldFlights() {
 
 };
 
-async function findFlights(limit, query = null, arrDate = null) {
+async function findFlights(limit, query = null, returnDate = null) {
   try {
 
     const goFlights = await findGoFlights(limit, query)
-    const flights = await findReturnFlights(goFlights, arrDate)
+    const flights = await findReturnFlights(goFlights, returnDate)
 
     return flights
   }
@@ -133,7 +133,7 @@ async function findGoFlights(limit, query = null) {
     flight.flight.duration = formatDuration(flight.flight.duration);
     return flight;
   });
-
+  console.log(goFlights);
   return goFlights;
 }
 
@@ -148,10 +148,10 @@ async function findReturnFlights(goFlights, returnDate) {
       newReturnDate = new Date(returnDate);
     } else {
       newReturnDate = new Date(goFlight.arrival.dateTime);
+      newReturnDate.setDate(newReturnDate.getDate() + 2);
     }
-    newReturnDate.setDate(newReturnDate.getDate() + 2);
 
-    const query = buildFindQuery(goFlight.arrival.city, 1, newReturnDate, null, goFlight.departure.city);
+    const query = buildFindQuery(goFlight.departure.city, newReturnDate, goFlight.arrival.city);
 
     const returnFlights = await Flight.findOne(query)
     if (returnFlights && returnFlights.flight && returnFlights.flight.duration) {
@@ -164,23 +164,27 @@ async function findReturnFlights(goFlights, returnDate) {
 
 
 
-function buildFindQuery(dep, totalPassangers, fullDate = null, des = null) {
-  if (!(dep && fullDate && totalPassangers)) {
-    throw new Error("All of the parameters (dep, date, totalPassengers) must be provided.");
+function buildFindQuery(des, fullDate, dep = null, noRange = false) {
+  if (!(des && fullDate)) {
+    console.error("All of the parameters (des, date) must be provided.");
   } else {
-
-    let oneMonthAhead = new Date(fullDate)
-    oneMonthAhead.setMonth(oneMonthAhead.getMonth() + 12);
+    let dateRange = new Date(fullDate)
+    
+    if (noRange) {
+      dateRange.setDate(dateRange.getDate() + 1);
+    } else {
+      dateRange.setMonth(dateRange.getMonth() + 1);
+    }
 
 
     const query = {
-      "departure.city": formatCityName(dep),
-      "departure.dateTime": { $gte: new Date(fullDate), $lte: oneMonthAhead },
+      "arrival.city": formatCityName(des),
+      "departure.dateTime": { $gte: new Date(fullDate), $lte: dateRange },
       "flight.status": { $ne: "done" }
     }
 
-    if (des) {
-      query["arrival.city"] = formatCityName(des);
+    if (dep) {
+      query["departure.city"] = formatCityName(dep);
     }
 
     return query

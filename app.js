@@ -7,9 +7,10 @@ const createDBConn = require("./models/dbConnector")
 const loginRouter = require('./routes/auth')
 const regiterRouter = require('./routes/register')
 const homeRoute = require('./routes/home')
-const menuRoute = require('./routes/services')
-const orderRoute = require('./routes/orderFlight')
-const admin = require('./routes/admin')
+const destinationRoute = require('./routes/destination')
+const flightRoute = require('./routes/flight')
+const reviewRoute = require('./routes/review')
+const adminRoute = require('./routes/admin')
 
 const { getAllSales } = require('./models/sale/saleService')
 
@@ -26,17 +27,20 @@ app.use(loginRouter)
 // To handle get and post request for register
 app.use(regiterRouter)
 
-// To handle get request for home
+// To handle get request for home page
 app.use(homeRoute)
 
-// To handle get request for menu
-app.use(menuRoute)
+// To handle get request for destination page
+app.use(destinationRoute)
 
-// To handle get request for order flight
-app.use(orderRoute)
+// To handle get request for flight page
+app.use(flightRoute)
 
-// To handle get request for admin
-app.use(admin)
+// To handle get request for review page
+app.use(reviewRoute)
+
+// To handle get request for admin actions
+app.use(adminRoute)
 
 
 app.use(session({

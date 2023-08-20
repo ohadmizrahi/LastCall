@@ -9,6 +9,10 @@ function initializeLoadingScreen() {
   $(window).on('beforeunload', function() {
       $('#loader-wrapper').show();
   });
+
+  $("#auto-new-flights").on('click', function() {
+    $('#loader-wrapper').show();
+});
 }
 
 
@@ -32,33 +36,61 @@ function checkIfAdmin() {
 
 
 function buildDestinationOptions() {
-  const validDestinationsElement = $("#validDestinations");
-  const dataListElement = $(".destination-options")
-  if (validDestinationsElement.length > 0) {
-      const validDestinations = JSON.parse(validDestinationsElement.attr("data-destinations"));
-      validDestinations.forEach(destination => {
+  const validationDataElement = $("#validationData");
+  const dataListElement = $(".data-options")
+  if (validationDataElement.length > 0) {
+      const validationData = JSON.parse(validationDataElement.attr("data-validationData"));
+      validationData.forEach(destination => {
           dataListElement.append($(`<option value="${destination}">`))
       });
   }
 
 }
 
-function destinationValidation() {
-  $(".form-with-destination").submit(function (event) {
-      const validDestinationsElement = $("#validDestinations");
-      const validDestinations = JSON.parse(validDestinationsElement.attr("data-destinations"));
-      const destInput = $(".destination-validation")
+function optionsValidation() {
+  $(".form-with-validation").submit(function (event) {
+      const validationDataElement = $("#validationData");
+      const validationData = JSON.parse(validationDataElement.attr("data-validationData"));
+      const destInput = $(".data-validation")
 
-      if (destInput.val() && (!validDestinations.includes(destInput.val()))) {
-          event.preventDefault();
-          alert("Not Valid Destination\n Re-Enter Destination")
+      if (destInput.val() && (!validationData.includes(destInput.val()))) {
           destInput.val("")
       }
   });
 
 }
 
+function formatDateTimeForDisplay() {
+  const dates = $(".format-date")
+  const times = $(".format-time")
+  dates.each((index, dateObject) => {
+
+    let toFormatDate = new Date($(dateObject).text())
+    toFormatDate.setMinutes(toFormatDate.getMinutes() - 180)
+
+    const day = toFormatDate.getDate().toString().padStart(2, '0');
+    const month = (toFormatDate.getMonth() + 1).toString().padStart(2, '0');
+    const year = toFormatDate.getFullYear();
+
+    $(dateObject).text(`${day}/${month}/${year}`)
+
+  })
+
+  times.each((index, dateObject) => {
+
+    let toFormatDate = new Date($(dateObject).text())
+    toFormatDate.setMinutes(toFormatDate.getMinutes() - 180)
+
+    const hours = toFormatDate.getHours().toString().padStart(2, '0');
+    const minutes = (toFormatDate.getMinutes()).toString().padStart(2, '0');
+
+    $(dateObject).text(`${hours}:${minutes}`)
+
+  })
+}
+
+formatDateTimeForDisplay()
 initializeLoadingScreen()
 buildDestinationOptions()
-destinationValidation()
+optionsValidation()
 checkIfAdmin()

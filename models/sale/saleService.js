@@ -74,8 +74,8 @@ async function getAllSales() {
 
   const formattedSales = sales.map(sale => ({
     ...sale.toObject(),
-    departureDate: moment(sale.departureDate).format('DD/MM/YYYY'),
-    returnDate: moment(sale.returnDate).format('DD/MM/YYYY')
+    departureDate: sale.departureDate,
+    returnDate: sale.returnDate
   }));
 
   return formattedSales;

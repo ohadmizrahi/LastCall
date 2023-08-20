@@ -14,10 +14,8 @@
         </div>
         <img src="<%= sale.img %>" class="sale-img">
         <div class="sale-content">
-          <p>Departure Date: <%= sale.departureDate %>
-          </p>
-          <p>Return Date: <%= sale.returnDate %>
-          </p>
+          <p>Departure Date: <div class="format-date" data-real-date="<%= sale.departureDate %>"><%= sale.departureDate %></div></p>
+          <p>Return Date: <div class="format-date" data-real-date="<%= sale.returnDate %>"><%= sale.returnDate %></div></p>
           <p>Start From: <%= sale.dealPrice %>$</p>
         </div>
       </div>

@@ -1,25 +1,25 @@
 <div class="col-12 col-md-8 offset-md-2 col-lg-6 offset-lg-3">
-    <div id="validDestinations" data-destinations="<%= JSON.stringify(body.validDestinations) %>"></div>
+    <div id="validationData" data-validationData="<%= JSON.stringify(body.validationData) %>"></div>
 
     <div class="card">
         <div class="card-body">
-            <form action="/admin/add_sale" method="POST" class="form-with-destination">
+            <form action="/admin/add_sale" method="POST" class="form-with-validation">
                 <h1 id="new-sale-heading">Add New Sale</h1>
                 <div class="border-top my-3"></div>
                 <div class="white-bold">
                     <label for="destination">Destination</label>
-                    <input type="text" class="form-control destination-validation" name="destination"
-                        placeholder="Destination in Sale" required list="destination-options-new">
-                    <datalist class="destination-options" id="destination-options-new"></datalist>
+                    <input type="text" class="form-control data-validation" name="destination"
+                        placeholder="Destination in Sale" required list="data-options-new">
+                    <datalist class="data-options" id="data-options-new"></datalist>
                 </div>
                 <div class="white-bold">
                     <label for="departure-date">Departure Date</label>
-                    <input type="date" class="form-control" name="departureDate" placeholder="The Start Date in Sale"
+                    <input type="datetime-local" class="form-control" name="departureDate" placeholder="The Start Date in Sale"
                         required>
                 </div>
                 <div class="white-bold">
                     <label for="departure-date">Return Date</label>
-                    <input type="date" class="form-control" name="returnDate" placeholder="The End Date in Sale"
+                    <input type="datetime-local" class="form-control" name="returnDate" placeholder="The End Date in Sale"
                         required>
                 </div>
                 <div class="border-top my-3"></div>

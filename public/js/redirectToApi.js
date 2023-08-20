@@ -1,23 +1,50 @@
+
 function rediredtToAPI() {
-$(".redirect-to").click(function () {
-    const apiURL = $(this).data("api");
-    window.location.href = apiURL;
-});
+    $(".redirect-to").on("click", function () {
+        let apiURL = $(this).data("api");
+        if (!apiURL) {
+            apiURL = "/home"
+        }
+        window.location.href = apiURL;
+    });
 }
 rediredtToAPI()
 
 function rediredtToFlights() {
-    console.log("rediredtToFlights()");
-    $(".to-flights").click(function () {
+    $(".to-flights").on("click", function () {
         const toFlightData = JSON.parse($(this).attr("data-toFlight"));
-        dataToSearch = {
+        const searchBarValues = {
             destName: toFlightData.name || toFlightData.destination || null,
             departureDate: toFlightData.departureDate || null,
             returnDate: toFlightData.returnDate || null
         }
-        console.log(dataToSearch);
+        if (toFlightData.departureDate && toFlightData.returnDate) {
+            searchBarValues.depName = "SALE"
+            const searchQueryValues = {
+                destination: toFlightData.destination,
+                departureDate: toFlightData.departureDate,
+                returnDate: toFlightData.returnDate, 
+                manual: true
+            }
 
-        sessionStorage.setItem("dataToSearch", JSON.stringify(dataToSearch));
+            fetch("/search_flights", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(searchQueryValues)
+            })
+                .then(response => response.json())
+                .then(data => {
+                    window.location.href = '/flights';
+                })
+                .catch(error => {
+                    console.log(error);
+                });
+
+        }
+
+        sessionStorage.setItem("searchBarValues", JSON.stringify(searchBarValues));
 
         window.location.href = '/flights';
     });
