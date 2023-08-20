@@ -70,19 +70,16 @@ router.post("/search_flights", async (req, res) => {
             travelers: travelers
         } = req.body
 
-        console.log(req.body);
 
         const limit = 5
-        let noRange = false
+        let noRange = true
         // if (req.body.manual) {
         //     departureDate = format(parse(departureDate, 'dd/MM/yyyy', new Date()), 'yyyy-MM-dd')
         //     returnDate = format(parse(returnDate, 'dd/MM/yyyy', new Date()), 'yyyy-MM-dd')
         //     noRange = true
         // }
-        console.log("Build Query");
-        console.log(departureDate);
+
         const query = buildFindQuery(destination, departureDate, departure, noRange)
-        console.log(query);
         const flights = await findFlights(limit, query, returnDate)
 
         if (flights.length < 1) {
@@ -95,7 +92,7 @@ router.post("/search_flights", async (req, res) => {
         req.session.searchFlights = flights;
         await updateDestinationsPopularity({ name: destination })
 
-        if (departure) {
+        if (!req.body.manual) {
             res.redirect("/flights")
         } else {
             res.json({ success: true })

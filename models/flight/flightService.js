@@ -133,7 +133,7 @@ async function findGoFlights(limit, query = null) {
     flight.flight.duration = formatDuration(flight.flight.duration);
     return flight;
   });
-  console.log(goFlights);
+  
   return goFlights;
 }
 
