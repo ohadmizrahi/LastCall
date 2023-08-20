@@ -286,3 +286,10 @@ margin-top: 20px;
   align-items: center;     /* centers vertically */
 }
 
+.dest-rev {
+  text-align: center;
+  font-weight: bold;
+  position: relative; /* Set position to relative */
+}
+
+
