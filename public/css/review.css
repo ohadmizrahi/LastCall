@@ -74,9 +74,7 @@
     margin-bottom: 20px;
     margin-top: 20px;
     padding-bottom: 10px; /* Add padding to create space for the separation line */
-    border-bottom: 1px solid #ccc;
     text-align: center; /* Add a separation line using a border */
-
   }
   
   .review-filter-bar h3 {
