@@ -43,7 +43,10 @@ async function generateGoFlight(extFlight = null) {
         departureData.country = depCountry
         departureData.airport = formatAirportName(depAirportName, true)
         departureData.iata = manualFlight.goDepAirportCode
+        console.log("Test Date");
+        console.log(manualFlight.goDepDateTime);
         departureData.dateTime = formatDate(manualFlight.goDepDateTime)
+        console.log(departureData.dateTime);
 
         const { country: arrCountry, city: arrCity, name: arrAirportName } = await findAirportByCode(manualFlight.goArrAirportCode)
         arrivalData.city = formatCityName(arrCity)
@@ -59,8 +62,8 @@ async function generateGoFlight(extFlight = null) {
 
     } else if (extFlight && extFlight.saleFlight) {
         console.log("Generate sale go flight");
-        
         let saleFlight = extFlight.saleFlight
+        
         const { name: airline, iataCode: airlineIata } = faker.airline.airline();
         const { name: airportD, iataCode: airportIataD } = faker.airline.airport();
         const { code: arrAirortCode, name: arrAirportName, country: arrAirortCountry } = await findAirportByCity(saleFlight.destination)
@@ -79,7 +82,11 @@ async function generateGoFlight(extFlight = null) {
         departureData.country = airportCountryD
         departureData.iata = airportIataD;
         departureData.airport = formatAirportName(airportD, false);
+        console.log("Test Date");
+        console.log(saleFlight.departureDate);
         departureData.dateTime = formatDate(saleFlight.departureDate)
+        console.log(departureData.dateTime.getTimezoneOffset())
+        console.log(departureData.dateTime);
 
         price = saleFlight.price / 2
 
@@ -222,9 +229,10 @@ function addRandomTimeToDate(depDate) {
 }
 
 function formatDate(date) {
-    const dateType = new Date(date)
-    const formattedDate = dateType.setDate(dateType.getDate() + 1) 
-    return formattedDate
+    const dateTime = new Date(date)
+    const timeOffest = dateTime.getTimezoneOffset()
+    const formattedDate = dateTime.setMinutes(dateTime.getMinutes() + (-timeOffest)) 
+    return new Date(formattedDate)
     
 }
 

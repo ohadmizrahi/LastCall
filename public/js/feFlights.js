@@ -44,10 +44,10 @@ function insertFlightDetails(goFlight, returnFlight, totalPrice) {
 }
 
 function insertSingleFlightDetails(containerId, flight) {
-  var departureTime = new Date(flight.departure.dateTime).toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
-  var arrivalTime = new Date(flight.arrival.dateTime).toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
-  var departureDate = formatDateTime(flight.departure.dateTime);
-  var arrivalDate = formatDateTime(flight.arrival.dateTime);
+  var departureTime = formatTime(flight.departure.dateTime);
+  var arrivalTime = formatTime(flight.arrival.dateTime);
+  var departureDate = formatDate(flight.departure.dateTime);
+  var arrivalDate = formatDate(flight.arrival.dateTime);
   $(containerId + ' #flightNumber').text(flight.flight.iata);
   $(containerId + ' #departureDate').text(departureDate);
   $(containerId + ' #departureTime').text(departureTime);
@@ -74,12 +74,22 @@ $(document).ready(function() {
   });
 });
 
-function formatDateTime (dateTime) {
-  var date = new Date(dateTime);
-  return date.getDate().toString().padStart(2, '0') + '/' +
-         (date.getMonth() + 1).toString().padStart(2, '0') + '/' +
-         date.getFullYear();
+function formatDate(date) {
+  let dateObject = new Date(date);
+  return dateObject.getDate().toString().padStart(2, '0') + '/' +
+         (dateObject.getMonth() + 1).toString().padStart(2, '0') + '/' +
+         dateObject.getFullYear();
 };
+
+
+function formatTime(dateTime) {
+let dateTimeObject = new Date(dateTime)
+
+let hours = dateTimeObject.getHours().toString().padStart(2, '0'); // Pad with leading zero if needed
+let minutes = dateTimeObject.getMinutes().toString().padStart(2, '0'); // Pad with leading zero if needed
+
+return `${hours}:${minutes}`;
+}
 
 function toTitleCase(str) {
   return str.toLowerCase().replace(/(?:^|\s)\w/g, function(match) {

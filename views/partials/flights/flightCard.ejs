@@ -16,7 +16,7 @@
         <div class="timeline">
           <div class="symbol center"><img src="/img/flightCard.png" alt="airplane.png"></div>
           <div class="duration center"><%= flight.flight.duration %></div>
-          <div class="date center"><%= new Date(flight.departure.dateTime).toLocaleDateString('en-GB') %></div>
+          <div class="date center format-date"><%= flight.departure.dateTime %></div>
         </div>
         <div class="location infoDiv">
           <div class="label">DESTINATION</div>
@@ -24,8 +24,8 @@
         </div>
       </div>
       <div class="flightInfo infoDiv">
-        <div class="label">DIPARTURE</div>
-         <div class="value"><%= new Date(flight.departure.dateTime).toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' }) %></div>
+        <div class="label">DEPARTURE</div>
+         <div class="value format-time"><%= flight.departure.dateTime %></div>
         <div class="label">SEAT CLASS</div>
          <div class="value">BUSINESS</div>
       </div>

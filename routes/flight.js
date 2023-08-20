@@ -69,15 +69,18 @@ router.post("/search_flights", async (req, res) => {
             returnDate: returnDate,
             travelers: travelers
         } = req.body
+
         console.log(req.body);
+
         const limit = 5
         let noRange = false
-        if (req.body.manual) {
-            departureDate = format(parse(departureDate, 'dd/MM/yyyy', new Date()), 'yyyy-MM-dd')
-            returnDate = format(parse(returnDate, 'dd/MM/yyyy', new Date()), 'yyyy-MM-dd')
-            noRange = true
-        }
-
+        // if (req.body.manual) {
+        //     departureDate = format(parse(departureDate, 'dd/MM/yyyy', new Date()), 'yyyy-MM-dd')
+        //     returnDate = format(parse(returnDate, 'dd/MM/yyyy', new Date()), 'yyyy-MM-dd')
+        //     noRange = true
+        // }
+        console.log("Build Query");
+        console.log(departureDate);
         const query = buildFindQuery(destination, departureDate, departure, noRange)
         console.log(query);
         const flights = await findFlights(limit, query, returnDate)

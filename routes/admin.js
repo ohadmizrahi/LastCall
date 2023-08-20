@@ -110,7 +110,7 @@ router.get("/admin/add_sale", async (req, res) => {
 router.post("/admin/add_sale", async (req, res) => {
     const sale = req.body
     let status;
-    console.log(req.body);
+    console.log(sale);
     let saleFlight = { destination: sale.destination, departureDate: sale.departureDate, returnDate: sale.returnDate, price: sale.dealPrice };
     const numberOfFlights = faker.number.int({ min: 4, max: 10 })
     const flightsData = await generateFlights(numberOfFlights, { manualFlight: {}, saleFlight: saleFlight })
@@ -126,7 +126,6 @@ router.post("/admin/add_sale", async (req, res) => {
     } else {
         status = 2
     }
-
     
     if (status == 0) {
         req.session.alertData = {
@@ -235,14 +234,15 @@ router.post("/admin/add_flight", async (req, res) => {
                 content: "Invalid Airports IATA Code"
             }
         } else {
-            manualFlight.goDepDateTime = new Date(manualFlight.goDepDateTime).toLocaleDateString('en-GB')
+            manualFlight.goDepDateTime = manualFlight.goDepDateTime
             if (manualFlight.return.returnPrice == "") {
                 delete manualFlight.return
             } else {
-                manualFlight.return.returnDateTime = new Date(manualFlight.return.returnDateTime).toLocaleDateString('en-GB')
+                manualFlight.return.returnDateTime = manualFlight.return.returnDateTime
             }
 
             console.log("Creating new flight")
+            console.log(manualFlight);
             const flightData = await generateFlights(1, { manualFlight: manualFlight })
             console.log(flightData);
             const flights = await insertNewFlights(flightData)

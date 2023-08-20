@@ -60,6 +60,36 @@ function optionsValidation() {
 
 }
 
+function formatDateTimeForDisplay() {
+  const dates = $(".format-date")
+  const times = $(".format-time")
+  dates.each((index, dateObject) => {
+
+    let toFormatDate = new Date($(dateObject).text())
+    toFormatDate.setMinutes(toFormatDate.getMinutes() - 180)
+
+    const day = toFormatDate.getDate().toString().padStart(2, '0');
+    const month = (toFormatDate.getMonth() + 1).toString().padStart(2, '0');
+    const year = toFormatDate.getFullYear();
+
+    $(dateObject).text(`${day}/${month}/${year}`)
+
+  })
+
+  times.each((index, dateObject) => {
+
+    let toFormatDate = new Date($(dateObject).text())
+    toFormatDate.setMinutes(toFormatDate.getMinutes() - 180)
+
+    const hours = toFormatDate.getHours().toString().padStart(2, '0');
+    const minutes = (toFormatDate.getMinutes()).toString().padStart(2, '0');
+
+    $(dateObject).text(`${hours}:${minutes}`)
+
+  })
+}
+
+formatDateTimeForDisplay()
 initializeLoadingScreen()
 buildDestinationOptions()
 optionsValidation()
