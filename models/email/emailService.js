@@ -22,35 +22,40 @@ function buildEmailData(to, subject, content) {
 };
 
 function sendEmail(emailData) {
-  transporter.sendMail(emailData, (error, info) => {
-    if (error) {
-      console.error('Error sending email:', error);
-    } else {
-      console.log('Email sent:', info.response);
-    }
-  })
-};
+  try {
+    transporter.sendMail(emailData, (error, info) => {
+      if (error) {
+        throw new Error('Error sending email: ' + error.message);
+      } else {
+        console.log('Email sent:', info.response);
+      }
+    });
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+}
+
 
 function buildEmailContent(user, flightData) {
+  const goFlightContent = createFlightContent(flightData.go)
+  let returnFlightContent;
+  if (flightData.return) {
+    returnFlightContent = createFlightContent(flightData.return)
+  }
   return `
-  Dear ${user.name},
+  Dear ${user.fName} ${user.lName},
 
 Thank you for choosing LastCall for your flight booking. We are excited to confirm your flight reservation details as follows:
 
 Booking Reference: ${faker.number.int({ min: 111111, max: 999999 })}
 Go Flight:
-Flight Date: ${flightData.goDepDate}
-Departure City: ${flightData.depCity}
-Arrival City: ${flightData.arrCity}
-Flight Number: ${flightData.goFlightNumber}
+${goFlightContent}
 
 Return Flight:
-Flight Date: ${flightData.returnDepDate || "No Data"}
-Departure City: ${flightData.arrCity || "No Data"}
-Arrival City: ${flightData.depCity || "No Data"}
-Flight Number: ${flightData.returnFlightNumber || "No Data"}
+${returnFlightContent || "No Return Flight"}
 
-Total Amount Paid: ${flightData.price}
+Total Amount Paid: $${Math.floor(flightData.totalPrice)}
 
 We recommend arriving at the airport at least 3 hours before the departure time to ensure a smooth check-in process.
 
@@ -61,6 +66,17 @@ We're looking forward to providing you with a safe and enjoyable flight experien
 Safe travels,
 
 LastCall`
+}
+
+function createFlightContent(flight) {
+  const date = new Date(flight.departure.dateTime)
+  const timeOffest = date.getTimezoneOffset()
+  date.setMinutes(date.getMinutes() + timeOffest)
+  return `Flight Date: ${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}
+Departure Time: ${date.getHours()}:${date.getMinutes()}
+Departure City: ${flight.departure.city}
+Arrival City: ${flight.arrival.city}
+Flight Number: ${flight.flight.iata}`
 }
 
 module.exports.buildEmailData = buildEmailData

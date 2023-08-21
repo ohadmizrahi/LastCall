@@ -17,5 +17,14 @@ function formatCityName(city) {
     return titleCaseName;
   }
 
+  function formatDate(date) {
+    const dateTime = new Date(date)
+    const timeOffest = dateTime.getTimezoneOffset()
+    const formattedDate = dateTime.setMinutes(dateTime.getMinutes() + (-timeOffest)) 
+    return new Date(formattedDate)
+    
+}
+
 module.exports.formatCityName = formatCityName
 module.exports.formatAirportName = formatAirportName
+module.exports.formatDate = formatDate
