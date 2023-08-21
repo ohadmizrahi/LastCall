@@ -1,7 +1,7 @@
 const { faker } = require('@faker-js/faker');
 const { findAirportByCode, findAirportByCity } = require('../airport/airportService')
 const { add, parseISO } = require('date-fns');
-const { formatCityName, formatAirportName } = require('../lib')
+const { formatCityName, formatAirportName, formatDate } = require('../lib')
 
 
 async function generateFlights(numberOfFlights, extFlight = null) {
@@ -224,13 +224,8 @@ function addRandomTimeToDate(depDate) {
     };
 }
 
-function formatDate(date) {
-    const dateTime = new Date(date)
-    const timeOffest = dateTime.getTimezoneOffset()
-    const formattedDate = dateTime.setMinutes(dateTime.getMinutes() + (-timeOffest)) 
-    return new Date(formattedDate)
-    
-}
+
 
 
 module.exports.generateFlights = generateFlights
+

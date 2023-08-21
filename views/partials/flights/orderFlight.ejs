@@ -4,11 +4,12 @@
     <button class="btn btn-lg btn-dark" onclick="ChooseFlight('<%=JSON.stringify(body.flights) %>')">Show Flight Details</button>
 </div>
 
-
+<div id="ordered-flights" data-flights="<%=JSON.stringify(body.flights) %>"></div>
 <div class="container">
     <div id="forms-container">
-        <form id="passenger-details-form" class="passenger-form">
+        <form id="passenger-details-form" class="passenger-form form-validation">
             <h3>Passanger 1</h3>
+            <input type="hidden" id="passenger-count" name="passenger-count" value="1">
             <div class="form-group">
             <label for="first-name">First Name:</label>
             <input type="text" id="first-name" name="first-name" class="form-control" required>
@@ -51,7 +52,7 @@
     <button id="removePassengerBtn" class="btn btn-danger mt-3" style="display:none;">Remove Passenger</button>
 </div>
 
-<form id="card-details-form" class="credit-form">
+<form id="card-details-form" class="credit-form form-validation">
     <h3>Payment Details</h3>
     <div class="form-group">
         <label for="card-number">Card Number:</label>
@@ -80,13 +81,13 @@
 </form>
 
 
-<div id="confirmation-modal" class="confirmation-modal">
+<!-- <div id="confirmation-modal" class="confirmation-modal">
     <div class="confirmation-content">
         <h1>Congratulations!</h1>
         <p>Your payment has been confirmed.</p>
         <p>Have a pleasant flight from the Last Call team!</p>
         <button id="go-home-btn" class="btn btn-primary">Go Home</button>
     </div>
-</div>
+</div> -->
 
 <%- include('flightRightSideBar', {flight: body.flights, showContinueButton: false}) %>

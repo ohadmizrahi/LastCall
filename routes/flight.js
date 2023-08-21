@@ -1,10 +1,10 @@
 const { Router } = require('express');
 const bodyParser = require("body-parser");
-const { parse, format } = require('date-fns');
 const { getAllSales } = require('../models/sale/saleService')
 const { updateDestinationsPopularity } = require('../models/destination/destinationService')
 const { buildFindQuery, findFlights } = require('../models/flight/flightService')
 const { findCityByCountry, getAllAirportsByField } = require('../models/airport/airportService')
+const { sendEmail, buildEmailData, buildEmailContent } = require("../models/email/emailService")
 
 
 const router = Router();
@@ -73,11 +73,6 @@ router.post("/search_flights", async (req, res) => {
 
         const limit = 5
         let noRange = true
-        // if (req.body.manual) {
-        //     departureDate = format(parse(departureDate, 'dd/MM/yyyy', new Date()), 'yyyy-MM-dd')
-        //     returnDate = format(parse(returnDate, 'dd/MM/yyyy', new Date()), 'yyyy-MM-dd')
-        //     noRange = true
-        // }
 
         const query = buildFindQuery(destination, departureDate, departure, noRange)
         const flights = await findFlights(limit, query, returnDate)
@@ -120,5 +115,35 @@ router.get("/order", (req, res) => {
     };
 
 });
+
+router.post("/order", async (req, res) => {
+    try {
+        const { flightsData: flightsData, usersData: usersData } = req.body
+        const subject = "Flight Order Confirmation - LastCall"
+        Object.keys(usersData).forEach((user) => {
+            const content = buildEmailContent(usersData[user], flightsData)
+            const emailData = buildEmailData(usersData[user].email, subject, content)
+            sendEmail(emailData)
+
+        })
+        req.session.alertData = {
+            header: "Congratulations !",
+            content: `Your payment has been confirmed and Email sent with the flight details.`
+        }
+        res.json({
+            success: true
+        })
+    }
+    catch (error) {
+        console.error('Error:', error);
+        req.session.alertData = {
+            header: "Error Order Flight",
+            content: `Please Try Again`
+        }
+        res.json({
+            success: false
+        })
+    }
+})
 
 module.exports = router;

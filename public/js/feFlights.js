@@ -18,7 +18,7 @@ $(document).ready(function() {
 
 });
 
-var flightJsonData;
+let flightJsonData;
 function ChooseFlight(flightData) {
   flightJsonData = JSON.parse(flightData);
   flightJsonData.totalPrice = CalculatePrice( flightJsonData.go.price, flightJsonData.return ? flightJsonData.return.price : 0);
