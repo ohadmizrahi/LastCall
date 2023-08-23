@@ -1,7 +1,7 @@
 const { faker } = require('@faker-js/faker');
-const { findAirportByCode, findAirportByCity } = require('../airport/airportService')
-const { add, parseISO } = require('date-fns');
-const { formatCityName, formatAirportName, formatDate } = require('../lib')
+const { findAirportByCode, findAirportByCity } = require('../models/airport/airportService')
+const { add } = require('date-fns');
+const { formatCityName, formatAirportName, formatDate } = require('../models/lib')
 
 
 async function generateFlights(numberOfFlights, extFlight = null) {

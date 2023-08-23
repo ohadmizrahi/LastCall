@@ -2,8 +2,9 @@ const { Router } = require('express');
 const bodyParser = require("body-parser");
 const { findReviews} = require('../models/review/reviewsService')
 const { getAllSales } = require('../models/sale/saleService')
-const { getPopularDestinations, updateDestinationsPopularity, generateTourismData, getRecomandationFromGPT } = require('../models/destination/destinationService')
+const { getPopularDestinations, updateDestinationsPopularity, generateTourismData } = require('../models/destination/destinationService')
 const { getAllAirportsByField } = require('../models/airport/airportService')
+const { getRecomandationFromGPT } = require("../services/chat.js")
 
 const router = Router();
 
