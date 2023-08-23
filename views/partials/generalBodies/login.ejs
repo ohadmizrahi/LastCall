@@ -22,3 +22,6 @@
     </form>
   </div>
 </div>
+<% if (alert.data) { %>
+  <%- include(alert.main, { alertData: alert.data, redirectTo: alert.redirectTo }) %>
+    <% } %>
