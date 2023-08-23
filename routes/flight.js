@@ -107,14 +107,23 @@ router.get("/order", (req, res) => {
     if (req.isAuthenticated()) {
         res.render("index",
             {
-                body: { main: "partials/flights/orderFlight", flights: JSON.parse(req.query.flightData) },
+                body: { main: "partials/flights/orderFlight", flights: req.session.flightData },
                 header: { main: "partials/headers/main", auth: "authDiv/afterAuth", pageTitle: "Order" }
-            })
+            });
     } else {
-        res.redirect("/login")
-    };
-
+        res.redirect("/login");
+    }
 });
+
+router.post("/setFlightData", (req, res) => {
+    if (req.isAuthenticated()) {
+        req.session.flightData = req.body.flightData;
+        res.redirect("/order");
+    } else {
+        res.redirect("/login");
+    }
+});
+
 
 router.post("/order", async (req, res) => {
     try {
