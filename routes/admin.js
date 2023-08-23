@@ -1,7 +1,7 @@
 const { Router } = require('express');
 const bodyParser = require("body-parser");
 const { insertSale, deleteSale } = require('../models/sale/saleService')
-const { generateFlights } = require('../models/flight/flightsGenerator')
+const { generateFlights } = require('../services/flightsGenerator.js')
 const { insertNewFlights } = require('../models/flight/flightService')
 const { getAllAirportsByField } = require('../models/airport/airportService')
 const { deleteUser, updateUser } = require('../models/user/userService')
@@ -242,9 +242,7 @@ router.post("/admin/add_flight", async (req, res) => {
             }
 
             console.log("Creating new flight")
-            console.log(manualFlight);
             const flightData = await generateFlights(1, { manualFlight: manualFlight })
-            console.log(flightData);
             const flights = await insertNewFlights(flightData)
             if (flights.length == 1) {
                 req.session.alertData = {
