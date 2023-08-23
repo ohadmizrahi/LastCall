@@ -1,7 +1,27 @@
 $('#continue-btn').on("click", function () {
   localStorage.setItem('flightData', JSON.stringify(flightJsonData));
-  window.location.href = '/order?flightData=' + JSON.stringify(flightJsonData);
+  
+  fetch("/setFlightData", {
+    method: 'POST',
+    headers: {
+        'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      flightData: flightJsonData
+    })
+  })
+  .then(response => {
+    if (response.ok) {
+      window.location.href = '/order';
+    } else {
+      console.error('Failed to set flight data.');
+    }
+  })
+  .catch(error => {
+    console.error('Error:', error);
+  });
 });
+
 
 // function initializeModalHandlers() {
 //   $(document).ready(function () {

@@ -99,16 +99,35 @@
   font-size: 16px; /* A readable font size for the content */
   margin-bottom: 10px; /* Consistent spacing */
 }
+/* Shared styles for both buttons */
+.action-btn {
+  width: 160px;  /* Adjust this value to set the button width */
+  height: 40px;  /* Adjust this value to set the button height */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Blue color for the "Add" button */
 .btn-primary {
-  margin-top: 10px;  padding: 10px 20px; /* More padding for a larger click area */
-  border: none;
-  background-color: #007bff; /* A primary blue color for the button */
-  color: #ffffff; /* White text for contrast */
-  border-radius: 5px; /* Rounded corners for the button */
-  cursor: pointer; /* Hand cursor for button interactivity */
-  transition: background-color 0.3s; /* Smooth transition for hover effect */
+  background-color: #007BFF; /* Blue */
+  color: white;
 }
 
 .btn-primary:hover {
-  background-color: #0056b3; /* A darker blue for hover effect */
+  background-color: #0056b3; /* Darker blue on hover */
+}
+
+/* Red color for the "Remove" button */
+.btn-danger {
+  background-color: #dc3545; /* Red */
+  color: white;
+}
+
+.btn-danger:hover {
+  background-color: #c82333; /* Darker red on hover */
+}
+
+#removePassengerBtn {
+  display: none;
 }

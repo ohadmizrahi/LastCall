@@ -48,9 +48,10 @@
 
 </div>
 <div class="btn-container">
-    <button id="add-form-btn" class="btn btn-primary mt-3">Add Passenger</button>
-    <button id="removePassengerBtn" class="btn btn-danger mt-3" style="display:none;">Remove Passenger</button>
+    <button id="add-form-btn" class="btn action-btn btn-primary mt-3">Add Passenger</button>
+    <button id="removePassengerBtn" class="btn action-btn btn-danger mt-3">Remove Passenger</button>
 </div>
+
 
 <form id="card-details-form" class="credit-form form-validation">
     <h3>Payment Details</h3>
@@ -79,15 +80,4 @@
         <button type="submit" class="btn btn-lg btn-dark">Confirm Order</button>
     </div>
 </form>
-
-
-<!-- <div id="confirmation-modal" class="confirmation-modal">
-    <div class="confirmation-content">
-        <h1>Congratulations!</h1>
-        <p>Your payment has been confirmed.</p>
-        <p>Have a pleasant flight from the Last Call team!</p>
-        <button id="go-home-btn" class="btn btn-primary">Go Home</button>
-    </div>
-</div> -->
-
 <%- include('flightRightSideBar', {flight: body.flights, showContinueButton: false}) %>
