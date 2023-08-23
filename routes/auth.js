@@ -28,9 +28,17 @@ passport.deserializeUser(function (id, done) {
 });
 
 router.get("/login", (req, res) => {
+  let alertData;
+  if (req.session.alertData) {
+    alertData = req.session.alertData
+  }
+
+  req.session.alertData = null;
   res.render("index", {
-    body: {main: "partials/generalBodies/login"},
-    header: {main: "partials/headers/main", auth: "authDiv/beforeAuth", pageTitle: "Login"}
+    body: { main: "partials/generalBodies/login" },
+    header: { main: "partials/headers/main", auth: "authDiv/beforeAuth", pageTitle: "Login" },
+    alert: { main: "../alert/main", data: alertData, redirectTo: "/login" }
+
   })
 })
 
@@ -41,25 +49,44 @@ router.post("/login", function (req, res) {
   req.login(user, function (err) {
     if (err) {
       console.log(err);
+      req.session.alertData = {
+        header: "Login Failed",
+        content: `Error Occur, Please try again`
+      }
       return res.redirect("/login");
+
     }
     passport.authenticate("local", function (err, user, info) {
       if (err) {
         console.log(err);
+        req.session.alertData = {
+          header: "Login Failed",
+          content: `Wrong Username or Password`
+        }
         return res.redirect("/login");
       }
       if (!user) {
+        console.log(err);
+        req.session.alertData = {
+          header: "Login Failed",
+          content: `Wrong Username or Password`
+        }
         return res.redirect("/login");
       }
       req.logIn(user, function (err) {
         if (err) {
           console.log(err);
+          req.session.alertData = {
+            header: "Login Failed",
+            content: `Wrong Username or Password`
+          }
           return res.redirect("/login");
         }
-        res.cookie('name', (user.fName + " " + user.lName).toLowerCase().replace(/(?:^|\s)\w/g, function(match) {return match.toUpperCase();}));
+        res.cookie('name', (user.fName + " " + user.lName).toLowerCase().replace(/(?:^|\s)\w/g, function (match) { return match.toUpperCase(); }));
         res.cookie('userEmail', user.email)
-        res.cookie('userCountry', user.country.toLowerCase().replace(/(?:^|\s)\w/g, function(match) {return match.toUpperCase();}));
+        res.cookie('userCountry', user.country.toLowerCase().replace(/(?:^|\s)\w/g, function (match) { return match.toUpperCase(); }));
         res.cookie('authLevel', user.authLevel)
+
         const returnTo = req.cookies.returnTo || "/home"
         res.clearCookie('returnTo');
         return res.redirect(returnTo);
