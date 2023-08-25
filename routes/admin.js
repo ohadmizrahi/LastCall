@@ -1,11 +1,11 @@
 const { Router } = require('express');
 const bodyParser = require("body-parser");
+const { faker } = require('@faker-js/faker');
 const { insertSale, deleteSale } = require('../models/sale/saleService')
 const { generateFlights } = require('../services/flightsGenerator.js')
 const { insertNewFlights } = require('../models/flight/flightService')
 const { getAllAirportsByField } = require('../models/airport/airportService')
 const { deleteUser, updateUser } = require('../models/user/userService')
-const { faker } = require('@faker-js/faker');
 
 const router = Router();
 
@@ -110,11 +110,9 @@ router.get("/admin/add_sale", async (req, res) => {
 router.post("/admin/add_sale", async (req, res) => {
     const sale = req.body
     let status;
-    console.log(sale);
     let saleFlight = { destination: sale.destination, departureDate: sale.departureDate, returnDate: sale.returnDate, price: sale.dealPrice };
     const numberOfFlights = faker.number.int({ min: 4, max: 10 })
     const flightsData = await generateFlights(numberOfFlights, { manualFlight: {}, saleFlight: saleFlight })
-    console.log(flightsData);
 
     if (flightsData) {
         const flights = await insertNewFlights(flightsData)
@@ -186,7 +184,6 @@ router.get("/admin/generate_new_flights", async (req, res) => {
         const numberOfFlights = faker.number.int({ min: 10, max: 30 })
         const flightsData = await generateFlights(numberOfFlights)
         if (flightsData) {
-
             const flights = await insertNewFlights(flightsData)
             if (flights) {
                 req.session.alertData = {

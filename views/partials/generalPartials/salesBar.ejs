@@ -5,7 +5,7 @@
   </div>
   <div id="sales" class="row">
     <% sales.data.forEach((sale, index)=> { %>
-      <div class="sale-item to-flights<% if (index >= 5) { %> hidden-deal <% } %>"
+      <div class="sale-item to-flights <% if (index >= 5) { %> hidden-deal <% } %>"
         data-toFlight="<%= JSON.stringify(sale) %>">
         <div class="sale-destination">
           <h4>

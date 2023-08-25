@@ -43,10 +43,8 @@ async function generateGoFlight(extFlight = null) {
         departureData.country = depCountry
         departureData.airport = formatAirportName(depAirportName, true)
         departureData.iata = manualFlight.goDepAirportCode
-        console.log("Test Date");
-        console.log(manualFlight.goDepDateTime);
+
         departureData.dateTime = formatDate(manualFlight.goDepDateTime)
-        console.log(departureData.dateTime);
 
         const { country: arrCountry, city: arrCity, name: arrAirportName } = await findAirportByCode(manualFlight.goArrAirportCode)
         arrivalData.city = formatCityName(arrCity)
@@ -197,8 +195,6 @@ function generateMatchReturnFlight(goFlightData, extFlight = null) {
 
     newReturnFlight.departure.terminal = faker.number.int({ min: 1, max: 8 })
     newReturnFlight.arrival.terminal = faker.number.int({ min: 1, max: 8 })
-
-
 
     const { date: arrDateTime, hours: flightHours, minutes: flightMinutes } = addRandomTimeToDate(newReturnFlight.departure.dateTime)
     newReturnFlight.arrival.dateTime = arrDateTime

@@ -1,6 +1,4 @@
 const Sale = require("./saleModel")
-const moment = require('moment');
-
 const { getDestImg } = require('../../services/unsplash.js')
 
 async function insertSale(sale) {

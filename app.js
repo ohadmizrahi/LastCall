@@ -11,7 +11,6 @@ const destinationRoute = require('./routes/destination')
 const flightRoute = require('./routes/flight')
 const reviewRoute = require('./routes/review')
 const adminRoute = require('./routes/admin')
-
 const { getAllSales } = require('./models/sale/saleService')
 
 const app = express();
