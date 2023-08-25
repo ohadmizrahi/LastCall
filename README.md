@@ -40,9 +40,9 @@ Along with the n-tier architecture, we've adopted the MVC (Model-View-Controller
 
 ## Database Structure
 
-### MongoDB is our chosen NoSQL database system, renowned for its flexibility and scalability.  
+MongoDB is our chosen NoSQL database system, renowned for its flexibility and scalability.  
 
-#### Our data is structured in collections:
+### Our data is structured in collections:
 
 **Flights Collection:** Contains flight data.  
 **Users Collection:** Stores user profiles.  
