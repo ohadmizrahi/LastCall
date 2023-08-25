@@ -1,4 +1,6 @@
-# LastCall Flight Search & Recommendation Web Platform 
+# LastCall Flight Search & Recommendation Web Platform
+This Project is an Educational project and not fit for Production
+
 ## Overview
 
 Our flight search website offers users a comprehensive solution for their travel needs, leveraging an advanced bot. Users can search for flights, read and write reviews, and gain insights into popular destinations. With a bot in place, our platform matches appropriate flights with each vacation, ensuring a seamless travel experience for all.
