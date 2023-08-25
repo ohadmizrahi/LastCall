@@ -53,4 +53,7 @@ MongoDB is our chosen NoSQL database system, renowned for its flexibility and sc
 
 ## Getting Strated
 
+1. clone the repo
+2. run npm start in terminal
+
 ## Platform Screens
