@@ -41,3 +41,7 @@ Flights Collection: Contains flight data.
 Users Collection: Stores user profiles.
 Reviews Collection: Houses user reviews.
 Destinations Collection: Details on popular destinations.
+
+## Getting Strated
+
+## Platform Screens
