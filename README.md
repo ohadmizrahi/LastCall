@@ -1,6 +1,5 @@
-# LastCall
-Flight Search & Recommendation Platform
-Overview
+# LastCall Flight Search & Recommendation Web Platform 
+## Overview
 Our flight search website offers users a comprehensive solution for their travel needs, leveraging an advanced prediction model. Users can search for flights, read and write reviews, and gain insights into popular destinations. With a prediction model in place, our platform matches appropriate flights with each vacation, ensuring a seamless travel experience for all.
 
 Purpose
