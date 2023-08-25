@@ -23,7 +23,7 @@
       <% } %>
       <div class="total-container">
         <p class="total-label">Total:</p>
-        <p class="total-price-per-person"><%= (flight.go.price + (flight.return ? flight.return.price : 0)).toFixed(2) %>$</p> <!-- Total price -->
+        <p class="total-price-per-person"><%= (flight.go.price + (flight.return ? flight.return.price : 0)).toFixed(2) %>$</p>
       </div>
       <div class="choose-btn-container">
         <button class="choose-btn" onclick="ChooseFlight('<%=JSON.stringify(flight) %>');">Choose</button>

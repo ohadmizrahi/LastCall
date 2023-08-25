@@ -85,12 +85,6 @@ async function getAllAirportsByField(field) {
   }
 }
 
-async function getDestinationsForValidation() {
-  const destinations = await getAllAirportsByField();
-  return destinations;
-}
-
-
 // const path = require('path');
 
 // const filePath = path.join(__dirname, 'airports.json'); // Adjust the filename if needed
@@ -116,4 +110,3 @@ module.exports.findAirportByCode = findAirportByCode;
 module.exports.findCityByCountry = findCityByCountry
 module.exports.findAirportByCity = findAirportByCity
 module.exports.getAllAirportsByField = getAllAirportsByField
-module.exports.getDestinationsForValidation = getDestinationsForValidation

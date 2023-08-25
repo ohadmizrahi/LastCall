@@ -25,6 +25,14 @@ function formatCityName(city) {
     
 }
 
+function formatDuration(duration) {
+  var durationParts = duration.split(':');
+  var hours = durationParts[0];
+  var minutes = durationParts[1];
+  return hours + 'h ' + minutes + 'm';
+}
+
 module.exports.formatCityName = formatCityName
 module.exports.formatAirportName = formatAirportName
 module.exports.formatDate = formatDate
+module.exports.formatDuration = formatDuration

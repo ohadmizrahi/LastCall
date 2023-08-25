@@ -1,13 +1,8 @@
 const Flight = require("./flightModel")
 const cron = require('node-cron');
-const { formatCityName } = require('../lib')
+const { formatCityName, formatDuration } = require('../lib')
 
-function formatDuration(duration) {
-  var durationParts = duration.split(':');
-  var hours = durationParts[0];
-  var minutes = durationParts[1];
-  return hours + 'h ' + minutes + 'm';
-}
+
 
 async function insertNewFlights(flightDataArray) {
   try {
@@ -74,35 +69,6 @@ async function insertNewFlights(flightDataArray) {
   }
 }
 
-async function deleteOldFlights() {
-  const currentDate = new Date().getTime();
-  const query = {
-    $and: [
-      { "flight.date": { $lte: currentDate } },
-      { "flight.status": { $ne: "done" } }
-    ]
-  };
-  try {
-    const { matchedCount: matchedFlights, modifiedCount: modifiedFlights } = await Flight.updateMany(
-      query,
-      { $set: { "flight.status": "done" } }
-    );
-
-    if (matchedFlights === modifiedFlights && modifiedFlights > 0) {
-      console.log(`${modifiedFlights} old flight's status has been updated to done`);
-      return true
-    } else if (matchedFlights === modifiedFlights && modifiedFlights === 0) {
-      console.log("No old flights to update");
-      return true
-    } else {
-      console.log(`Error: query match flights (${matchedFlights}) and modified flights (${modifiedFlights}) are not equal`);
-    }
-  }
-  catch (error) {
-    console.error("Error: update old flight got an error", error)
-  }
-
-};
 
 async function findFlights(limit, query = null, returnDate = null) {
   try {
@@ -133,7 +99,7 @@ async function findGoFlights(limit, query = null) {
     flight.flight.duration = formatDuration(flight.flight.duration);
     return flight;
   });
-  
+
   return goFlights;
 }
 
@@ -169,7 +135,7 @@ function buildFindQuery(des, fullDate, dep = null, noRange = false) {
     console.error("All of the parameters (des, date) must be provided.");
   } else {
     let dateRange = new Date(fullDate)
-    
+
     if (noRange) {
       dateRange.setDate(dateRange.getDate() + 1);
     } else {
@@ -191,18 +157,40 @@ function buildFindQuery(des, fullDate, dep = null, noRange = false) {
   }
 }
 
-// Schedule the updateFlightStatus function to run every day at midnight (00:00)
-// cron.schedule('0 0 * * *', async () => {
-//   console.log('Running flight status update...');
-//   await updateOldFlightStatus()();
-// });
+// async function deleteOldFlights() {
+//   const currentDate = new Date().getTime();
+//   const query = {
+//     $and: [
+//       { "flight.date": { $lte: currentDate } },
+//       { "flight.status": { $ne: "done" } }
+//     ]
+//   };
+//   try {
+//     const { matchedCount: matchedFlights, modifiedCount: modifiedFlights } = await Flight.updateMany(
+//       query,
+//       { $set: { "flight.status": "done" } }
+//     );
+
+//     if (matchedFlights === modifiedFlights && modifiedFlights > 0) {
+//       console.log(`${modifiedFlights} old flight's status has been updated to done`);
+//       return true
+//     } else if (matchedFlights === modifiedFlights && modifiedFlights === 0) {
+//       console.log("No old flights to update");
+//       return true
+//     } else {
+//       console.log(`Error: query match flights (${matchedFlights}) and modified flights (${modifiedFlights}) are not equal`);
+//     }
+//   }
+//   catch (error) {
+//     console.error("Error: update old flight got an error", error)
+//   }
+
+// };
 
 
 module.exports.insertNewFlights = insertNewFlights;
 module.exports.buildFindQuery = buildFindQuery;
 module.exports.findFlights = findFlights;
-module.exports.updateOldFlightStatus = deleteOldFlights;
-module.exports.formatDuration = formatDuration;
 
 
 

@@ -1,6 +1,5 @@
 require('dotenv').config()
 const Destination = require("./destinationModel")
-const axios = require("axios");
 const { destinationDataFromChat } = require("../../services/chat.js")
 const { getDestImg } = require("../../services/unsplash.js")
 
@@ -120,9 +119,6 @@ async function updateDestinationsPopularity(destination) {
         if (!destination.avgRank) {
             destination.avgRank = Number((Math.random() * (10 - 5) + 5).toFixed(1))
         }
-        if (!destination.avgRank) {
-            destination.avgRank = Number((Math.random() * (10 - 5) + 5).toFixed(1))
-        }
         if (!destination.description) {
             const { destData } = await destinationDataFromChat(destination.name)
             destination.country = destData.country
@@ -157,10 +153,6 @@ async function generateTourismData(destination) {
 
     return tourismData;
 }
-
-
-
-
 
 
 module.exports.getPopularDestinations = getPopularDestinations
