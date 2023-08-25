@@ -9,49 +9,47 @@ In today's vast travel landscape, travelers often find themselves overwhelmed wi
 
 ## Users
 
-Admin: System managers with extra capabilities.  
-Travelers: All kinds of travelers for all purposes.  
-Suppliers: Users allowed to supply new flights - inactive feature and user.  
+**Admin:** System managers with extra capabilities.  
+**Travelers:** All kinds of travelers for all purposes.  
+**Suppliers:** Users allowed to supply new flights - inactive feature and user.  
 
 ## Key Features & Processes
 
-Flight Search: Allows users to find flights based on destinations, dates, and preferences.  
-Reviews: Users can share their flight experiences or read others' reviews to make informed decisions.  
-Popular Destinations: Showcases popular destinations, ensuring users are always in the loop with trending travel spots.  
-LastCall Recommendor: Our Bot that matches users with the most appropriate flights based on their vacation needs and preferences.  
-Sales Flights:  
-Inforamtive Descriptive Platform for Destinations:  
-Admin Capabilities: Add sales, delete sales, manage users and adding new flights.    
+**Flight Search:** Allows users to find flights based on destinations, dates, and preferences.  
+**Reviews:** Users can share their flight experiences or read others' reviews to make informed decisions.  
+**Popular Destinations:** Showcases popular destinations, ensuring users are always in the loop with trending travel spots.  
+**LastCall Recommendor:** Our Bot that matches users with the most appropriate flights based on their vacation needs and preferences.  
+**Sales Flights:**  
+**Inforamtive Descriptive Platform for Destinations:**  
+**Admin Capabilities:** Add sales, delete sales, manage users and adding new flights.    
 
 ## Architecture & Design
 
 The platform employs an n-tier architecture, ensuring separation of concerns, modularity, and scalability:
 
-Presentation Layer: Handles the UI and user interactions.  
-Business Logic Layer: Contains the business logic, rules and Controling the business flow.  
-Data Layer: Houses databases and other sources of data.  
-External Services: Leverage ChatGPT, Email SMTP and Other APIs.  
+**Presentation Layer:** Handles the UI and user interactions.  
+**Business Logic Layer:** Contains the business logic, rules and Controling the business flow.  
+**Data Layer:** Houses databases and other sources of data.  
+**External Services:** Leverage ChatGPT, Email SMTP and Other APIs.  
 
 Along with the n-tier architecture, we've adopted the MVC (Model-View-Controller) pattern:
 
-Model: Represents the data structures and the business logic.  
-View: Displays the data and UI.  
-Controller: Handles user input.  
+**Model:** Represents the data structures and the business logic.  
+**View:** Displays the data and UI.  
+**Controller:** Handles user input.  
 
 ## Database Structure
 
-MongoDB Data Management
+### MongoDB is our chosen NoSQL database system, renowned for its flexibility and scalability.  
 
-MongoDB is our chosen NoSQL database system, renowned for its flexibility and scalability:
+#### Our data is structured in collections:
 
-Our data is structured in collections:
-
-Flights Collection: Contains flight data.  
-Users Collection: Stores user profiles.  
-Reviews Collection: Houses user reviews.  
-Destinations Collection: Details on popular destinations.  
-Sales Collection: All active sales and their details.  
-Airports Collection: Contain larg amount of Airports worldwide.  
+**Flights Collection:** Contains flight data.  
+**Users Collection:** Stores user profiles.  
+**Reviews Collection:** Houses user reviews.  
+**Destinations Collection:** Details on popular destinations.  
+**Sales Collection:** All active sales and their details.  
+**Airports Collection:** Contain larg amount of Airports worldwide.  
 
 ## Getting Strated
 
