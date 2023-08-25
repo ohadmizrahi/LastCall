@@ -19,16 +19,24 @@ Reviews: Users can share their flight experiences or read others' reviews to mak
 Recommendations: Showcases popular destinations, ensuring users are always in the loop with trending travel spots.
 Prediction Model Matching: Our advanced model matches users with the most appropriate flights based on their vacation needs and preferences.
 Architecture & Design
-The platform employs an n-tier architecture, ensuring separation of concerns, modularity, and scalability. Here's a breakdown:
+The platform employs an n-tier architecture, ensuring separation of concerns, modularity, and scalability:
 
-Presentation Layer: Handles the UI and user interactions. It presents data to the user and interprets the user's commands.
-Business Logic Layer: Also known as the service layer, it contains the business logic, rules, and algorithms. It acts as an intermediary between the presentation and data layer.
-Data Access Layer: This is where data is accessed from data sources like databases. It includes the code that makes CRUD operations possible.
-Data Layer: Consists of databases and other sources of data.
-Coupled with the n-tier architecture, the platform is designed following the MVC (Model-View-Controller) pattern. This ensures further separation between the user interface, the business logic, and the data:
+Presentation Layer: Handles the UI and user interactions.
+Business Logic Layer: Contains the business logic, rules, and algorithms.
+Data Access Layer: Interacts with data sources like databases.
+Data Layer: Houses databases and other sources of data.
+Along with the n-tier architecture, we've adopted the MVC (Model-View-Controller) pattern:
 
 Model: Represents the data structures and the business logic.
-View: Displays the data, the user interface of the application.
-Controller: Handles user input and updates the model and view accordingly.
-Getting Started
-[Include steps on how to set up, install, and run the project.]
+View: Displays the data and UI.
+Controller: Handles user input.
+MongoDB Data Management
+MongoDB is our chosen NoSQL database system, renowned for its flexibility and scalability:
+
+Database Structure
+Our data is structured in collections:
+
+Flights Collection: Contains flight data.
+Users Collection: Stores user profiles.
+Reviews Collection: Houses user reviews.
+Destinations Collection: Details on popular destinations.
