@@ -9,7 +9,10 @@ const transporter = nodemailer.createTransport({
     user: process.env.EMAIL_ADDRESS,
     pass: process.env.EMAIL_KEY
   },
-  port: 465
+  port: 465,
+  tls: {
+    rejectUnauthorized: false
+  }
 });
 
 function buildEmailData(to, subject, content) {
