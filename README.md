@@ -59,3 +59,7 @@ MongoDB is our chosen NoSQL database system, renowned for its flexibility and sc
 2. run npm start in terminal
 
 ## Platform Screens
+
+### Landing Page:
+![landing img]("./readmeIMGs/landing.png")
+

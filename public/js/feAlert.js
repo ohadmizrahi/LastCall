@@ -1,9 +1,13 @@
 function hideCustomAlert() {
   const customAlertOk = $('#custom-alert-ok');
-  customAlertOk.on('click', () => {
+  customAlertOk.on("click", () => {
     const customAlert = $('#custom-alert');
     customAlert.hide();
   });
 }
-hideCustomAlert()
+
+$(document).ready(function () {
+  hideCustomAlert()
+});
+
 

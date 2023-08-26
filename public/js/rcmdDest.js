@@ -8,11 +8,9 @@ function chatOnLoad() {
         writingMessage(onLoadMessage);
     });
 }
-chatOnLoad()
 
 async function chatOnSubmit() {
     const vacationForm = $('#vacationForm');
-
     vacationForm.on('submit', async function (event) {
         const recommendedDestination = $('#recommendedDestination');
         event.preventDefault();
@@ -38,9 +36,9 @@ async function chatOnSubmit() {
             `Season Preference: ${seasonPreference}`,
             `Budget: ${minBudget} - ${maxBudget}`,
             `Travel Duration: ${duration}`,
-             `Adults: ${adults}, Kids: ${kids}`,
-             `Top Three Interests: ${selectedInterests}`,
-             `${uniqueDestinations} Unique Destinations.`,
+            `Adults: ${adults}, Kids: ${kids}`,
+            `Top Three Interests: ${selectedInterests}`,
+            `${uniqueDestinations} Unique Destinations.`,
             `Searching for the best destination...`
         ];
 
@@ -59,18 +57,12 @@ async function chatOnSubmit() {
         }
 
         const recomandation = await getRecomandedDestination(data);
-        $("#after-chat-buttons").show();
-
-        $(document).ready(() => {
-            $("#to-dest-card").data("destination", recomandation[0])
-        });
-
+        $("#to-dest-card").data("destination", recomandation[0])
 
         await writingMessage(recomandation);
+        $("#after-chat-buttons").show();
     });
 }
-
-chatOnSubmit()
 
 function minMaxBudgetValidation() {
     $('#min-budget').on('input', function () {
@@ -78,7 +70,6 @@ function minMaxBudgetValidation() {
         $('#max-budget').attr('min', minBudgetValue);
     });
 }
-minMaxBudgetValidation()
 
 function resetForm(form) {
     $(form).trigger('reset');
@@ -89,24 +80,23 @@ async function getRecomandedDestination(data) {
     return fetch("/get_recomandation", {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json'
+            'Content-Type': 'application/json'
         },
         body: JSON.stringify(data)
-      })
-      .then(response => {
-        if (!response.ok) {
-            throw new Error('Server error: ' + response.status);
-        }
-        return response.json();
     })
-      .then(recommendation => {
-        return recommendation;
-      })
-      .catch(error => {
-            console.log("HIIII");
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Server error: ' + response.status);
+            }
+            return response.json();
+        })
+        .then(recommendation => {
+            return recommendation;
+        })
+        .catch(error => {
             console.log(error);
             window.location.href = "/dest"
-      });
+        });
 }
 
 
@@ -121,12 +111,12 @@ async function writingMessage(messageToWrite) {
                     Writer(message);
                 } else if (typeof message === 'object') {
                     setTimeout(() => {
-                    Writer(`Our recommendation is: ${message.name}, ${message.country}.`, true);
-                },typeDelay * (message.name.length + 18)*2);
+                        Writer(`Our recommendation is: ${message.name}, ${message.country}.`, true);
+                    }, typeDelay * (message.name.length + 18) * 2);
                     setTimeout(() => {
                         Writer(`${message.description}`);
                         resolve();
-                    }, typeDelay * (message.name.length + 18)*4);
+                    }, typeDelay * (message.name.length + 18) * 4);
                 }
                 resolve();
             }, typingDelay);
@@ -136,20 +126,20 @@ async function writingMessage(messageToWrite) {
     }
 }
 
-function Writer(message, isDestination=false) {
+function Writer(message, isDestination = false) {
     const typeDelay = 30;
     const recommendedDestination = $('#recommendedDestination');
-    
+
     if (recommendedDestination.length === 0) {
         console.warn('Element with ID "recommendedDestination" not found.');
         return;
     }
-    
+
     const messageElement = $('<div>').addClass('typing-message')
     if (isDestination) {
         messageElement.attr('id', 'typing-destination');
     }
-    
+
     recommendedDestination.append(messageElement);
 
     let index = 0;
@@ -161,16 +151,16 @@ function Writer(message, isDestination=false) {
             clearInterval(typingInterval);
         }
     }, typeDelay);
-    
+
     recommendedDestination.scrollTop(recommendedDestination[0].scrollHeight);
 }
 
 
 function restrictTopInerest() {
-    var maxCheckboxLimit = 3;
+    let maxCheckboxLimit = 3;
 
     $('.interest-checkbox input[type="checkbox"]').on('change', function () {
-        var checkedCount = $('.interest-checkbox input[type="checkbox"]:checked').length;
+        let checkedCount = $('.interest-checkbox input[type="checkbox"]:checked').length;
 
         if (checkedCount === maxCheckboxLimit) {
             $('.interest-checkbox input[type="checkbox"]:not(:checked)').prop('disabled', true);
@@ -179,23 +169,43 @@ function restrictTopInerest() {
         }
     });
 }
-restrictTopInerest()
+
 
 function toggleGuestsSelection() {
-    $("#guestsSelection").toggle();
-    var placeholderText = $("#guestsSelection").is(":visible") ? "Close Guests Selection" : "Open Guests Selection";
-    $("#guests").attr("placeholder", placeholderText);
+    const guestSelection = $("#guest-selection")
+    guestSelection.on("click", () => {
+        $("#guestsSelection").toggle();
+        let placeholderText = $("#guestsSelection").is(":visible") ? "Close Guests Selection" : "Open Guests Selection";
+        $("#guests").attr("placeholder", placeholderText);
+    })
 }
 
-function adjustValue(inputId, increment) {
-    var inputField = $("#" + inputId);
-    var currentValue = parseInt(inputField.val());
-    var newValue = currentValue + increment;
-    if (inputId === "adults" && newValue < 1) {
-        newValue = 1;
-    }
-    if (inputId === "kids" && newValue < 0) {
-        newValue = 0; 
-    }
-    inputField.val(newValue);
+function adjustValue() {
+    const changeValueButton = $(".change-value")
+    changeValueButton.on("click", (event) => {
+
+        const clickedButton = $(event.currentTarget);
+        const guestType = clickedButton.attr("data-guest")
+        const increment = parseInt(clickedButton.attr("data-step"))
+
+        let inputField = $("#" + guestType);
+        let currentValue = parseInt(inputField.val());
+        let newValue = currentValue + increment;
+        if (guestType === "adults" && newValue < 1) {
+            newValue = 1;
+        }
+        if (guestType === "kids" && newValue < 0) {
+            newValue = 0;
+        }
+        inputField.val(newValue);
+    })
+
 }
+$(document).ready(function () {
+    chatOnLoad()
+    chatOnSubmit()
+    minMaxBudgetValidation()
+    restrictTopInerest()
+    toggleGuestsSelection()
+    adjustValue()
+});

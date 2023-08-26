@@ -1,6 +1,10 @@
 
 
 function generateNewFlights() {
+
+    const generateFlights = $("#auto-new-flights");
+
+    generateFlights.on("click", () => {
     fetch("/admin/generate_new_flights", {
         method: 'GET',
         headers: {
@@ -20,11 +24,13 @@ function generateNewFlights() {
         .catch(error => {
             console.error('Error:', error);
             window.location.href = "/admin"
-        });
+        })
+    });
 }
 
 function showHideReturnFlight() {
-    $("#returnFlightCheckbox").change(function () {
+
+    $("#returnFlightCheckbox").on("change", function () {
         if (this.checked) {
             $("#returnFlightDetails").collapse("show");
             $(".return-detail").attr("required", true);
@@ -36,6 +42,7 @@ function showHideReturnFlight() {
 }
 
 function manageAuthSelection() {
+
     const actionSelect = $('select[name="action"]');
     const newAuthLevelGroup = $('#new-auth-level-group');
     const confirmationGroup = $('#confirmation-group');
@@ -66,5 +73,8 @@ function manageAuthSelection() {
     });
 }
 
-manageAuthSelection()
-showHideReturnFlight()
+$(document).ready(function () {
+    manageAuthSelection()
+    showHideReturnFlight()
+    generateNewFlights()
+});

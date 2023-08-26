@@ -1,5 +1,5 @@
 function goToDestination() {
-    $(".to-destination-card").click(function () {
+    $(".to-destination-card").on("click", function () {
         const destination = $(this).data("destination");
         fetch(`/dest/${destination.name.toLowerCase()}`, {
             method: 'POST',
@@ -19,13 +19,17 @@ function goToDestination() {
                 console.log(error);
             });
     });
-
 }
-goToDestination()
 
-function redirectToWikipedia(destination) {
-    const wikipediaLink = "https://en.wikipedia.org/wiki/" + destination
-    window.open(wikipediaLink, '_blank');
+
+function redirectToWikipedia() {
+    const wikiButton = $("#wiki-button")
+    wikiButton.on("click", () => {
+        const destination = wikiButton.attr("data-wiki")
+        const wikipediaLink = "https://en.wikipedia.org/wiki/" + destination
+        window.open(wikipediaLink, '_blank');
+    })
+
 }
 
 async function createTourismChart() {
@@ -68,14 +72,14 @@ async function createTourismChart() {
                         },
                         x: {
                             ticks: {
-                                color: '#ffffff' 
+                                color: '#ffffff'
                             }
                         }
                     },
                     plugins: {
                         legend: {
                             labels: {
-                                color: '#ffffff', 
+                                color: '#ffffff',
                             }
                         }
                     }
@@ -90,9 +94,19 @@ async function createTourismChart() {
 }
 
 function toggleChart() {
-    const chart = $('#tourismChart');
-    chart.toggle()
-    createTourismChart();
+    const chartButton = $("#chart-button")
+    chartButton.on("click", () => {
+        const chart = $('#tourismChart');
+        chart.toggle()
+        createTourismChart();
+    })
 }
+
+
+$(document).ready(function () {
+    goToDestination()
+    redirectToWikipedia()
+    toggleChart()
+});
 
 
