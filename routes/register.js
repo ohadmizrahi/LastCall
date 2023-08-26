@@ -20,9 +20,15 @@ passport.deserializeUser(function (id, done) {
 });
 
 router.get("/register", function (req, res) {
+  let alertData;
+  if (req.session.alertData) {
+      alertData = req.session.alertData
+  }
+  req.session.alertData = null;
   res.render("index", {
     body: { main: "partials/generalBodies/register" },
-    header: { main: "partials/headers/main", auth: "authDiv/beforeAuth", pageTitle: "Register" }
+    header: { main: "partials/headers/main", auth: "authDiv/beforeAuth", pageTitle: "Register" },
+    alert: { main: "../alert/main", data: alertData, redirectTo: "/register" }
   })
 });
 
@@ -35,12 +41,19 @@ router.post("/register", function (req, res) {
     console.log("The password does not meet the complexity requirements.");
     return res.redirect("/register");
   }
-  const success = insertNewUser(req.body.username, req.body.fname, req.body.lname, req.body.email, req.body.country, password)
-  if (success) {
+  insertNewUser(req.body.username, req.body.fname, req.body.lname, req.body.email, req.body.country, password)
+  .then(success => {
+    console.log('User successfully inserted:', user);
     res.redirect("/login")
-  } else {
-    res.redirect("/register");
+  })
+  .catch(error => {
+    console.log('Error inserting user:', error);
+    req.session.alertData = {
+      header: "Register Failed",
+      content: `Error occur during registeration, please TRY AGAIN`
   }
+  res.redirect("/register");
+  });
 });
 
 
