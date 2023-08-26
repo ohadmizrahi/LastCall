@@ -63,25 +63,29 @@ MongoDB is our chosen NoSQL database system, renowned for its flexibility and sc
 ### Landing Page:
 ![landing img](readmeIMGs/landing.png)
 ### Login:
-![landing img](readmeIMGs/login.png)
+![login img](readmeIMGs/login.png)
 ### Register:
-![landing img](readmeIMGs/register.png)
+![register img](readmeIMGs/register.png)
 ### Home Page:
-![landing img](readmeIMGs/home.png)
-![landing img](readmeIMGs/our_services.png)
+![home img](readmeIMGs/home.png)
+![our services img](readmeIMGs/our_services.png)
 ### Sales Bar:
-![landing img](readmeIMGs/sales.png)
+![sales img](readmeIMGs/sales.png)
 ### Destinations Page:
-![landing img](readmeIMGs/bot.png)
-![landing img](readmeIMGs/dest.png)
+![bot img](readmeIMGs/bot.png)
+![popular destinations img](readmeIMGs/dest.png)
 ### Destination Card:
-![landing img](readmeIMGs/dest_card.png)
+![destination card img](readmeIMGs/dest_card.png)
 ### Flights Page:
-![landing img](readmeIMGs/flights.png)
+![flights img](readmeIMGs/flights.png)
 ### Order Flight Page:
-![landing img](readmeIMGs/order_flight.png)
+![order flight img](readmeIMGs/order_flight.png)
 ### Reviews Page:
-![landing img](readmeIMGs/reviews.png)
+![reviews img](readmeIMGs/reviews.png)
+
+## Thank You For Review Our Project
+
+### &copy Ohad Mizrahi & Or Solomon 
 
 
 
