@@ -82,7 +82,8 @@ MongoDB is our chosen NoSQL database system, renowned for its flexibility and sc
 ![order flight img](readmeIMGs/order_flight.png)
 ### Reviews Page:
 ![reviews img](readmeIMGs/reviews.png)
-
+### Admin Page:
+![admin img](readmeIMGs/admin.png)
 ## Thank You For Review Our Project
 
 ### &copy; Ohad Mizrahi & Or Solomon 
