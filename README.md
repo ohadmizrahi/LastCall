@@ -61,5 +61,28 @@ MongoDB is our chosen NoSQL database system, renowned for its flexibility and sc
 ## Platform Screens
 
 ### Landing Page:
-![landing img](landing.png)
+![landing img](readmeIMGs/landing.png)
+### Login:
+![landing img](readmeIMGs/login.png)
+### Register:
+![landing img](readmeIMGs/register.png)
+### Home Page:
+![landing img](readmeIMGs/home.png)
+![landing img](readmeIMGs/our_services.png)
+### Sales Bar:
+![landing img](readmeIMGs/sales.png)
+### Destinations Page:
+![landing img](readmeIMGs/bot.png)
+![landing img](readmeIMGs/dest.png)
+### Destination Card:
+![landing img](readmeIMGs/dest_card.png)
+### Flights Page:
+![landing img](readmeIMGs/flights.png)
+### Order Flight Page:
+![landing img](readmeIMGs/order_flight.png)
+### Reviews Page:
+![landing img](readmeIMGs/reviews.png)
+
+
+
 
