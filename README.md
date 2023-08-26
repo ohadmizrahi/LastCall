@@ -61,5 +61,5 @@ MongoDB is our chosen NoSQL database system, renowned for its flexibility and sc
 ## Platform Screens
 
 ### Landing Page:
-![landing img]("./landing.png")
+![landing img](landing.png)
 
