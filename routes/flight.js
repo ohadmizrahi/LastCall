@@ -4,7 +4,7 @@ const { getAllSales } = require('../models/sale/saleService')
 const { updateDestinationsPopularity } = require('../models/destination/destinationService')
 const { buildFindQuery, findFlights } = require('../models/flight/flightService')
 const { findCityByCountry, getAllAirportsByField } = require('../models/airport/airportService')
-const { sendEmail, buildEmailData, buildEmailContent } = require("../models/email/emailService")
+const { sendEmail, buildEmailData, buildEmailContent } = require("../services/email")
 
 
 const router = Router();
