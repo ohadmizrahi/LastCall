@@ -10,6 +10,7 @@ $('#continue-btn').on("click", function () {
       flightData: flightJsonData
     })
   })
+  
   .then(response => {
     if (response.ok) {
       window.location.href = '/order';
