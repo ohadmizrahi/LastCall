@@ -1,5 +1,6 @@
 const Sale = require("./saleModel")
 const { getDestImg } = require('../../services/unsplash.js')
+const { formatDate } = require('../lib')
 
 async function insertSale(sale) {
   try {
@@ -13,14 +14,28 @@ async function insertSale(sale) {
       img: img
     } = sale;
 
+    departureDate = formatDate(departureDate)
+    returnDate = formatDate(returnDate)
+
+    let departureDateTop = new Date(departureDate)
+    const departureDateBottom = new Date(new Date(departureDate).setDate(departureDateTop.getDate() - 1))
+    let returnDateTop = new Date(returnDate)
+    const returnDateBottom = new Date(new Date(returnDate).setDate(returnDateTop.getDate() - 1))
+
     if (!img) {
       img = await getDestImg(destination)
     }
 
     const existingSale = await Sale.findOne({
       'destination': destination,
-      'departureDate': departureDate,
-      'returnDate': returnDate
+      'departureDate': {
+        $gte: departureDateBottom,
+        $lte: departureDateTop
+      },
+      'returnDate': {
+        $gte: returnDateBottom,
+        $lte: returnDateTop
+      }
     });
 
     if (!existingSale) {
@@ -33,7 +48,7 @@ async function insertSale(sale) {
         numberOfDays: numberOfDays,
         img: img
       });
-
+      console.log(newSale);
       await newSale.save();
       console.log("Sale inserted");
       return 0
@@ -49,10 +64,22 @@ async function insertSale(sale) {
 async function deleteSale(filters) {
   try {
     const { destination: destination, departureDate: departureDate, returnDate: returnDate } = filters
+    let departureDateBottom = new Date(departureDate)
+    const departureDateTop = new Date(new Date(departureDate).setDate(departureDateBottom.getDate() + 1))
+    let returnDateBottom = new Date(returnDate)
+    const returnDateTop = new Date(new Date(returnDate).setDate(returnDateBottom.getDate() + 1))
+
     console.log("Deleting Sale");
+
     const result = await Sale.deleteOne({
-      departureDate: new Date(departureDate),
-      returnDate: new Date(returnDate),
+      departureDate: {
+        $gte: departureDateBottom,
+        $lte: departureDateTop
+      },
+      returnDate: {
+        $gte: returnDateBottom,
+        $lte: returnDateTop
+      },
       destination: destination
     });
     if (result.deletedCount < 1) {

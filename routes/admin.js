@@ -3,7 +3,7 @@ const bodyParser = require("body-parser");
 const { faker } = require('@faker-js/faker');
 const { insertSale, deleteSale } = require('../models/sale/saleService')
 const { generateFlights } = require('../services/flightsGenerator.js')
-const { insertNewFlights } = require('../models/flight/flightService')
+const { insertNewFlights, deleteFlights } = require('../models/flight/flightService')
 const { getAllAirportsByField } = require('../models/airport/airportService')
 const { deleteUser, updateUser } = require('../models/user/userService')
 
@@ -115,11 +115,13 @@ router.post("/admin/add_sale", async (req, res) => {
     const flightsData = await generateFlights(numberOfFlights, { manualFlight: {}, saleFlight: saleFlight })
 
     if (flightsData) {
-        const flights = await insertNewFlights(flightsData)
-        if (flights.length < 1) {
-            status = 2
-        } else {
-            status = await insertSale(sale)
+        status = await insertSale(sale)
+        if (status == 0) {
+            const flights = await insertNewFlights(flightsData)
+            if (flights.length < 1) {
+                await deleteSale(sale)
+                status = 2
+            }
         }
     } else {
         status = 2
@@ -159,7 +161,16 @@ router.get("/admin/delete_sale", async (req, res) => {
 
 router.post("/admin/delete_sale", async (req, res) => {
     console.log(req.body);
-    const status = await deleteSale(req.body)
+    const result = await deleteFlights(req.body)
+    console.log(result);
+
+    let status;
+    if (result) {
+        status = await deleteSale(req.body)
+    } else {
+        status = 2
+    }
+
     if (status == 0) {
         req.session.alertData = {
             header: "Delete Sale",

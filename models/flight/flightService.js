@@ -157,6 +157,44 @@ function buildFindQuery(des, fullDate, dep = null, noRange = false) {
   }
 }
 
+async function deleteFlights(dataToDeleteBy) {
+  try {
+    const constDeparture = "Tel Aviv"
+    const { destination: destination, departureDate: goDate, returnDate: returnDate } = dataToDeleteBy
+    let departureDateBottom = new Date(goDate)
+    const departureDateTop = new Date(goDate).setDate(departureDateBottom.getDate() + 1)
+    let returnDateBottom = new Date(returnDate)
+    const returnDateTop = new Date(returnDate).setDate(returnDateBottom.getDate() + 1)
+
+    console.log("Deleting Flights");
+    const resultGo = await Flight.deleteMany({
+      "departure.city": constDeparture,
+      "arrival.city": destination,
+      "departure.dateTime": {
+        $gte: departureDateBottom,
+        $lt: departureDateTop
+      }
+    });
+    const resultReturn = await Flight.deleteMany({
+      "departure.city": destination,
+      "arrival.city": constDeparture,
+      "departure.dateTime": {
+        $gte: returnDateBottom,
+        $lt: returnDateTop
+      }
+    });
+
+    const totalDeleted = resultGo.deletedCount + resultReturn.deletedCount;
+    console.log(totalDeleted);
+
+    return totalDeleted;
+  } catch (error) {
+    console.error(error);
+    return 1
+  }
+}
+
+
 // async function deleteOldFlights() {
 //   const currentDate = new Date().getTime();
 //   const query = {
@@ -191,8 +229,4 @@ function buildFindQuery(des, fullDate, dep = null, noRange = false) {
 module.exports.insertNewFlights = insertNewFlights;
 module.exports.buildFindQuery = buildFindQuery;
 module.exports.findFlights = findFlights;
-
-
-
-
-
+module.exports.deleteFlights = deleteFlights

@@ -6,11 +6,7 @@ function resetInput() {
     })
 
 }
-function handleEnterKey(event) {
-    if (event.key === "Enter") {
-        applyFilters();
-    }
-}
+
 
 function matchRank(selectedRank, reviewRank) {
     switch (selectedRank) {
@@ -34,6 +30,7 @@ function applyFilters() {
     reviewFilters.on("input", () => {
         const selectedRank = $('#rank-filter').val();
         const selectedDestination = capitalizeFirstLetter($('#destination-input-filter').val());
+        console.log(selectedDestination);
         $('.review').each(function () {
             const reviewRank = parseFloat($(this).find('.review-rank').text().split(':')[1].trim());
             const reviewDestination = $(this).find('.review-dest').text().trim();
@@ -153,10 +150,15 @@ function capitalizeFirstLetter(string) {
 
 
 function initDestinationReviewsFilter() {
+    
     if ($('#destination-name').length) {
         $('#destination-input-filter').val($('#destination-name').val());
-        applyFilters();
     }
+
+    $(document).ready(() => {
+        applyFilters();
+    })
+
 }
 
 function updateAuthorInitials() {
