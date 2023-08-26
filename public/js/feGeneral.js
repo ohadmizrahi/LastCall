@@ -1,15 +1,11 @@
 
 function initializeLoadingScreen() {
-  // Hide the loader when the current page fully loads
   $(window).on('load', function() {
       $('#loader-wrapper').hide();
   });
-  
-  // Display the loader when the page is about to unload (i.e., when navigating away)
   $(window).on('beforeunload', function() {
       $('#loader-wrapper').show();
   });
-
   $("#auto-new-flights").on('click', function() {
     $('#loader-wrapper').show();
 });

@@ -1,29 +1,8 @@
-
-$(document).ready(function() {
-
-  function hideNoFlightsModal() {
-      $('#no-flights-modal-container').hide();
-  }
-
-  function showNoFlightsModal() {
-      $('#no-flights-modal-container').show();
-  }
-
-
-  $('.close-btn').click(function() {
-      hideNoFlightsModal();
-  });
-
-  showNoFlightsModal();
-
-});
-
 let flightJsonData;
 function ChooseFlight(flightData) {
   flightJsonData = JSON.parse(flightData);
   flightJsonData.totalPrice = CalculatePrice( flightJsonData.go.price, flightJsonData.return ? flightJsonData.return.price : 0);
   insertFlightDetails(flightJsonData.go, flightJsonData.return, flightJsonData.totalPrice);
-
   $('#details-sidebar').addClass('active');
 }
 
@@ -68,12 +47,11 @@ function insertSingleFlightDetails(containerId, flight) {
   $(containerId + ' #duration').text(flight.flight.duration);
   $(containerId + ' #arrivalTime').text(arrivalTime);
 }
-
-$(document).ready(function() {
+function closeSideBar() {
   $("#close-sidebar").on("click", function() {
       $("#details-sidebar").removeClass("active");
   });
-});
+}
 
 function formatDate(date) {
   let dateObject = new Date(date);
@@ -85,12 +63,11 @@ function formatDate(date) {
 
 
 function formatTime(dateTime) {
-let dateTimeObject = new Date(dateTime)
-dateTimeObject.setMinutes(dateTimeObject.getMinutes() - 180)
-let hours = dateTimeObject.getHours().toString().padStart(2, '0'); // Pad with leading zero if needed
-let minutes = dateTimeObject.getMinutes().toString().padStart(2, '0'); // Pad with leading zero if needed
-
-return `${hours}:${minutes}`;
+  let dateTimeObject = new Date(dateTime)
+  dateTimeObject.setMinutes(dateTimeObject.getMinutes() - 180)
+  let hours = dateTimeObject.getHours().toString().padStart(2, '0');
+  let minutes = dateTimeObject.getMinutes().toString().padStart(2, '0');
+  return `${hours}:${minutes}`;
 }
 
 function toTitleCase(str) {
@@ -99,3 +76,5 @@ function toTitleCase(str) {
   });
 }
 
+
+$(document).ready(closeSideBar);

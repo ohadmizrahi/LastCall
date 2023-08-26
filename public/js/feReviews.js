@@ -157,3 +157,14 @@ $(document).ready(initDestinationReviewsFilter);
 sortReviews(); // for default desc sort
 newReview();
 
+$(document).ready(function() {
+    updateAuthorInitials();
+});
+
+function updateAuthorInitials() {
+    $('.author-initials').each(function() {
+        const authorName = $(this).data('author-name');
+        const initials = authorName.split(' ').map(name => name.charAt(0)).join('');
+        $(this).text(initials);
+    });
+}

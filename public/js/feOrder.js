@@ -10,6 +10,7 @@ $('#continue-btn').on("click", function () {
       flightData: flightJsonData
     })
   })
+  
   .then(response => {
     if (response.ok) {
       window.location.href = '/order';
@@ -134,12 +135,10 @@ function addPassengerForm() {
   passengerCount++;
   clonedForm.find('h3').text('Passenger ' + passengerCount);
   clonedForm.find("#passenger-count").val(passengerCount)
-  // clonedForm.attr('id', 'passenger-details-form-' + passengerCount);
   formsContainer.append(clonedForm);
   if (passengerCount > 1) {
     $('#removePassengerBtn').show();
   }
-  // If you have the ChooseFlight function in your code, include this. Otherwise, remove the next line.
   ChooseFlight(JSON.stringify(flightJsonData));
 }
 
