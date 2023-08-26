@@ -17,4 +17,6 @@ function validatePassword() {
   })
 }
 
-$(document).ready(validatePassword());
+$(document).ready(function () {
+  validatePassword()
+});

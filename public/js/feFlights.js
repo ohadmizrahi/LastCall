@@ -1,7 +1,7 @@
 let flightJsonData;
 function ChooseFlight(flightData) {
   flightJsonData = JSON.parse(flightData);
-  flightJsonData.totalPrice = CalculatePrice( flightJsonData.go.price, flightJsonData.return ? flightJsonData.return.price : 0);
+  flightJsonData.totalPrice = CalculatePrice(flightJsonData.go.price, flightJsonData.return ? flightJsonData.return.price : 0);
   insertFlightDetails(flightJsonData.go, flightJsonData.return, flightJsonData.totalPrice);
   $('#details-sidebar').addClass('active');
 }
@@ -10,7 +10,7 @@ function insertFlightDetails(goFlight, returnFlight, totalPrice) {
 
   insertSingleFlightDetails('#go-flight-details', goFlight);
   if (returnFlight) {
-    $('#return-flight-details').show(); 
+    $('#return-flight-details').show();
     insertSingleFlightDetails('#return-flight-details', returnFlight);
   } else {
     $('#return-flight-details').hide();
@@ -48,8 +48,8 @@ function insertSingleFlightDetails(containerId, flight) {
   $(containerId + ' #arrivalTime').text(arrivalTime);
 }
 function closeSideBar() {
-  $("#close-sidebar").on("click", function() {
-      $("#details-sidebar").removeClass("active");
+  $("#close-sidebar").on("click", function () {
+    $("#details-sidebar").removeClass("active");
   });
 }
 
@@ -57,8 +57,8 @@ function formatDate(date) {
   let dateObject = new Date(date);
   dateObject.setMinutes(dateObject.getMinutes() - 180)
   return dateObject.getDate().toString().padStart(2, '0') + '/' +
-         (dateObject.getMonth() + 1).toString().padStart(2, '0') + '/' +
-         dateObject.getFullYear();
+    (dateObject.getMonth() + 1).toString().padStart(2, '0') + '/' +
+    dateObject.getFullYear();
 };
 
 
@@ -71,10 +71,12 @@ function formatTime(dateTime) {
 }
 
 function toTitleCase(str) {
-  return str.toLowerCase().replace(/(?:^|\s)\w/g, function(match) {
-      return match.toUpperCase();
+  return str.toLowerCase().replace(/(?:^|\s)\w/g, function (match) {
+    return match.toUpperCase();
   });
 }
 
 
-$(document).ready(closeSideBar);
+$(document).ready(function () {
+  closeSideBar()
+});

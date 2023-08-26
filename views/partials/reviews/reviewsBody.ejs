@@ -6,22 +6,22 @@
         <div id="validationData" data-validationData="<%= JSON.stringify(body.validationData) %>"></div>
         <h3>Filters</h3>
         <label for="dest-filter"> Destination</label>
-        <input type="text" id="destination-input-filter" value="All" oninput="applyFilters()" onclick="resetInput(this)" list="data-options-new">
+        <input type="text" id="destination-input-filter" class="review-filters" value="All" list="data-options-new">
         <datalist class="data-options" id="data-options-new"></datalist>
         <label for="rank-filter"> Rank</label>
-        <select name="rank" id="rank-filter" onchange="applyFilters()">
+        <select name="rank" id="rank-filter" class="review-filters">
             <option value="all">All</option>
             <option value="9">Over 9</option>
             <option value="7">7-9</option>
             <option value="5">5-7</option>
             <option value="4">Under 5</option>
         </select>
-        <button id="add-review-btn" onclick="openModal()">Add New Review</button>
+        <button id="add-review-btn" >Add New Review</button>
     </div>
     <div class="new-review">
         <div class="modal" id="add-review-modal">
             <div class="modal-content">
-                <span class="close-btn" onclick="closeModal()" id="close-modal-btn">&times;</span>
+                <span class="close-btn" id="close-modal-btn">&times;</span>
                 <h2>Add New Review</h2>
                 <form id="review-form" class="form-with-validation">
                     <label for="destination">Destination:</label>
@@ -46,8 +46,8 @@
     
     <div class="review-sorting-bar">
         <div class="sort-container">
-            <label for="date-sort">Sort By:</label>
-            <select name="date" id="date-sort" onchange="sortReviews()">
+            <label for="reviews-sort">Sort By:</label>
+            <select name="date" id="reviews-sort" onchange="sortReviews()">
                 <option value="latest">Latest</option>
                 <option value="oldest">Oldest</option>
                 <option value="highest">Highest Rank</option>

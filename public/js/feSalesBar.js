@@ -1,4 +1,4 @@
-function toggleSales(action) {
+function toggleSales() {
   $(".toggle-sale").on("click", (event) => {
     const action = $(event.currentTarget).attr('data-action');
     const saleItems = $('.sale-item');

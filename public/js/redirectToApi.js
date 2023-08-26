@@ -8,7 +8,7 @@ function rediredtToAPI() {
         window.location.href = apiURL;
     });
 }
-rediredtToAPI()
+
 
 function rediredtToFlights() {
     $(".to-flights").on("click", function () {
@@ -23,7 +23,7 @@ function rediredtToFlights() {
                 departure: "Tel Aviv",
                 destination: toFlightData.destination,
                 departureDate: toFlightData.departureDate,
-                returnDate: toFlightData.returnDate, 
+                returnDate: toFlightData.returnDate,
                 manual: true
             }
 
@@ -49,4 +49,8 @@ function rediredtToFlights() {
         window.location.href = '/flights';
     });
 }
-rediredtToFlights()
+
+$(document).ready(function () {
+    rediredtToAPI()
+    rediredtToFlights()
+});

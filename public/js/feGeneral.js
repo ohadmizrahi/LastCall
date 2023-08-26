@@ -1,14 +1,14 @@
 
 function initializeLoadingScreen() {
-  $(window).on('load', function() {
-      $('#loader-wrapper').hide();
+  $(window).on('load', function () {
+    $('#loader-wrapper').hide();
   });
-  $(window).on('beforeunload', function() {
-      $('#loader-wrapper').show();
-  });
-  $("#auto-new-flights").on('click', function() {
+  $(window).on('beforeunload', function () {
     $('#loader-wrapper').show();
-});
+  });
+  $("#auto-new-flights").on('click', function () {
+    $('#loader-wrapper').show();
+  });
 }
 
 
@@ -35,23 +35,23 @@ function buildDestinationOptions() {
   const validationDataElement = $("#validationData");
   const dataListElement = $(".data-options")
   if (validationDataElement.length > 0) {
-      const validationData = JSON.parse(validationDataElement.attr("data-validationData"));
-      validationData.forEach(destination => {
-          dataListElement.append($(`<option value="${destination}">`))
-      });
+    const validationData = JSON.parse(validationDataElement.attr("data-validationData"));
+    validationData.forEach(destination => {
+      dataListElement.append($(`<option value="${destination}">`))
+    });
   }
 
 }
 
 function optionsValidation() {
   $(".form-with-validation").submit(function (event) {
-      const validationDataElement = $("#validationData");
-      const validationData = JSON.parse(validationDataElement.attr("data-validationData"));
-      const destInput = $(".data-validation")
+    const validationDataElement = $("#validationData");
+    const validationData = JSON.parse(validationDataElement.attr("data-validationData"));
+    const destInput = $(".data-validation")
 
-      if (destInput.val() && (!validationData.includes(destInput.val()))) {
-          destInput.val("")
-      }
+    if (destInput.val() && (!validationData.includes(destInput.val()))) {
+      destInput.val("")
+    }
   });
 
 }
@@ -85,8 +85,10 @@ function formatDateTimeForDisplay() {
   })
 }
 
-formatDateTimeForDisplay()
-initializeLoadingScreen()
-buildDestinationOptions()
-optionsValidation()
-checkIfAdmin()
+$(document).ready(function () {
+  formatDateTimeForDisplay()
+  initializeLoadingScreen()
+  buildDestinationOptions()
+  optionsValidation()
+  checkIfAdmin()
+});

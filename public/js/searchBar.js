@@ -16,7 +16,7 @@ function setDefaultValuesToSearchBar() {
     } else {
         console.warn("Destination name not found in searchBarValues object.");
     }
-    
+
     if (searchBarValues.departureDate) {
         const departureDate = new Date(searchBarValues.departureDate);
         departureDateElement.val(departureDate.toLocaleDateString('en-CA'));
@@ -33,4 +33,7 @@ function setDefaultValuesToSearchBar() {
     sessionStorage.removeItem("searchBarValues");
 }
 
-setDefaultValuesToSearchBar()
+$(document).ready(function () {
+    setDefaultValuesToSearchBar()
+});
+
