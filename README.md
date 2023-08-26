@@ -1,5 +1,5 @@
 # LastCall Flight Search & Recommendation Web Platform
-This Project is an Educational project and not fit for Production
+This Project is an Educational project and not fit for Real Flights Order
 
 ## Getting Strated
 https://lastcallflight-be3b52825517.herokuapp.com/
