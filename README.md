@@ -1,6 +1,9 @@
 # LastCall Flight Search & Recommendation Web Platform
 This Project is an Educational project and not fit for Production
 
+## Getting Strated
+https://lastcallflight-be3b52825517.herokuapp.com/
+
 ## Overview
 
 Our flight search website offers users a comprehensive solution for their travel needs, leveraging an advanced bot. Users can search for flights, read and write reviews, and gain insights into popular destinations. With a bot in place, our platform matches appropriate flights with each vacation, ensuring a seamless travel experience for all.
@@ -52,11 +55,6 @@ MongoDB is our chosen NoSQL database system, renowned for its flexibility and sc
 **Destinations Collection:** Details on popular destinations.  
 **Sales Collection:** All active sales and their details.  
 **Airports Collection:** Contain larg amount of Airports worldwide.  
-
-## Getting Strated
-
-1. clone the repo
-2. run npm start in terminal
 
 ## Platform Screens
 
