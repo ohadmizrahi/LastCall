@@ -86,3 +86,7 @@
   color: white;
   font-weight: bold;
 }
+
+#user-state {
+  margin-left: auto;
+}
