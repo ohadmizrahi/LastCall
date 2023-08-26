@@ -85,7 +85,7 @@ MongoDB is our chosen NoSQL database system, renowned for its flexibility and sc
 
 ## Thank You For Review Our Project
 
-### &copy Ohad Mizrahi & Or Solomon 
+### &copy; Ohad Mizrahi & Or Solomon 
 
 
 
