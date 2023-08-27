@@ -43,7 +43,7 @@ router.post("/register", function (req, res) {
   }
   insertNewUser(req.body.username, req.body.fname, req.body.lname, req.body.email, req.body.country, password)
   .then(success => {
-    console.log('User successfully inserted:', user);
+    console.log('User successfully inserted:');
     res.redirect("/login")
   })
   .catch(error => {
