@@ -1,47 +1,33 @@
-$('#continue-btn').on("click", function () {
-  localStorage.setItem('flightData', JSON.stringify(flightJsonData));
-  
-  fetch("/setFlightData", {
-    method: 'POST',
-    headers: {
+function continuteToOrder() {
+  $('#continue-btn').on("click", function () {
+    localStorage.setItem('flightData', JSON.stringify(flightJsonData));
+
+    fetch("/setFlightData", {
+      method: 'POST',
+      headers: {
         'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({
-      flightData: flightJsonData
+      },
+      body: JSON.stringify({
+        flightData: flightJsonData
+      })
     })
-  })
-  
-  .then(response => {
-    if (response.ok) {
-      window.location.href = '/order';
-    } else {
-      console.error('Failed to set flight data.');
-    }
-  })
-  .catch(error => {
-    console.error('Error:', error);
+
+      .then(response => {
+        if (response.ok) {
+          window.location.href = '/order';
+        } else {
+          console.error('Failed to set flight data.');
+        }
+      })
+      .catch(error => {
+        console.error('Error:', error);
+      });
   });
-});
+}
+function orderFlight() {
 
-
-// function initializeModalHandlers() {
-//   $(document).ready(function () {
-//     $('#order-form').on("submit", function (e) {
-//       e.preventDefault(); // Prevent the form from actually submitting
-//       $('#confirmation-modal').show(); // Show the modal
-//     });
-//     $('#go-home-btn').on("click", function () {
-//       $('#confirmation-modal').hide(); // Hide the modal
-//       window.location.href = '/home'; // Redirect to the home page (update as needed)
-//     });
-//   });
-// }
-
-// initializeModalHandlers();
-
-$(document).ready(function () {
   $('#card-details-form').on("submit", function (e) {
-    e.preventDefault(); // Prevent form from submitting
+    e.preventDefault();
 
     if (isFormFilled($('.form-validation'))) {
       const passangerDetails = $(".passenger-form").serializeArray()
@@ -66,41 +52,34 @@ $(document).ready(function () {
       const flightsDataString = $('#ordered-flights').attr('data-flights');
       const flightsData = JSON.parse(flightsDataString);
 
-        fetch("/order", {
-          method: 'POST',
-          headers: {
-              'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({
-            flightsData: flightsData,
-            usersData: usersData
-          })
+      fetch("/order", {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          flightsData: flightsData,
+          usersData: usersData
+        })
       })
-          .then(response => response.json())
-          .then(data => {
-            if (data.success) {
-              window.location.href = '/flights';
-            } else {
-              window.location.href = '/order';
-            }
-              
-          })
-          .catch(error => {
-              console.log(error);
-          });
+        .then(response => response.json())
+        .then(data => {
+          if (data.success) {
+            window.location.href = '/flights';
+          } else {
+            window.location.href = '/order';
+          }
 
-      // showConfirmationModal();
+        })
+        .catch(error => {
+          console.log(error);
+        });
+
     } else {
       alert('Please fill out all fields before confirming your order.');
     }
   });
-
-  // $('#go-home-btn').on("click", function () {
-  //   $('#confirmation-modal').hide(); // Hide the modal when "Go Home" is clicked
-  //   // Optionally, you can redirect the user to the homepage here
-  //   // window.location.href = '/home';
-  // });
-});
+}
 
 function isFormFilled(formElem) {
 
@@ -116,13 +95,9 @@ function isFormFilled(formElem) {
   return true;
 }
 
-// function showConfirmationModal() {
-//   $('#confirmation-modal').show(); // Show the modal
-// }
 
+let passengerCount = 1;
 
-
-let passengerCount = 1; // Start with 1 since one form is already present
 function addPassengerForm() {
   const formsContainer = $('#forms-container');
   const lastForm = $(".passenger-form").last();
@@ -144,10 +119,11 @@ function addPassengerForm() {
 
 
 
-$(document).ready(function () {
-  $("#add-form-btn").click(addPassengerForm);
-  $("#removePassengerBtn").click(removePassengerForm);
-});
+function addRemovePassengers() {
+  $("#add-form-btn").on("click", addPassengerForm);
+  $("#removePassengerBtn").on("click", removePassengerForm);
+}
+
 
 function removePassengerForm() {
   if (passengerCount > 1) {
@@ -158,12 +134,8 @@ function removePassengerForm() {
   if (passengerCount === 1) {
     $('#removePassengerBtn').hide();
   }
-  // Assuming ChooseFlight is a function you've defined elsewhere
   ChooseFlight(JSON.stringify(flightJsonData));
 }
-
-
-
 
 
 function CalculatePrice(goPrice, returnPrice) {
@@ -171,19 +143,26 @@ function CalculatePrice(goPrice, returnPrice) {
   totalPrice *= passengerCount;
   return totalPrice;
 }
+
+
 let goPrice = 0;
 let returnPrice = 0;
+
 function updateTotalPrice() {
   let totalPrice = CalculatePrice(goPrice, returnPrice);
-  let elem = document.getElementById('totalPrice');
-  if (elem) {
-    elem.textContent = "Total Price: $" + totalPrice;
+  let element = $('#totalPrice');
+  if (element.length > 0) {
+    element.text("Total Price: $" + totalPrice);
   } else {
     console.warn("Element with ID 'totalPrice' not found.");
   }
 }
 
+
 $(document).ready(function () {
   updateTotalPrice();
+  continuteToOrder();
+  orderFlight();
+  addRemovePassengers();
 });
 
