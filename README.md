@@ -32,9 +32,9 @@ In today's vast travel landscape, travelers often find themselves overwhelmed wi
 
 The platform employs an n-tier architecture, ensuring separation of concerns, modularity, and scalability:
 
-**Presentation Layer:** Handles the UI and user interactions.  
-**Business Logic Layer:** Contains the business logic, rules and Controling the business flow.  
-**Data Layer:** Houses databases and other sources of data.  
+**Presentation Layer:** Handles the UI and user interactions - EJS, jQuery, Bootstrap.  
+**Business Logic Layer:** Contains the business logic, rules and Controling the business flow - Node.js & Express.   
+**Data Layer:** Houses databases and other sources of data - Mongoose.    
 **External Services:** Leverage ChatGPT, Email SMTP and Other APIs.  
 
 Along with the n-tier architecture, we've adopted the MVC (Model-View-Controller) pattern:
