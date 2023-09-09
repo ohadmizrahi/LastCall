@@ -10,11 +10,11 @@ Our flight search website offers users a comprehensive solution for their travel
 
 ## Main Technoligies
 **Backend Related Technologies:**  
-Atlas MonoDB server, Mongoose connector, JavaScript, Node.js, Express.js.
+Atlas MonoDB server, Mongoose connector, JavaScript, Node.js, Express.js.  
 **Frontend Related Technologies:**  
-HTML5, EJS view-engine, CSS, Bootstrap, jQuery, Fetch.
-**Third Party Services:**
-OpenAI chatGPT, Gmail SMTP, unsplash
+HTML5, EJS view-engine, CSS, Bootstrap, jQuery, Fetch.  
+**Third Party Services:**  
+OpenAI chatGPT, Gmail SMTP, unsplash  
 
 ## Users
 
