@@ -8,9 +8,13 @@ https://lastcallflight-be3b52825517.herokuapp.com/
 
 Our flight search website offers users a comprehensive solution for their travel needs, leveraging an advanced bot. Users can search for flights, read and write reviews, and gain insights into popular destinations. With a bot in place, our platform matches appropriate flights with each vacation, ensuring a seamless travel experience for all.
 
-## Purpose
-
-In today's vast travel landscape, travelers often find themselves overwhelmed with choices and information.  This platform serves as a one-stop solution, helping users navigate the world of air travel with ease. By not only providing flight search functionalities but also insights, reviews, and predictions, we aim to redefine the travel planning experience.
+## Main Technoligies
+**Backend Related Technologies:**  
+Atlas MonoDB server, Mongoose connector, JavaScript, Node.js, Express.js.
+**Frontend Related Technologies:**  
+HTML5, EJS view-engine, CSS, Bootstrap, jQuery, Fetch.
+**Third Party Services:**
+OpenAI chatGPT, Gmail SMTP, unsplash
 
 ## Users
 
