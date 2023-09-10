@@ -15,6 +15,9 @@ Atlas MonoDB server, Mongoose connector, JavaScript, Node.js, Express.js.
 HTML5, EJS view-engine, CSS, Bootstrap, jQuery, Fetch.  
 **Third Party Services:**  
 OpenAI chatGPT, Gmail SMTP, unsplash  
+**Flight Generator**  
+The Website displays fake flights created by a tool we created named flight generator.  
+This tool (under services folder) is based on faker lib.  
 
 ## Users
 
