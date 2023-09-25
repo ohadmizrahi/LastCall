@@ -8,9 +8,16 @@ https://lastcallflight-be3b52825517.herokuapp.com/
 
 Our flight search website offers users a comprehensive solution for their travel needs, leveraging an advanced bot. Users can search for flights, read and write reviews, and gain insights into popular destinations. With a bot in place, our platform matches appropriate flights with each vacation, ensuring a seamless travel experience for all.
 
-## Purpose
-
-In today's vast travel landscape, travelers often find themselves overwhelmed with choices and information.  This platform serves as a one-stop solution, helping users navigate the world of air travel with ease. By not only providing flight search functionalities but also insights, reviews, and predictions, we aim to redefine the travel planning experience.
+## Main Technologies
+**Backend Related Technologies:**  
+Atlas MonoDB server, Mongoose connector, JavaScript, Node.js, Express.js.  
+**Frontend Related Technologies:**  
+HTML5, EJS view-engine, CSS, Bootstrap, jQuery, Fetch.  
+**Third Party Services:**  
+OpenAI chatGPT, Gmail SMTP, unsplash  
+**Flight Generator**  
+The Website displays fake flights created by a tool we created named flight generator.  
+This tool (under services folder) is based on faker lib.  
 
 ## Users
 
@@ -32,9 +39,9 @@ In today's vast travel landscape, travelers often find themselves overwhelmed wi
 
 The platform employs an n-tier architecture, ensuring separation of concerns, modularity, and scalability:
 
-**Presentation Layer:** Handles the UI and user interactions.  
-**Business Logic Layer:** Contains the business logic, rules and Controling the business flow.  
-**Data Layer:** Houses databases and other sources of data.  
+**Presentation Layer:** Handles the UI and user interactions - EJS, jQuery, Bootstrap.  
+**Business Logic Layer:** Contains the business logic, rules and Controling the business flow - Node.js & Express.   
+**Data Layer:** Houses databases and other sources of data - Mongoose.    
 **External Services:** Leverage ChatGPT, Email SMTP and Other APIs.  
 
 Along with the n-tier architecture, we've adopted the MVC (Model-View-Controller) pattern:
