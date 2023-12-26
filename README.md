@@ -2,6 +2,7 @@
 This Project is an Educational project and not fit for Real Flights Order
 
 ## Getting Strated
+The follow url is inactive right now - in order to getting started you need to clone and run the server
 https://lastcallflight-be3b52825517.herokuapp.com/
 
 ## Overview
